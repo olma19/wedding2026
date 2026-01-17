@@ -1,0 +1,81 @@
+# Wedding Landing Page - Cursor Rules
+
+## Project Overview
+A Next.js wedding landing page with RSVP functionality and food allergy collection.
+
+## Tech Stack
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS (recommended for modern UI)
+- **Database**: Supabase (PostgreSQL)
+- **Backend**: Supabase (Database, Auth, Storage)
+- **Form Handling**: React Hook Form with Zod validation
+
+## Code Style & Best Practices
+
+### General
+- Use TypeScript for type safety
+- Follow Next.js 14+ App Router conventions
+- Use functional components with hooks
+- Prefer server components by default, use 'use client' only when needed
+- Keep components small and focused
+- Use meaningful variable and function names
+
+### File Structure
+- Use Next.js App Router structure (`app/` directory)
+- Components in `components/` directory
+- Types/interfaces in `types/` directory
+- Utilities in `lib/` or `utils/` directory
+- API routes in `app/api/` directory
+
+### Styling
+- Use Tailwind CSS utility classes
+- Create reusable component styles
+- Ensure responsive design (mobile-first approach)
+- Maintain consistent spacing and typography
+
+### Forms & Validation
+- Use React Hook Form for form management
+- Validate with Zod schemas
+- Provide clear error messages
+- Show loading states during submission
+- Handle errors gracefully
+
+### Data Handling
+- Use Supabase client for database operations
+- Store RSVP data in Supabase PostgreSQL database
+- Use Supabase Row Level Security (RLS) for data protection
+- Validate all user inputs with Zod before database operations
+- Sanitize data before storage
+- Use Supabase server-side client in API routes
+- Consider rate limiting for API endpoints
+
+### Accessibility
+- Use semantic HTML
+- Include proper ARIA labels
+- Ensure keyboard navigation
+- Maintain sufficient color contrast
+- Test with screen readers
+
+### Performance
+- Optimize images (use Next.js Image component)
+- Implement lazy loading where appropriate
+- Minimize bundle size
+- Use server components when possible
+
+### Security
+- Never expose sensitive data in client components
+- Validate and sanitize all inputs
+- Use environment variables for secrets
+- Implement CSRF protection for forms
+
+## Component Guidelines
+- One component per file
+- Export components as default
+- Use TypeScript interfaces for props
+- Include JSDoc comments for complex components
+
+## Git Conventions
+- Use descriptive commit messages
+- Create feature branches for new functionality
+- Keep commits focused and atomic
