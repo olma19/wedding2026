@@ -1,11 +1,13 @@
-export const weddingConfig = {
+import type { WeddingConfig } from '@/types/wedding'
+
+export const weddingConfig: WeddingConfig = {
   // Wedding Date & Time
   date: {
     day: 'Lördag',
-    date: '15',
-    month: 'Augusti',
+    date: '20',
+    month: 'Juni',
     year: '2026',
-    fullDate: '15 augusti 2026',
+    fullDate: '20 Juni 2026',
   },
   
   // Ceremony Time
@@ -16,20 +18,28 @@ export const weddingConfig = {
   
   // Location
   location: {
-    name: 'Information kommer',
-    address: 'snart',
+    name: 'Testchurch',
+    address: 'Sävsjö',
     // You can add more details later:
     // fullAddress: 'Bröllopsplats, Stad',
-    // city: 'Stockholm',
+    // city: 'Sävsjö',
     // mapUrl: 'https://maps.google.com/...',
   },
   
   // Couple Names (optional - for future use)
   couple: {
-    name1: '',
-    name2: '',
+    name1: 'Kristian Frisk',
+    name2: 'Mimmi Carlsson',
+  },
+  
+  // Our Story
+  story: {
+    paragraphs: [
+      'Efter många år tillsammans är det äntligen dags att fira vår kärlek och ta nästa steg i vår resa. Vi ser fram emot att dela denna speciella dag med våra nära och kära.',
+      'Ditt närvaro skulle göra vår dag ännu mer oförglömlig.',
+    ],
   },
   
   // Additional Info
-  rsvpDeadline: 'Senast innan bröllopet',
+  rsvpDeadline: 'Senast 16/05/2026',
 }

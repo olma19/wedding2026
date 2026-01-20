@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rsvpSchema, type RSVPFormData } from '@/lib/validations/rsvp'
+import FlowerDecoration from './FlowerDecoration'
 
 interface RSVPFormProps {
   onSuccess?: () => void
@@ -31,6 +32,27 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
 
   const attending = watch('attending')
 
+  const createConfetti = () => {
+    const colors = ['#f472b6', '#ec4899', '#f9a8d4', '#fbbf24', '#f59e0b']
+    const confettiCount = 50
+
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        confetti.style.animationDelay = Math.random() * 0.5 + 's'
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'
+        document.body.appendChild(confetti)
+
+        setTimeout(() => {
+          confetti.remove()
+        }, 3000)
+      }, i * 20)
+    }
+  }
+
   const onSubmit = async (data: RSVPFormData) => {
     setIsSubmitting(true)
     setSubmitError(null)
@@ -52,6 +74,9 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
 
       setSubmitSuccess(true)
       reset()
+      
+      // Confetti effect
+      createConfetti()
       
       if (onSuccess) {
         onSuccess()
@@ -97,13 +122,32 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8"
-    >
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        RSVP
-      </h2>
+    <div className="relative">
+      {/* Decorative flowers around form */}
+      <div className="absolute -top-4 -left-4 opacity-30 transform -rotate-12">
+        <FlowerDecoration size="small" variant="flower" />
+      </div>
+      <div className="absolute -top-4 -right-4 opacity-30 transform rotate-12">
+        <FlowerDecoration size="small" variant="leaf" />
+      </div>
+      <div className="absolute -bottom-4 -left-4 opacity-30 transform rotate-12">
+        <FlowerDecoration size="small" variant="flower" />
+      </div>
+      <div className="absolute -bottom-4 -right-4 opacity-30 transform -rotate-12">
+        <FlowerDecoration size="small" variant="leaf" />
+      </div>
+      
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="relative max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 border-2 border-pink-100"
+      >
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <FlowerDecoration size="small" variant="flower" className="opacity-50" />
+          <h2 className="text-3xl font-bold text-center text-gray-800">
+            RSVP
+          </h2>
+          <FlowerDecoration size="small" variant="flower" className="opacity-50" />
+        </div>
 
       {/* Guest Name */}
       <div className="mb-6">
@@ -305,10 +349,10 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all ${
+        className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all transform ${
           isSubmitting
             ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-pink-600 hover:bg-pink-700 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2'
+            : 'bg-pink-600 hover:bg-pink-700 hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 active:scale-95'
         }`}
       >
         {isSubmitting ? (
@@ -339,6 +383,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
           'Skicka RSVP'
         )}
       </button>
-    </form>
+      </form>
+    </div>
   )
 }

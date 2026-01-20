@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import { weddingConfig } from '@/config/wedding'
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -16,9 +17,17 @@ const inter = Inter({
   display: "swap",
 });
 
+const { couple, date } = weddingConfig
+
 export const metadata: Metadata = {
-  title: "Bröllop 2026",
-  description: "Välkommen till vårt bröllop",
+  title: `Bröllop ${date.year} - ${couple.name1} & ${couple.name2}`,
+  description: `Välkommen till vårt bröllop ${date.fullDate}. ${couple.name1} & ${couple.name2} gifter sig!`,
+  openGraph: {
+    title: `Bröllop ${date.year} - ${couple.name1} & ${couple.name2}`,
+    description: `Välkommen till vårt bröllop ${date.fullDate}`,
+    type: 'website',
+    locale: 'sv_SE',
+  },
 };
 
 export default function RootLayout({
