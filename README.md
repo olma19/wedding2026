@@ -79,14 +79,32 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Features to Implement
+## Deployment
 
-- [ ] Landing page with wedding information
-- [ ] RSVP form with attendance confirmation
-- [ ] Food allergy and dietary restrictions form
-- [ ] Data storage/backend for RSVP submissions
-- [ ] Email notifications (optional)
-- [ ] Admin dashboard to view RSVPs (optional)
+### Quick Deploy to Vercel (Rekommenderat)
+
+1. **Pusha till GitHub:**
+   ```bash
+   git push origin main
+   ```
+
+2. **Gå till [vercel.com](https://vercel.com)** och logga in med GitHub
+
+3. **Klicka "New Project"** och välj ditt repository
+
+4. **Lägg till Environment Variables:**
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+
+5. **Klicka "Deploy"** - Klart! 🎉
+
+Se [`QUICK_DEPLOY.md`](./QUICK_DEPLOY.md) för detaljerade instruktioner eller [`DEPLOYMENT.md`](./DEPLOYMENT.md) för fullständig guide.
+
+### Andra Hosting-alternativ
+- **Netlify**: Bra alternativ, se DEPLOYMENT.md
+- **Railway**: Enkel setup för fullstack-appar
+- **Render**: Gratis tier med automatiska deployments
 
 ## Environment Variables
 

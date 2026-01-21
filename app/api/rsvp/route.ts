@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rsvpSchema } from '@/lib/validations/rsvp'
+import { isAdminAuthenticated } from '@/lib/auth/admin'
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,10 +55,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint to retrieve RSVPs (for admin use)
+// GET endpoint to retrieve RSVPs (for admin use only)
 export async function GET(request: NextRequest) {
   try {
-    // In production, you'd want to add authentication here
+    // Require admin authentication
+    const isAuthenticated = await isAdminAuthenticated()
+    
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 401 }
+      )
+    }
+
     const { data, error } = await supabaseAdmin
       .from('rsvps')
       .select('*')

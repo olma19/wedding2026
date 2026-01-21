@@ -161,11 +161,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
           id="guest_name"
           type="text"
           {...register('guest_name')}
-          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
+          className={`w-full px-4 py-2.5 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition placeholder:text-gray-400 ${
             errors.guest_name
-              ? 'border-red-500'
-              : 'border-gray-300'
-          }`}
+              ? 'border-red-600 bg-red-50'
+              : 'border-gray-400 hover:border-gray-500'
+          } disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed`}
           placeholder="Ditt namn"
           disabled={isSubmitting}
         />
@@ -188,9 +188,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
           id="email"
           type="email"
           {...register('email')}
-          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
-            errors.email ? 'border-red-500' : 'border-gray-300'
-          }`}
+          className={`w-full px-4 py-2.5 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition placeholder:text-gray-400 ${
+            errors.email 
+              ? 'border-red-600 bg-red-50' 
+              : 'border-gray-400 hover:border-gray-500'
+          } disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed`}
           placeholder="din@epost.se"
           disabled={isSubmitting}
         />
@@ -210,20 +212,20 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
               type="radio"
               checked={attending === true}
               onChange={() => setValue('attending', true)}
-              className="w-4 h-4 text-pink-600 focus:ring-pink-500"
+              className="w-4 h-4 text-pink-600 border-gray-400 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             />
-            <span className="ml-2 text-gray-700">Ja, jag kommer!</span>
+            <span className="ml-2 text-gray-900 font-medium">Ja, jag kommer!</span>
           </label>
           <label className="flex items-center cursor-pointer">
             <input
               type="radio"
               checked={attending === false}
               onChange={() => setValue('attending', false)}
-              className="w-4 h-4 text-pink-600 focus:ring-pink-500"
+              className="w-4 h-4 text-pink-600 border-gray-400 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             />
-            <span className="ml-2 text-gray-700">Tyvärr, jag kan inte</span>
+            <span className="ml-2 text-gray-900 font-medium">Tyvärr, jag kan inte</span>
           </label>
         </div>
         {errors.attending && (
@@ -248,11 +250,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             min="1"
             max="20"
             {...register('number_of_attendees', { valueAsNumber: true })}
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
+            className={`w-full px-4 py-2.5 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition ${
               errors.number_of_attendees
-                ? 'border-red-500'
-                : 'border-gray-300'
-            }`}
+                ? 'border-red-600 bg-red-50'
+                : 'border-gray-400 hover:border-gray-500'
+            } disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed`}
             disabled={isSubmitting}
           />
           {errors.number_of_attendees && (
@@ -276,7 +278,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             id="food_allergies"
             rows={3}
             {...register('food_allergies')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition resize-none"
+            className="w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition resize-none placeholder:text-gray-400 hover:border-gray-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             placeholder="Beskriv eventuella matallergier..."
             disabled={isSubmitting}
           />
@@ -301,7 +303,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             id="dietary_restrictions"
             rows={3}
             {...register('dietary_restrictions')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition resize-none"
+            className="w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition resize-none placeholder:text-gray-400 hover:border-gray-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             placeholder="T.ex. vegetarisk, vegansk, glutenfri..."
             disabled={isSubmitting}
           />
@@ -326,7 +328,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             id="special_requests"
             rows={4}
             {...register('special_requests')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition resize-none"
+            className="w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none transition resize-none placeholder:text-gray-400 hover:border-gray-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             placeholder="Skriv här om du har några övriga önskemål..."
             disabled={isSubmitting}
           />
