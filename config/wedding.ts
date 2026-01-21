@@ -28,8 +28,8 @@ export const weddingConfig: WeddingConfig = {
   
   // Couple Names (optional - for future use)
   couple: {
-    name1: 'Kristian Frisk',
-    name2: 'Mimmi Carlsson',
+    name1: 'K R I G',
+    name2: 'MimmZ',
   },
   
   // Our Story

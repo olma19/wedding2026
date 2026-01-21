@@ -11,6 +11,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [checkingAuth, setCheckingAuth] = useState(true)
+  const [sortBy, setSortBy] = useState<'name' | null>(null)
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   // Check if already authenticated on mount
   useEffect(() => {
@@ -97,6 +99,31 @@ export default function AdminPage() {
       setLoading(false)
     }
   }
+
+  const handleSortByName = () => {
+    if (sortBy === 'name') {
+      // Toggle direction if already sorting by name
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      // Start sorting by name
+      setSortBy('name')
+      setSortDirection('asc')
+    }
+  }
+
+  // Sort RSVPs based on current sort settings
+  const sortedRsvps = [...rsvps].sort((a, b) => {
+    if (sortBy === 'name') {
+      const nameA = a.guest_name.toLowerCase()
+      const nameB = b.guest_name.toLowerCase()
+      if (sortDirection === 'asc') {
+        return nameA.localeCompare(nameB, 'sv')
+      } else {
+        return nameB.localeCompare(nameA, 'sv')
+      }
+    }
+    return 0
+  })
 
   const stats = {
     total: rsvps.length,
@@ -260,8 +287,18 @@ export default function AdminPage() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-pink-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Namn
+                    <th 
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-pink-100 transition-colors select-none"
+                      onClick={handleSortByName}
+                    >
+                      <div className="flex items-center gap-2">
+                        Namn
+                        {sortBy === 'name' && (
+                          <span className="text-pink-600">
+                            {sortDirection === 'asc' ? '↑' : '↓'}
+                          </span>
+                        )}
+                      </div>
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                       E-post
@@ -287,7 +324,7 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {rsvps.map((rsvp) => (
+                  {sortedRsvps.map((rsvp) => (
                     <tr key={rsvp.id} className="hover:bg-pink-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {rsvp.guest_name}
