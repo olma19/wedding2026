@@ -12,9 +12,13 @@ CREATE TABLE IF NOT EXISTS rsvps (
   food_allergies TEXT,
   dietary_restrictions TEXT,
   special_requests TEXT,
+  attendees JSONB,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()) NOT NULL
 );
+
+-- Add attendees column if table already exists (run separately if needed):
+-- ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS attendees JSONB;
 
 -- Create index for faster queries
 CREATE INDEX IF NOT EXISTS idx_rsvps_created_at ON rsvps(created_at DESC);

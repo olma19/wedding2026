@@ -1,4 +1,6 @@
-// Database model
+import type { AttendeeFormData } from '@/lib/validations/rsvp'
+
+// Database model (rsvps table)
 export interface RSVP {
   id?: string
   guest_name: string
@@ -8,6 +10,7 @@ export interface RSVP {
   food_allergies?: string | null
   dietary_restrictions?: string | null
   special_requests?: string | null
+  attendees?: AttendeeFormData[] | null
   created_at?: string
   updated_at?: string
 }

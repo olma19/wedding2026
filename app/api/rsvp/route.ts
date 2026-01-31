@@ -19,17 +19,22 @@ export async function POST(request: NextRequest) {
 
     const rsvpData = validationResult.data
 
-    // Insert RSVP into Supabase
+    const guestName =
+      rsvpData.attending && rsvpData.attendees?.length
+        ? rsvpData.attendees.map((a) => `${a.firstname} ${a.lastname}`).join(', ')
+        : 'Ej deltagande'
+
     const { data, error } = await supabaseAdmin
       .from('rsvps')
       .insert({
-        guest_name: rsvpData.guest_name,
+        guest_name: guestName,
         email: rsvpData.email || null,
         attending: rsvpData.attending,
         number_of_attendees: rsvpData.number_of_attendees,
-        food_allergies: rsvpData.food_allergies || null,
-        dietary_restrictions: rsvpData.dietary_restrictions || null,
-        special_requests: rsvpData.special_requests || null,
+        food_allergies: null,
+        dietary_restrictions: null,
+        special_requests: null,
+        attendees: rsvpData.attendees ?? null,
       })
       .select()
       .single()

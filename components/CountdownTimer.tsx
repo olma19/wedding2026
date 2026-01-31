@@ -60,11 +60,7 @@ export default function CountdownTimer() {
   ]
 
   return (
-    <div className="my-12">
-      <h3 className="text-2xl font-serif font-semibold text-gray-700 mb-6">
-        Räkna ner med oss
-      </h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
         {timeUnits.map((unit, index) => (
           <div
             key={unit.label}
@@ -76,7 +72,6 @@ export default function CountdownTimer() {
             <div className="text-sm text-gray-600 font-medium">{unit.label}</div>
           </div>
         ))}
-      </div>
     </div>
   )
 }
