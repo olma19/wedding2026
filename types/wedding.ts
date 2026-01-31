@@ -4,6 +4,7 @@ export interface WeddingDate {
   month: string
   year: string
   fullDate: string
+  shortDate: string
 }
 
 export interface Ceremony {

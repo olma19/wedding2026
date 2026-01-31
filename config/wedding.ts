@@ -7,6 +7,7 @@ export const weddingConfig: WeddingConfig = {
     month: 'Juni',
     year: '2026',
     fullDate: '20 Juni 2026',
+    shortDate: '20/6 -26',
   },
 
   ceremony: {
@@ -15,10 +16,10 @@ export const weddingConfig: WeddingConfig = {
   },
 
   location: {
-    name: 'Testchurch',
-    address: 'Sävsjö',
-    fullAddress: 'Bröllopsplats, Sävsjö',
-    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sävsjö',
+    name: 'Vallsjö Kyrka',
+    address: 'Eksjöhovgårdsvägen, 576 91 Sävsjö',
+    fullAddress: 'Eksjöhovgårdsvägen, 576 91 Sävsjö',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Vallsjö+Kyrka+Sävsjö',
   },
 
   couple: {

@@ -8,66 +8,61 @@ export default function HeroSection() {
   const { date, couple } = weddingConfig
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Full-bleed background image – use config.hero.imageUrl when set */}
-      <Image
-        src={weddingConfig.hero?.imageUrl ?? HERO_IMAGE_PLACEHOLDER}
-        alt=""
-        fill
-        className="object-cover"
-        priority
-        sizes="100vw"
-      />
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40" aria-hidden />
-      
-      {/* Floral decorations - subtle on dark overlay */}
-      <div className="absolute top-10 left-10 opacity-20 transform rotate-12 animate-float pointer-events-none">
-        <FlowerDecoration size="large" variant="flower" />
+    <section className="relative py-12 md:py-20 px-4 bg-gradient-to-br from-rose-100 via-pink-50 to-rose-50 overflow-hidden">
+      {/* Floral decorations */}
+      <div className="absolute top-10 left-5 opacity-20 transform rotate-12 animate-float pointer-events-none">
+        <FlowerDecoration size="medium" variant="flower" />
       </div>
-      <div className="absolute top-20 right-20 opacity-15 transform -rotate-12 animate-float-slow pointer-events-none" style={{ animationDelay: '1s' }}>
-        <FlowerDecoration size="medium" variant="branch" />
-      </div>
-      <div className="absolute bottom-20 left-20 opacity-20 transform rotate-45 animate-float pointer-events-none" style={{ animationDelay: '2s' }}>
-        <FlowerDecoration size="medium" variant="leaf" />
-      </div>
-      <div className="absolute bottom-10 right-10 opacity-15 transform -rotate-45 animate-float-slow pointer-events-none" style={{ animationDelay: '3s' }}>
-        <FlowerDecoration size="large" variant="flower" />
+      <div className="absolute top-5 right-10 opacity-20 transform -rotate-12 animate-float-slow pointer-events-none" style={{ animationDelay: '1s' }}>
+        <FlowerDecoration size="small" variant="leaf" />
       </div>
       
-      <div className="relative z-10 text-center px-4 py-20">
-        <div className="mb-6">
-          {couple.name1 && couple.name2 && (
-            <div className="mb-8">
-              <h2 className="text-3xl md:text-5xl font-serif font-light text-white mb-2 drop-shadow-md">
+      <div className="container mx-auto max-w-4xl relative z-10">
+        {/* Names in one row above image */}
+        {couple.name1 && couple.name2 && (
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center gap-3 md:gap-4">
+              <h2 className="text-3xl md:text-4xl font-serif font-light text-gray-800">
                 {couple.name1}
               </h2>
-              <div className="flex items-center justify-center gap-3 my-4">
-                <div className="h-px w-12 bg-white/80"></div>
-                <span className="text-2xl text-white/90">&</span>
-                <div className="h-px w-12 bg-white/80"></div>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-serif font-light text-white drop-shadow-md">
+              <span className="text-2xl md:text-3xl text-pink-500">&</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-light text-gray-800">
                 {couple.name2}
               </h2>
             </div>
-          )}
-          <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-4 tracking-tight drop-shadow-md">
+          </div>
+        )}
+
+        {/* Image - not full screen */}
+        <div className="relative w-full aspect-[4/3] md:aspect-video rounded-lg overflow-hidden shadow-xl mb-6">
+          <Image
+            src={weddingConfig.hero?.imageUrl ?? HERO_IMAGE_PLACEHOLDER}
+            alt={`${couple.name1} & ${couple.name2}`}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 896px"
+          />
+        </div>
+
+        {/* Text below image */}
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-800 mb-3 tracking-tight">
             Vi gifter oss!
           </h1>
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-px w-16 bg-white/80"></div>
-            <span className="text-2xl md:text-3xl font-light text-white/95 italic drop-shadow-sm">
+          <div className="flex items-center justify-center gap-3 md:gap-4 mb-4">
+            <div className="h-px w-12 md:w-16 bg-pink-400"></div>
+            <span className="text-xl md:text-2xl font-light text-gray-700 italic">
               {date.year}
             </span>
-            <div className="h-px w-16 bg-white/80"></div>
+            <div className="h-px w-12 md:w-16 bg-pink-400"></div>
           </div>
+          {weddingConfig.hero?.introText && (
+            <p className="text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto">
+              {weddingConfig.hero.introText}
+            </p>
+          )}
         </div>
-        {weddingConfig.hero?.introText && (
-          <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto drop-shadow-sm">
-            {weddingConfig.hero.introText}
-          </p>
-        )}
       </div>
     </section>
   )

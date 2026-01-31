@@ -60,16 +60,16 @@ export default function CountdownTimer() {
   ]
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+    <div className="flex items-center justify-center gap-3 md:gap-4 max-w-2xl mx-auto">
         {timeUnits.map((unit, index) => (
           <div
             key={unit.label}
-            className="bg-white rounded-lg shadow-lg p-4 border-2 border-pink-100 transform hover:scale-105 transition-transform duration-300"
+            className="bg-white rounded-lg shadow-md p-2 md:p-3 border-2 border-pink-100 flex-1 max-w-[120px] transform hover:scale-105 transition-transform duration-300"
           >
-            <div className="text-3xl md:text-4xl font-bold text-pink-600 mb-1">
+            <div className="text-xl md:text-2xl font-bold text-pink-600 mb-1 text-center">
               {String(unit.value).padStart(2, '0')}
             </div>
-            <div className="text-sm text-gray-600 font-medium">{unit.label}</div>
+            <div className="text-xs md:text-sm text-gray-600 font-medium text-center">{unit.label}</div>
           </div>
         ))}
     </div>

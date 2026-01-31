@@ -1,5 +1,4 @@
 import FlowerDecoration from '../FlowerDecoration'
-import SectionTitle from '../SectionTitle'
 import CountdownTimer from '../CountdownTimer'
 
 export default function CountdownSection() {
@@ -13,10 +12,7 @@ export default function CountdownSection() {
       </div>
 
       <div className="container mx-auto max-w-4xl relative z-10">
-        <SectionTitle title="Räkna ner" flowerVariant="flower" />
-        <div className="mt-8">
-          <CountdownTimer />
-        </div>
+        <CountdownTimer />
       </div>
     </section>
   )
