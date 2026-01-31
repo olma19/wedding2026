@@ -3,7 +3,7 @@ import type { WeddingConfig } from '@/types/wedding'
 export const weddingConfig: WeddingConfig = {
   date: {
     day: 'Lördag',
-    date: '20',
+    date: '27',
     month: 'Juni',
     year: '2026',
     fullDate: '27 Juni 2026',
@@ -53,12 +53,12 @@ export const weddingConfig: WeddingConfig = {
 
   goodToKnow: {
     title: 'Bra att veta',
-    foodAndDrinks: 'Middag och dryck serveras. Ange eventuella allergier i OSA-formuläret.',
+    foodAndDrinks: 'Förrätt, huvudrätt och traditionsenlig bröllopstårta. Vi bjuder på dryck såväl under middagen som i baren efteråt.',
     hotels: 'Vi har blockerat rum på närliggande hotell. Ange rabattkod vid bokning.',
     hotelDiscountCode: 'BROLLOP2026',
     dressCode: 'Cocktail – Semi-formal klädsel. Damer: cocktailklänning (knälång eller något längre). Herrar: kostym eller kavaj med byxor.',
-    children: 'Festen är utan barn – vi firar vuxet.',
-    gifts: 'Ert närvaro är den största gåvan. Om ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
+    children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap. Spädbarn är självklart välkomna.',
+    gifts: 'Er närvaro är den största gåvan. Om ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
   },
 
   toastmaster: {

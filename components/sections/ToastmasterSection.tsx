@@ -17,7 +17,7 @@ export default function ToastmasterSection() {
         <FlowerDecoration size="small" variant="branch" />
       </div>
 
-      <div className="container mx-auto max-w-4xl relative z-10">
+      <div className="container mx-auto max-w-4xl md:max-w-6xl relative z-10">
         <SectionTitle title={toastmaster.title} flowerVariant="flower" />
 
         <ScrollAnimation delay={0}>
@@ -29,13 +29,13 @@ export default function ToastmasterSection() {
         {/* Shared image */}
         {toastmaster.imageUrl && (
           <ScrollAnimation delay={100}>
-            <div className="relative w-full aspect-[4/3] md:aspect-video rounded-lg overflow-hidden shadow-xl mb-8">
+            <div className="relative w-full aspect-[4/3] md:h-[800px] rounded-lg overflow-hidden shadow-xl mb-8">
               <Image
                 src={toastmaster.imageUrl}
                 alt={toastmaster.title}
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px"
+                className="object-cover object-top md:object-center"
+                sizes="(max-width: 768px) 100vw, 1152px"
               />
             </div>
           </ScrollAnimation>
