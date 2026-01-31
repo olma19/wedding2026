@@ -48,7 +48,7 @@ export interface DinnerParty {
   description: string
 }
 
-/** Good to know: food/drinks, hotels, dress code, children */
+/** Good to know: food/drinks, hotels, dress code, children, gifts */
 export interface GoodToKnow {
   title: string
   foodAndDrinks: string
@@ -58,6 +58,7 @@ export interface GoodToKnow {
   dressCode: string
   /** e.g. "Festen är utan barn" */
   children: string
+  gifts: string
 }
 
 /** Toastmaster / Toast madame – speeches must be announced to them */
@@ -65,10 +66,14 @@ export interface Toastmaster {
   title: string
   /** Short note that speeches must be announced to them */
   speechNote: string
-  /** Optional: name(s) and image URLs */
+  /** Shared image for both toastmaster and toast madame */
+  imageUrl?: string
+  /** Toastmaster and toast madame information */
   people?: Array<{
-    name: string
-    imageUrl?: string
+    firstName: string
+    lastName: string
+    phone?: string
+    email?: string
   }>
 }
 

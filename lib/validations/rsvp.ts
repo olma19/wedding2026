@@ -5,11 +5,11 @@ const attendeeSchema = z.object({
   lastname: z.string().min(1, 'Efternamn krävs').max(100, 'Efternamnet är för långt'),
   allergies: z.string().max(500, 'För långt').optional().or(z.literal('')),
   wants_bus: z.boolean(),
+  song_request: z.string().max(200, 'För långt').optional().or(z.literal('')),
 })
 
 export const rsvpSchema = z
   .object({
-    email: z.string().email('Ogiltig e-postadress').optional().or(z.literal('')),
     attending: z.boolean(),
     number_of_attendees: z
       .number()

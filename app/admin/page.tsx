@@ -110,12 +110,43 @@ export default function AdminPage() {
       setSortDirection('asc')
     }
   }
+  
+  // Transform RSVPs to person-level rows (moved up for use in sorting)
+  const personRows = rsvps.flatMap((rsvp) => {
+    if (!rsvp.attending || !rsvp.attendees || rsvp.attendees.length === 0) {
+      // For non-attending RSVPs, show one row
+      return [{
+        rsvpId: rsvp.id,
+        firstName: '',
+        lastName: '',
+        fullName: rsvp.guest_name,
+        attending: rsvp.attending,
+        allergies: '',
+        wantsBus: false,
+        songRequest: '',
+        createdAt: rsvp.created_at,
+      }]
+    }
+    
+    // For attending RSVPs, create one row per attendee
+    return rsvp.attendees.map((attendee: any, index: number) => ({
+      rsvpId: rsvp.id,
+      firstName: attendee.firstname || '',
+      lastName: attendee.lastname || '',
+      fullName: `${attendee.firstname} ${attendee.lastname}`.trim(),
+      attending: rsvp.attending,
+      allergies: attendee.allergies || '',
+      wantsBus: attendee.wants_bus || false,
+      songRequest: attendee.song_request || '',
+      createdAt: rsvp.created_at,
+    }))
+  })
 
-  // Sort RSVPs based on current sort settings
-  const sortedRsvps = [...rsvps].sort((a, b) => {
+  // Sort person rows based on current sort settings
+  const sortedPersonRows = [...personRows].sort((a, b) => {
     if (sortBy === 'name') {
-      const nameA = a.guest_name.toLowerCase()
-      const nameB = b.guest_name.toLowerCase()
+      const nameA = (a.firstName + ' ' + a.lastName).toLowerCase().trim()
+      const nameB = (b.firstName + ' ' + b.lastName).toLowerCase().trim()
       if (sortDirection === 'asc') {
         return nameA.localeCompare(nameB, 'sv')
       } else {
@@ -127,11 +158,10 @@ export default function AdminPage() {
 
   const stats = {
     total: rsvps.length,
+    totalPeople: personRows.filter(p => p.attending).length,
     attending: rsvps.filter(r => r.attending).length,
     notAttending: rsvps.filter(r => !r.attending).length,
-    totalAttendees: rsvps
-      .filter(r => r.attending)
-      .reduce((sum, r) => sum + (r.number_of_attendees || 0), 0),
+    busCount: personRows.filter(p => p.attending && p.wantsBus).length,
   }
 
   if (checkingAuth) {
@@ -208,7 +238,7 @@ export default function AdminPage() {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <div className="bg-white rounded-lg shadow p-4 border border-pink-100">
             <div className="text-2xl font-bold text-pink-600">{stats.total}</div>
             <div className="text-sm text-gray-600">Totalt RSVPs</div>
@@ -222,8 +252,12 @@ export default function AdminPage() {
             <div className="text-sm text-gray-600">Kommer inte</div>
           </div>
           <div className="bg-white rounded-lg shadow p-4 border border-blue-100">
-            <div className="text-2xl font-bold text-blue-600">{stats.totalAttendees}</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.totalPeople}</div>
             <div className="text-sm text-gray-600">Totalt personer</div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4 border border-purple-100">
+            <div className="text-2xl font-bold text-purple-600">{stats.busCount}</div>
+            <div className="text-sm text-gray-600">Buss</div>
           </div>
         </div>
 
@@ -239,16 +273,13 @@ export default function AdminPage() {
           <button
             onClick={() => {
               const csv = [
-                ['Namn', 'E-post', 'Kommer', 'Antal personer', 'Matallergier', 'Kostpreferenser', 'Övriga önskemål', 'Datum'],
-                ...rsvps.map(r => [
-                  r.guest_name,
-                  r.email || '',
-                  r.attending ? 'Ja' : 'Nej',
-                  r.number_of_attendees.toString(),
-                  r.food_allergies || '',
-                  r.dietary_restrictions || '',
-                  r.special_requests || '',
-                  r.created_at ? new Date(r.created_at).toLocaleDateString('sv-SE') : '',
+                ['Namn', 'Allergier', 'Buss', 'Låt', 'Datum'],
+                ...personRows.map(p => [
+                  p.fullName || '',
+                  p.allergies || '',
+                  p.wantsBus ? 'Ja' : 'Nej',
+                  p.songRequest || '',
+                  p.createdAt ? new Date(p.createdAt).toLocaleDateString('sv-SE') : '',
                 ])
               ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n')
               
@@ -275,11 +306,11 @@ export default function AdminPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600"></div>
-            <p className="mt-4 text-gray-600">Laddar RSVPs...</p>
+            <p className="mt-4 text-gray-600">Laddar personer...</p>
           </div>
-        ) : rsvps.length === 0 ? (
+        ) : personRows.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
-            <p className="text-gray-600">Inga RSVPs ännu</p>
+            <p className="text-gray-600">Inga personer ännu</p>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -301,22 +332,13 @@ export default function AdminPage() {
                       </div>
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      E-post
+                      Allergier
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Status
+                      Buss
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Antal
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Matallergier
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Kostpreferenser
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                      Övrigt
+                      Låt
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                       Datum
@@ -324,40 +346,27 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {sortedRsvps.map((rsvp) => (
-                    <tr key={rsvp.id} className="hover:bg-pink-50 transition-colors">
+                  {sortedPersonRows.map((person, index) => (
+                    <tr key={`${person.rsvpId}-${index}`} className="hover:bg-pink-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {rsvp.guest_name}
+                        {person.fullName || '-'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
+                        {person.allergies || ''}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {person.wantsBus ? (
+                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                            Ja
+                          </span>
+                        ) : '-'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
+                        {person.songRequest || '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {rsvp.email || '-'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            rsvp.attending
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
-                          }`}
-                        >
-                          {rsvp.attending ? 'Kommer' : 'Kommer inte'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {rsvp.attending ? rsvp.number_of_attendees : '-'}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                        {rsvp.food_allergies || '-'}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                        {rsvp.dietary_restrictions || '-'}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                        {rsvp.special_requests || '-'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {rsvp.created_at
-                          ? new Date(rsvp.created_at).toLocaleDateString('sv-SE', {
+                        {person.createdAt
+                          ? new Date(person.createdAt).toLocaleDateString('sv-SE', {
                               year: 'numeric',
                               month: 'short',
                               day: 'numeric',

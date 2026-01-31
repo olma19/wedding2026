@@ -4,7 +4,6 @@ import type { AttendeeFormData } from '@/lib/validations/rsvp'
 export interface RSVP {
   id?: string
   guest_name: string
-  email?: string | null
   attending: boolean
   number_of_attendees: number
   food_allergies?: string | null

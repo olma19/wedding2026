@@ -6,7 +6,7 @@ export const weddingConfig: WeddingConfig = {
     date: '20',
     month: 'Juni',
     year: '2026',
-    fullDate: '20 Juni 2026',
+    fullDate: '27 Juni 2026',
     shortDate: '20/6 -26',
   },
 
@@ -41,7 +41,7 @@ export const weddingConfig: WeddingConfig = {
 
   dressCode: {
     title: 'Klädkod',
-    description: 'Kavaj',
+    description: 'Cocktail',
   },
 
   dinnerParty: {
@@ -56,16 +56,18 @@ export const weddingConfig: WeddingConfig = {
     foodAndDrinks: 'Middag och dryck serveras. Ange eventuella allergier i OSA-formuläret.',
     hotels: 'Vi har blockerat rum på närliggande hotell. Ange rabattkod vid bokning.',
     hotelDiscountCode: 'BROLLOP2026',
-    dressCode: 'Kavaj',
+    dressCode: 'Cocktail – Semi-formal klädsel. Damer: cocktailklänning (knälång eller något längre). Herrar: kostym eller kavaj med byxor.',
     children: 'Festen är utan barn – vi firar vuxet.',
+    gifts: 'Ert närvaro är den största gåvan. Om ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
   },
 
   toastmaster: {
-    title: 'Toastmaster',
+    title: 'Toastmaster & Toastmadame',
     speechNote: 'Tal och spex ska anmälas till toastmastern i förväg.',
+    imageUrl: '/images/toastmaster-madame.jpg',
     people: [
-      { name: 'Toastmaster', imageUrl: undefined },
-      { name: 'Toast madame', imageUrl: '/images/toastmaster-madame.jpg' },
+      { firstName: 'Benny', lastName: '', phone: '070-123 45 67', email: 'benny@example.com' },
+      { firstName: 'Rebecka', lastName: '', phone: '070-123 45 68', email: 'rebecka@example.com' },
     ],
   },
 

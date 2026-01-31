@@ -6,7 +6,6 @@
 CREATE TABLE IF NOT EXISTS rsvps (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   guest_name TEXT NOT NULL,
-  email TEXT,
   attending BOOLEAN NOT NULL,
   number_of_attendees INTEGER NOT NULL DEFAULT 1,
   food_allergies TEXT,

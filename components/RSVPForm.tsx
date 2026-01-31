@@ -11,7 +11,7 @@ interface RSVPFormProps {
   onSuccess?: () => void
 }
 
-const GUEST_COUNT_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const
+const GUEST_COUNT_OPTIONS = [1, 2, 3, 4, 5, 6] as const
 
 export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,12 +33,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
       attending: true,
       number_of_attendees: 1,
       attendees: [
-        { firstname: '', lastname: '', allergies: '', wants_bus: false },
+        { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' },
       ],
     },
   })
 
-  const attending = watch('attending')
   const number_of_attendees = watch('number_of_attendees')
   const attendees = watch('attendees') ?? []
 
@@ -47,11 +46,9 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const updateAttendeesCount = (n: number) => {
     setValue('number_of_attendees', n)
     const current = watch('attendees') ?? []
-    const next = Array.from({ length: n }, (_, i) => current[i] ?? { firstname: '', lastname: '', allergies: '', wants_bus: false })
+    const next = Array.from({ length: n }, (_, i) => current[i] ?? { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' })
     replace(next)
   }
-
-  const anyWantsBus = attendees.some((a) => a?.wants_bus)
 
   const createConfetti = () => {
     const colors = ['#f472b6', '#ec4899', '#f9a8d4', '#fbbf24', '#f59e0b']
@@ -72,24 +69,42 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const onSubmit = async (data: RSVPFormData) => {
     setIsSubmitting(true)
     setSubmitError(null)
-    const payload = data.attending
-      ? data
-      : { ...data, number_of_attendees: 0, attendees: undefined }
+    // Always attending since we removed the radio buttons
+    const payload = { ...data, attending: true }
+    
+    console.log('Submitting OSA payload:', payload)
+    
     try {
       const response = await fetch('/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
+      
+      console.log('Response status:', response.status, response.statusText)
+      
+      if (!response.ok) {
+        let result
+        try {
+          result = await response.json()
+        } catch {
+          result = { error: 'Okänt fel', details: `HTTP ${response.status}: ${response.statusText}` }
+        }
+        console.error('API error response:', result)
+        throw new Error(result.details || result.error || 'Kunde inte skicka OSA')
+      }
+      
       const result = await response.json()
-      if (!response.ok) throw new Error(result.error || 'Kunde inte skicka OSA')
+      console.log('Success response:', result)
       setSubmitSuccess(true)
       reset()
       createConfetti()
       onSuccess?.()
       setTimeout(() => setSubmitSuccess(false), 5000)
     } catch (err: unknown) {
-      setSubmitError(err instanceof Error ? err.message : 'Ett fel uppstod. Försök igen.')
+      console.error('OSA submission error:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Ett fel uppstod. Försök igen.'
+      setSubmitError(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -122,61 +137,37 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
         onSubmit={handleSubmit(onSubmit)}
         className="relative max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 border-2 border-pink-100"
       >
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <FlowerDecoration size="small" variant="flower" className="opacity-50" />
-          <h2 className="text-3xl font-bold text-center text-gray-800">OSA</h2>
-          <FlowerDecoration size="small" variant="flower" className="opacity-50" />
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-3">Kommer du att delta? <span className="text-red-500">*</span></label>
-          <div className="flex gap-4">
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                checked={attending === true}
-                onChange={() => setValue('attending', true)}
-                className="w-4 h-4 text-pink-600 border-gray-400 focus:ring-2 focus:ring-pink-500"
-                disabled={isSubmitting}
-              />
-              <span className="ml-2 text-gray-900 font-medium">Ja, jag kommer!</span>
-            </label>
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                checked={attending === false}
-                onChange={() => setValue('attending', false)}
-                className="w-4 h-4 text-pink-600 border-gray-400 focus:ring-2 focus:ring-pink-500"
-                disabled={isSubmitting}
-              />
-              <span className="ml-2 text-gray-900 font-medium">Tyvärr, jag kan inte</span>
-            </label>
-          </div>
-        </div>
-
-        {attending && (
-          <>
+        <>
             <div className="mb-6">
-              <label htmlFor="number_of_attendees" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Antal personer <span className="text-red-500">*</span>
               </label>
-              <select
-                id="number_of_attendees"
-                {...register('number_of_attendees', {
-                  valueAsNumber: true,
-                  onChange: (e) => updateAttendeesCount(Number(e.target.value)),
-                })}
-                className="w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-                disabled={isSubmitting}
-              >
+              <input
+                type="hidden"
+                {...register('number_of_attendees', { valueAsNumber: true })}
+              />
+              <div className="flex flex-wrap gap-2 justify-center">
                 {GUEST_COUNT_OPTIONS.map((n) => (
-                  <option key={n} value={n}>
-                    {n} {n === 1 ? 'person' : 'personer'}
-                  </option>
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => {
+                      setValue('number_of_attendees', n)
+                      updateAttendeesCount(n)
+                    }}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                      number_of_attendees === n
+                        ? 'bg-pink-600 text-white shadow-md'
+                        : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    disabled={isSubmitting}
+                  >
+                    {n}
+                  </button>
                 ))}
-              </select>
+              </div>
               {errors.number_of_attendees && (
-                <p className="mt-1 text-sm text-red-500">{errors.number_of_attendees.message}</p>
+                <p className="mt-2 text-sm text-red-500">{errors.number_of_attendees.message}</p>
               )}
             </div>
 
@@ -189,7 +180,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Förnamn <span className="text-red-500">*</span></label>
                       <input
                         {...register(`attendees.${index}.firstname`)}
-                        className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100"
+                        className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 text-black"
                         placeholder="Förnamn"
                         disabled={isSubmitting}
                       />
@@ -201,7 +192,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Efternamn <span className="text-red-500">*</span></label>
                       <input
                         {...register(`attendees.${index}.lastname`)}
-                        className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100"
+                        className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 text-black"
                         placeholder="Efternamn"
                         disabled={isSubmitting}
                       />
@@ -211,15 +202,15 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                     </div>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Allergier (valfritt)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Allergier</label>
                     <input
                       {...register(`attendees.${index}.allergies`)}
-                      className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100"
+                      className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 text-black"
                       placeholder="T.ex. nötter, gluten..."
                       disabled={isSubmitting}
                     />
                   </div>
-                  <div>
+                  <div className="mb-4">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -229,6 +220,27 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                       />
                       <span className="ml-2 text-gray-900">Jag vill åka med buss</span>
                     </label>
+                    {attendees[index]?.wants_bus && osa.busInfo && (
+                      <div className="mt-3 ml-6 p-3 bg-pink-100 rounded-lg border border-pink-200">
+                        <p className="text-gray-700 text-sm leading-relaxed">{osa.busInfo}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Om denna låt spelas på festen kan jag inte sitta stilla
+                    </label>
+                    <input
+                      {...register(`attendees.${index}.song_request`)}
+                      className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 text-black"
+                      placeholder="Artist - Låtnamn"
+                      disabled={isSubmitting}
+                    />
+                    {errors.attendees?.[index]?.song_request && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.attendees[index]?.song_request?.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -236,28 +248,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             {errors.attendees && typeof errors.attendees.message === 'string' && (
               <p className="mb-4 text-sm text-red-500">{errors.attendees.message}</p>
             )}
-
-            {anyWantsBus && osa.busInfo && (
-              <div className="mb-6 p-4 bg-pink-100 rounded-lg border border-pink-200">
-                <h4 className="font-semibold text-gray-800 mb-2">Information om buss</h4>
-                <p className="text-gray-700 text-sm leading-relaxed">{osa.busInfo}</p>
-              </div>
-            )}
-          </>
-        )}
-
-        <div className="mb-6">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">E-post (valfritt)</label>
-          <input
-            id="email"
-            type="email"
-            {...register('email')}
-            className="w-full px-4 py-2.5 border border-gray-400 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100"
-            placeholder="din@epost.se"
-            disabled={isSubmitting}
-          />
-          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
-        </div>
+        </>
 
         {submitError && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">

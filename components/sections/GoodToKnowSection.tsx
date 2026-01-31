@@ -17,6 +17,7 @@ export default function GoodToKnowSection() {
     },
     { title: 'Klädkod', content: goodToKnow.dressCode, icon: '👔' },
     { title: 'Barn', content: goodToKnow.children, icon: '👶' },
+    { title: 'Gåvor', content: goodToKnow.gifts, icon: '🎁' },
   ]
 
   return (
