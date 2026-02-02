@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import FlowerDecoration from '../FlowerDecoration'
 import { weddingConfig } from '@/config/wedding'

@@ -3,17 +3,24 @@
 import FlowerDecoration from './FlowerDecoration'
 import { useColors } from './ColorSchemeProvider'
 import { useMemo } from 'react'
+import { classNames } from '@/lib/utils/classNames'
 
 interface SectionTitleProps {
   title: string
   flowerVariant?: 'flower' | 'leaf' | 'branch' | 'sage'
   showDivider?: boolean
+  level?: 1 | 2 | 3
 }
 
+/**
+ * Section Title Component
+ * Displays a section title with decorative elements on both sides
+ */
 export default function SectionTitle({ 
   title, 
   flowerVariant,
-  showDivider = true 
+  showDivider = true,
+  level = 2
 }: SectionTitleProps) {
   const colors = useColors()
   
@@ -22,28 +29,43 @@ export default function SectionTitle({
     return `section-title-${title}`
   }, [title])
   
+  const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements
+  const headingClasses = classNames(
+    'font-serif font-bold text-gray-800',
+    level === 1 && 'text-4xl md:text-5xl',
+    level === 2 && 'text-3xl md:text-4xl',
+    level === 3 && 'text-2xl md:text-3xl'
+  )
+  
   return (
     <div className="text-center mb-12">
-      <div className="flex items-center justify-center gap-4 mb-4">
+      <div className="flex items-center justify-center gap-4 mb-4" role="heading" aria-level={level}>
         <FlowerDecoration 
           size="small" 
           variant={flowerVariant} 
           className="opacity-50" 
           seed={decorationSeed}
           forceLeafVariant="single"
+          aria-hidden="true"
         />
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-800">
+        <HeadingTag className={headingClasses}>
           {title}
-        </h2>
+        </HeadingTag>
         <FlowerDecoration 
           size="small" 
           variant={flowerVariant} 
           className="opacity-50" 
           seed={decorationSeed}
           forceLeafVariant="single"
+          aria-hidden="true"
         />
       </div>
-      {showDivider && <div className={`h-1 w-24 ${colors.bgMedium} mx-auto mb-8`}></div>}
+      {showDivider && (
+        <div 
+          className={classNames('h-1 w-24 mx-auto mb-8', colors.bgMedium)}
+          aria-hidden="true"
+        />
+      )}
     </div>
   )
 }

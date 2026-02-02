@@ -1,7 +1,6 @@
 'use client'
 
-import FlowerDecoration from '../FlowerDecoration'
-import SectionTitle from '../SectionTitle'
+import SectionWrapper from './SectionWrapper'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from '../ColorSchemeProvider'
@@ -25,31 +24,28 @@ export default function GoodToKnowSection() {
   ]
 
   return (
-    <section className={`relative py-20 px-4 ${colors.bgLight} overflow-hidden scroll-mt-20`}>
-      <div className="absolute top-10 right-5 opacity-20 transform -rotate-12">
-        <FlowerDecoration size="medium" />
+    <SectionWrapper
+      title={goodToKnow.title}
+      titleVariant="branch"
+      decorations={[
+        { position: 'top-right', size: 'medium', opacity: 0.2 },
+        { position: 'bottom-left', size: 'small', opacity: 0.2 },
+      ]}
+      showScrollAnimation={false}
+    >
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {items.map((item, index) => (
+          <ScrollAnimation key={item.title} delay={index * 100}>
+            <div className={`bg-white rounded-xl shadow-md p-6 border ${colors.borderLight} hover:shadow-lg transition-shadow`}>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span>{item.icon}</span>
+                {item.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">{item.content}</p>
+            </div>
+          </ScrollAnimation>
+        ))}
       </div>
-      <div className="absolute bottom-10 left-10 opacity-20 transform rotate-45">
-        <FlowerDecoration size="small" />
-      </div>
-
-      <div className="container mx-auto max-w-4xl relative z-10">
-        <SectionTitle title={goodToKnow.title} flowerVariant="branch" />
-
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {items.map((item, index) => (
-            <ScrollAnimation key={item.title} delay={index * 100}>
-              <div className={`bg-white rounded-xl shadow-md p-6 border ${colors.borderLight} hover:shadow-lg transition-shadow`}>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                  <span>{item.icon}</span>
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">{item.content}</p>
-              </div>
-            </ScrollAnimation>
-          ))}
-        </div>
-      </div>
-    </section>
+    </SectionWrapper>
   )
 }

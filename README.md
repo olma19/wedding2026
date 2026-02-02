@@ -23,14 +23,31 @@ A beautiful, informative wedding landing page built with Next.js, featuring RSVP
 ```
 wedding2026/
 ├── app/
-│   ├── api/           # API routes for RSVP submission
-│   ├── components/    # Reusable React components
-│   ├── lib/           # Utility functions and helpers
-│   ├── types/         # TypeScript type definitions
-│   └── page.tsx       # Main landing page
-├── public/            # Static assets
-└── README.md
+│   ├── api/              # API routes for RSVP submission
+│   ├── decorations/      # Decoration showcase page
+│   └── page.tsx          # Main landing page
+├── components/
+│   ├── forms/            # Form components (FormField, PersonFormSection, etc.)
+│   ├── sections/         # Section components (HeroSection, RSVPSection, etc.)
+│   └── ...               # Other components (FlowerDecoration, SectionTitle, etc.)
+├── config/               # Configuration files (wedding.ts)
+├── docs/                 # Documentation (ARCHITECTURE.md, COMPONENTS.md)
+├── hooks/                # Custom React hooks
+├── lib/
+│   ├── api/              # API utilities (errorHandler, responseHelpers)
+│   ├── colors/           # Color scheme utilities (gradients)
+│   ├── decorations/      # Decoration utilities (variations)
+│   └── utils/            # General utilities (classNames, stringHelpers, dateHelpers)
+├── types/                # TypeScript type definitions
+└── public/               # Static assets
 ```
+
+## Documentation
+
+- **[Architecture Overview](./docs/ARCHITECTURE.md)** - Project structure and design decisions
+- **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
+- **[Refactoring Plan](./REFACTORING_PLAN.md)** - Refactoring tasks and progress
+- **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements
 
 ## Getting Started
 

@@ -4,6 +4,8 @@ import { useColors } from './ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 import LeafDecoration from './LeafDecoration'
 import { useMemo, useRef } from 'react'
+import { getVariedLeafDecoration } from '@/lib/decorations/variations'
+import { useDecorationSeed } from '@/hooks/useDecorationCounter'
 
 interface FlowerDecorationProps {
   className?: string
@@ -15,38 +17,6 @@ interface FlowerDecorationProps {
   forceLeafVariant?: 'single' | 'pair'
 }
 
-// Module-level counter for automatic variation
-let decorationCounter = 0
-
-// Helper function to generate varied leaf decorations based on seed
-function getVariedLeafDecoration(
-  baseSize: 'small' | 'medium' | 'large',
-  seed: number | string = Math.random()
-): { size: 'small' | 'medium' | 'large'; variant: 'single' | 'pair' } {
-  // Convert seed to number if it's a string
-  const seedNum = typeof seed === 'string' 
-    ? seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    : seed
-  
-  // Create variations based on seed
-  const sizeVariation = seedNum % 3
-  const variantVariation = Math.floor(seedNum / 3) % 2
-  
-  // Map base size to index: small=0, medium=1, large=2
-  const sizeIndex = baseSize === 'small' ? 0 : baseSize === 'medium' ? 1 : 2
-  
-  // Vary size: sometimes go up/down one step
-  const sizeOptions: ('small' | 'medium' | 'large')[] = ['small', 'medium', 'large']
-  let variedSizeIndex = sizeIndex + (sizeVariation === 0 ? -1 : sizeVariation === 1 ? 0 : 1)
-  // Clamp to valid range
-  variedSizeIndex = Math.max(0, Math.min(2, variedSizeIndex))
-  
-  const size = sizeOptions[variedSizeIndex]
-  const variant: 'single' | 'pair' = variantVariation === 0 ? 'single' : 'pair'
-  
-  return { size, variant }
-}
-
 export default function FlowerDecoration({ 
   className = '', 
   size = 'medium',
@@ -55,7 +25,7 @@ export default function FlowerDecoration({
   forceLeafVariant
 }: FlowerDecorationProps) {
   const colors = useColors()
-  const instanceIdRef = useRef<number | null>(null)
+  const instanceIdRef = useRef<string | null>(null)
   
   // Auto-detect decoration type based on config if variant not specified
   const decorationType = variant || weddingConfig.decorationType || 'flower'
@@ -65,6 +35,12 @@ export default function FlowerDecoration({
     large: 'w-32 h-32',
   }
 
+  // Initialize instance ID on first render for consistent variation
+  if (instanceIdRef.current === null) {
+    instanceIdRef.current = `decoration-${Date.now()}-${Math.random()}`
+  }
+  const defaultSeed = useDecorationSeed(instanceIdRef.current)
+
   // Generate varied leaf decoration when using leaf type
   const leafVariation = useMemo(() => {
     if (decorationType === 'leaf' && variant !== 'leaf') {
@@ -72,16 +48,12 @@ export default function FlowerDecoration({
       if (forceLeafVariant) {
         return { size, variant: forceLeafVariant }
       }
-      // Use provided seed, or generate one based on instance counter
-      // Initialize instance ID on first render
-      if (instanceIdRef.current === null) {
-        instanceIdRef.current = decorationCounter++
-      }
-      const variationSeed = seed ?? instanceIdRef.current
+      // Use provided seed, or use the default seed from instance ID
+      const variationSeed = seed ?? defaultSeed
       return getVariedLeafDecoration(size, variationSeed)
     }
     return null
-  }, [decorationType, variant, size, seed, forceLeafVariant])
+  }, [decorationType, variant, size, seed, forceLeafVariant, defaultSeed])
 
   // If decorationType is 'leaf' (from config), use LeafDecoration component with variants
   // But if variant='leaf' is explicitly passed, show the simple leaf

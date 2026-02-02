@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rsvpSchema } from '@/lib/validations/rsvp'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
+import { errorResponse, successResponse, handleRoute } from '@/lib/api/responseHelpers'
+import { handleValidationError, handleDatabaseError, handleUnknownError, ErrorCode } from '@/lib/api/errorHandler'
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,10 +35,8 @@ export async function POST(request: NextRequest) {
     
     if (!validationResult.success) {
       console.error('Validation errors:', validationResult.error.errors)
-      return NextResponse.json(
-        { error: 'Validation failed', details: validationResult.error.errors },
-        { status: 400 }
-      )
+      const errorMessage = validationResult.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')
+      return errorResponse('Valideringsfel', errorMessage, 400)
     }
 
     const rsvpData = validationResult.data
@@ -63,37 +63,26 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Supabase error:', error)
-      supabaseError = error
       
       // Check for DNS/connection errors
       if (error.message?.includes('ENOTFOUND') || error.message?.includes('fetch failed')) {
-        return NextResponse.json(
-          { 
-            error: 'Database connection error', 
-            details: 'Cannot connect to Supabase. Please check: 1) Your Supabase project is active, 2) The URL in .env.local is correct, 3) Your internet connection is working.',
-            hint: 'Visit your Supabase dashboard to verify the project URL: https://supabase.com/dashboard'
-          },
-          { status: 503 }
+        return errorResponse(
+          'Databasanslutningsfel',
+          'Kan inte ansluta till Supabase. Kontrollera: 1) Ditt Supabase-projekt är aktivt, 2) URL:en i .env.local är korrekt, 3) Din internetanslutning fungerar.',
+          503
         )
       }
       
-      return NextResponse.json(
-        { error: 'Failed to save RSVP', details: error.message },
-        { status: 500 }
-      )
+      return errorResponse('Kunde inte spara OSA', error.message, 500)
     }
 
-    return NextResponse.json(
-      { message: 'RSVP submitted successfully', data },
-      { status: 201 }
-    )
+    return successResponse({ message: 'OSA skickad framgångsrikt', data }, 201)
   } catch (error) {
     console.error('Unexpected error in POST:', error)
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    const errorStack = error instanceof Error ? error.stack : undefined
-    return NextResponse.json(
-      { error: 'Internal server error', details: errorMessage, stack: process.env.NODE_ENV === 'development' ? errorStack : undefined },
-      { status: 500 }
+    return errorResponse(
+      'Internt serverfel',
+      error instanceof Error ? error.message : 'Okänt fel',
+      500
     )
   }
 }
@@ -105,10 +94,7 @@ export async function GET(request: NextRequest) {
     const isAuthenticated = await isAdminAuthenticated()
     
     if (!isAuthenticated) {
-      return NextResponse.json(
-        { error: 'Unauthorized - Admin access required' },
-        { status: 401 }
-      )
+      return errorResponse('Obehörig - Adminåtkomst krävs', undefined, 401)
     }
 
     const { data, error } = await supabaseAdmin
@@ -121,29 +107,23 @@ export async function GET(request: NextRequest) {
       
       // Check for DNS/connection errors
       if (error.message?.includes('ENOTFOUND') || error.message?.includes('fetch failed')) {
-        return NextResponse.json(
-          { 
-            error: 'Database connection error', 
-            details: 'Cannot connect to Supabase. Please check: 1) Your Supabase project is active, 2) The URL in .env.local is correct, 3) Your internet connection is working.',
-            hint: 'Visit your Supabase dashboard to verify the project URL: https://supabase.com/dashboard'
-          },
-          { status: 503 }
+        return errorResponse(
+          'Databasanslutningsfel',
+          'Kan inte ansluta till Supabase. Kontrollera: 1) Ditt Supabase-projekt är aktivt, 2) URL:en i .env.local är korrekt, 3) Din internetanslutning fungerar.',
+          503
         )
       }
       
-      return NextResponse.json(
-        { error: 'Failed to fetch RSVPs', details: error.message },
-        { status: 500 }
-      )
+      return errorResponse('Kunde inte hämta OSA', error.message, 500)
     }
 
-    return NextResponse.json({ data }, { status: 200 })
+    return successResponse({ data }, 200)
   } catch (error) {
     console.error('Unexpected error in GET:', error)
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    return NextResponse.json(
-      { error: 'Internal server error', details: errorMessage },
-      { status: 500 }
+    return errorResponse(
+      'Internt serverfel',
+      error instanceof Error ? error.message : 'Okänt fel',
+      500
     )
   }
 }

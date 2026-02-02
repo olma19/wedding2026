@@ -1,0 +1,95 @@
+'use client'
+
+import { useState } from 'react'
+import type { RSVPFormData } from '@/lib/validations/rsvp'
+
+interface UseRSVPSubmissionReturn {
+  isSubmitting: boolean
+  submitError: string | null
+  submitSuccess: boolean
+  submitRSVP: (data: RSVPFormData) => Promise<void>
+  reset: () => void
+}
+
+/**
+ * Hook to handle RSVP form submission
+ * Manages submission state, error handling, and success feedback
+ */
+export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionReturn {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
+  const createConfetti = () => {
+    const colors = ['#f472b6', '#ec4899', '#f9a8d4', '#fbbf24', '#f59e0b']
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        confetti.style.animationDelay = Math.random() * 0.5 + 's'
+        confetti.style.animationDuration = Math.random() * 2 + 2 + 's'
+        document.body.appendChild(confetti)
+        setTimeout(() => confetti.remove(), 3000)
+      }, i * 20)
+    }
+  }
+
+  const submitRSVP = async (data: RSVPFormData) => {
+    setIsSubmitting(true)
+    setSubmitError(null)
+    
+    // Always attending since we removed the radio buttons
+    const payload = { ...data, attending: true }
+    
+    console.log('Submitting OSA payload:', payload)
+    
+    try {
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      
+      console.log('Response status:', response.status, response.statusText)
+      
+      if (!response.ok) {
+        let result
+        try {
+          result = await response.json()
+        } catch {
+          result = { error: 'Okänt fel', details: `HTTP ${response.status}: ${response.statusText}` }
+        }
+        console.error('API error response:', result)
+        throw new Error(result.details || result.error || 'Kunde inte skicka OSA')
+      }
+      
+      const result = await response.json()
+      console.log('Success response:', result)
+      setSubmitSuccess(true)
+      createConfetti()
+      onSuccess?.()
+      setTimeout(() => setSubmitSuccess(false), 5000)
+    } catch (err: unknown) {
+      console.error('OSA submission error:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Ett fel uppstod. Försök igen.'
+      setSubmitError(errorMessage)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const reset = () => {
+    setSubmitError(null)
+    setSubmitSuccess(false)
+  }
+
+  return {
+    isSubmitting,
+    submitError,
+    submitSuccess,
+    submitRSVP,
+    reset,
+  }
+}
