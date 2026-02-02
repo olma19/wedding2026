@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import type { ApiResponse } from './errorHandler'
+
 import { createErrorResponse, createSuccessResponse } from './errorHandler'
+import type { ApiResponse } from './errorHandler'
 
 /**
  * Create a Next.js JSON response from an ApiResponse
