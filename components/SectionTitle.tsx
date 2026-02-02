@@ -37,12 +37,15 @@ export default function SectionTitle({
     level === 3 && 'text-2xl md:text-3xl'
   )
   
+  // Filter out 'sage' variant as FlowerDecoration doesn't support it
+  const decorationVariant = flowerVariant === 'sage' ? undefined : flowerVariant
+
   return (
     <div className="text-center mb-12">
       <div className="flex items-center justify-center gap-4 mb-4" role="heading" aria-level={level}>
         <FlowerDecoration 
           size="small" 
-          variant={flowerVariant} 
+          variant={decorationVariant} 
           className="opacity-50" 
           seed={decorationSeed}
           forceLeafVariant="single"
@@ -53,7 +56,7 @@ export default function SectionTitle({
         </HeadingTag>
         <FlowerDecoration 
           size="small" 
-          variant={flowerVariant} 
+          variant={decorationVariant} 
           className="opacity-50" 
           seed={decorationSeed}
           forceLeafVariant="single"

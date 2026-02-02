@@ -8,14 +8,37 @@ import { useFormGradients } from '@/hooks/useFormGradients'
 import { useColors } from '../ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 
+/**
+ * Props for PersonFormSection component
+ */
 interface PersonFormSectionProps {
+  /** Index of the person in the attendees array */
   index: number
+  /** React Hook Form register function */
   register: UseFormRegister<RSVPFormData>
+  /** React Hook Form errors object */
   errors: FieldErrors<RSVPFormData>
+  /** Whether the form is disabled */
   disabled?: boolean
+  /** Whether the person wants bus transportation */
   wantsBus: boolean
 }
 
+/**
+ * Form section for collecting individual person's details
+ * Includes name, allergies, bus preference, and song request fields
+ * 
+ * @example
+ * ```tsx
+ * <PersonFormSection
+ *   index={0}
+ *   register={register}
+ *   errors={errors}
+ *   disabled={isSubmitting}
+ *   wantsBus={attendees[0]?.wants_bus || false}
+ * />
+ * ```
+ */
 export default function PersonFormSection({
   index,
   register,

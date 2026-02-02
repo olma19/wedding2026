@@ -1,23 +1,41 @@
 'use client'
 
+import { memo, useMemo, useRef } from 'react'
 import { useColors } from './ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 import LeafDecoration from './LeafDecoration'
-import { useMemo, useRef } from 'react'
 import { getVariedLeafDecoration } from '@/lib/decorations/variations'
 import { useDecorationSeed } from '@/hooks/useDecorationCounter'
+import { classNames } from '@/lib/utils/classNames'
 
+/**
+ * Props for FlowerDecoration component
+ */
 interface FlowerDecorationProps {
+  /** Additional CSS classes */
   className?: string
+  /** Size of the decoration */
   size?: 'small' | 'medium' | 'large'
+  /** Type of decoration to render */
   variant?: 'flower' | 'leaf' | 'branch'
-  // Optional seed for consistent variation (e.g., index or position)
+  /** Optional seed for consistent variation (e.g., index or position) */
   seed?: number | string
-  // Force a specific leaf variant (useful for symmetry in headers)
+  /** Force a specific leaf variant (useful for symmetry in headers) */
   forceLeafVariant?: 'single' | 'pair'
 }
 
-export default function FlowerDecoration({ 
+/**
+ * Decoration component that renders flowers, leaves, or branches
+ * Acts as a dispatcher/factory pattern for different decoration types
+ * Memoized to prevent unnecessary re-renders
+ * 
+ * @example
+ * ```tsx
+ * <FlowerDecoration size="medium" variant="flower" />
+ * <FlowerDecoration size="small" variant="leaf" seed="header-left" />
+ * ```
+ */
+const FlowerDecoration = memo(function FlowerDecoration({ 
   className = '', 
   size = 'medium',
   variant,
@@ -65,8 +83,8 @@ export default function FlowerDecoration({
   // Simple leaf variant (when explicitly passed as variant="leaf")
   if (variant === 'leaf') {
     return (
-      <div className={`${sizeClasses[size]} ${className}`}>
-        <svg viewBox="0 0 100 100" className={`w-full h-full ${colors.leaf} opacity-60`}>
+      <div className={classNames(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-60', colors.leaf)}>
           <path
             d="M50 20 Q30 40 35 60 Q40 80 50 85 Q60 80 65 60 Q70 40 50 20"
             fill="currentColor"
@@ -86,8 +104,8 @@ export default function FlowerDecoration({
 
   if (decorationType === 'branch') {
     return (
-      <div className={`${sizeClasses[size]} ${className}`}>
-        <svg viewBox="0 0 100 100" className={`w-full h-full ${colors.branch} opacity-50`}>
+      <div className={classNames(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-50', colors.branch)}>
           <path
             d="M20 50 Q40 30 60 50 Q80 70 90 60"
             stroke="currentColor"
@@ -105,8 +123,8 @@ export default function FlowerDecoration({
 
   // Default: flower - use color scheme colors
   return (
-    <div className={`${sizeClasses[size]} ${className}`}>
-      <svg viewBox="0 0 100 100" className={`w-full h-full ${colors.flowerOuter} opacity-70`}>
+    <div className={classNames(sizeClasses[size], className)}>
+      <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-70', colors.flowerOuter)}>
         {/* Outer petals */}
         <ellipse cx="50" cy="25" rx="10" ry="15" fill="currentColor" />
         <ellipse cx="75" cy="50" rx="15" ry="10" fill="currentColor" />
@@ -118,9 +136,13 @@ export default function FlowerDecoration({
         <ellipse cx="50" cy="70" rx="8" ry="12" className={colors.flowerInner} />
         <ellipse cx="30" cy="50" rx="12" ry="8" className={colors.flowerInner} />
         {/* Center */}
-        <circle cx="50" cy="50" r="8" className={`${colors.flowerCenter} opacity-90`} />
+        <circle cx="50" cy="50" r="8" className={classNames('opacity-90', colors.flowerCenter)} />
         <circle cx="50" cy="50" r="4" className={colors.flowerCenter} />
       </svg>
     </div>
   )
-}
+})
+
+FlowerDecoration.displayName = 'FlowerDecoration'
+
+export default FlowerDecoration

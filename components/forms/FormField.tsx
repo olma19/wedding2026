@@ -1,17 +1,40 @@
 'use client'
 
+import { memo } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { classNames } from '@/lib/utils/classNames'
 import { generateFieldId, getAriaLabel, getAriaDescribedBy } from '@/lib/utils/accessibility'
 
+/**
+ * Props for FormField component
+ */
 interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** Label text for the input field */
   label: string
+  /** Error message to display below the input */
   error?: string
+  /** Whether the field is required */
   required?: boolean
+  /** Custom field ID (auto-generated if not provided) */
   fieldId?: string
 }
 
-export default function FormField({
+/**
+ * Reusable form input field component with label, error display, and accessibility support
+ * Memoized to prevent unnecessary re-renders when parent form state changes
+ * 
+ * @example
+ * ```tsx
+ * <FormField
+ *   label="Email"
+ *   type="email"
+ *   required
+ *   error={errors.email?.message}
+ *   {...register('email')}
+ * />
+ * ```
+ */
+const FormField = memo(function FormField({
   label,
   error,
   required,
@@ -52,4 +75,8 @@ export default function FormField({
       )}
     </div>
   )
-}
+})
+
+FormField.displayName = 'FormField'
+
+export default FormField

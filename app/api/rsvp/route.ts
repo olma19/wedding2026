@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rsvpSchema } from '@/lib/validations/rsvp'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
-import { errorResponse, successResponse, handleRoute } from '@/lib/api/responseHelpers'
-import { handleValidationError, handleDatabaseError, handleUnknownError, ErrorCode } from '@/lib/api/errorHandler'
+import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
+import { handleDatabaseError, ErrorCode } from '@/lib/api/errorHandler'
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,9 +13,10 @@ export async function POST(request: NextRequest) {
     
     if (!supabaseUrl || !supabaseServiceKey) {
       console.error('Missing Supabase environment variables')
-      return NextResponse.json(
-        { error: 'Server configuration error', details: 'Database not configured. Please check environment variables.' },
-        { status: 500 }
+      return errorResponse(
+        'Serverkonfigurationsfel',
+        'Databasen är inte konfigurerad. Kontrollera miljövariabler.',
+        500
       )
     }
 
@@ -24,9 +25,10 @@ export async function POST(request: NextRequest) {
       body = await request.json()
     } catch (parseError) {
       console.error('JSON parse error:', parseError)
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body', details: parseError instanceof Error ? parseError.message : 'Unknown parse error' },
-        { status: 400 }
+      return errorResponse(
+        'Ogiltig JSON i request body',
+        parseError instanceof Error ? parseError.message : 'Okänt parse-fel',
+        400
       )
     }
     
@@ -62,8 +64,6 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error) {
-      console.error('Supabase error:', error)
-      
       // Check for DNS/connection errors
       if (error.message?.includes('ENOTFOUND') || error.message?.includes('fetch failed')) {
         return errorResponse(
@@ -73,15 +73,21 @@ export async function POST(request: NextRequest) {
         )
       }
       
-      return errorResponse('Kunde inte spara OSA', error.message, 500)
+      // Use handleDatabaseError for consistent error handling
+      const dbErrorResponse = handleDatabaseError(error)
+      return errorResponse(
+        dbErrorResponse.error?.error || 'Kunde inte spara OSA',
+        dbErrorResponse.error?.details || error.message,
+        500
+      )
     }
 
     return successResponse({ message: 'OSA skickad framgångsrikt', data }, 201)
   } catch (error) {
-    console.error('Unexpected error in POST:', error)
+    const unknownErrorResponse = handleDatabaseError(error)
     return errorResponse(
-      'Internt serverfel',
-      error instanceof Error ? error.message : 'Okänt fel',
+      unknownErrorResponse.error?.error || 'Internt serverfel',
+      unknownErrorResponse.error?.details || (error instanceof Error ? error.message : 'Okänt fel'),
       500
     )
   }
@@ -103,8 +109,6 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error('Supabase error:', error)
-      
       // Check for DNS/connection errors
       if (error.message?.includes('ENOTFOUND') || error.message?.includes('fetch failed')) {
         return errorResponse(
@@ -114,15 +118,21 @@ export async function GET(request: NextRequest) {
         )
       }
       
-      return errorResponse('Kunde inte hämta OSA', error.message, 500)
+      // Use handleDatabaseError for consistent error handling
+      const dbErrorResponse = handleDatabaseError(error)
+      return errorResponse(
+        dbErrorResponse.error?.error || 'Kunde inte hämta OSA',
+        dbErrorResponse.error?.details || error.message,
+        500
+      )
     }
 
     return successResponse({ data }, 200)
   } catch (error) {
-    console.error('Unexpected error in GET:', error)
+    const unknownErrorResponse = handleDatabaseError(error)
     return errorResponse(
-      'Internt serverfel',
-      error instanceof Error ? error.message : 'Okänt fel',
+      unknownErrorResponse.error?.error || 'Internt serverfel',
+      unknownErrorResponse.error?.details || (error instanceof Error ? error.message : 'Okänt fel'),
       500
     )
   }

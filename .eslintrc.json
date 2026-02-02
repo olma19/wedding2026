@@ -1,3 +1,20 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "JSXAttribute[name.name='className'] > JSXExpressionContainer > TemplateLiteral[expressions.length>1]",
+        "message": "Use classNames() utility instead of template literals with multiple expressions for className. Import from '@/lib/utils/classNames'"
+      },
+      {
+        "selector": "JSXAttribute[name.name='className'] > JSXExpressionContainer > TemplateLiteral[quasis.0.value.raw.length>0][expressions.length>0]",
+        "message": "Use classNames() utility instead of template literals with string parts for className. Import from '@/lib/utils/classNames'"
+      },
+      {
+        "selector": "JSXAttribute[name.name='className'] > JSXExpressionContainer > TemplateLiteral[quasis.1.value.raw.length>0][expressions.length>0]",
+        "message": "Use classNames() utility instead of template literals with string parts for className. Import from '@/lib/utils/classNames'"
+      }
+    ]
+  }
 }

@@ -1,20 +1,22 @@
 'use client'
 
+import { lazy, Suspense } from 'react'
 import { getEnabledSections } from '@/config/sections'
 import type { ComponentType } from 'react'
+import LoadingSpinner from '../LoadingSpinner'
 
-// Import all section components directly
-import CountdownSection from './CountdownSection'
-import StorySection from './StorySection'
-import WeddingDetailsSection from './WeddingDetailsSection'
-import VigselSection from './VigselSection'
-import AddressSection from './AddressSection'
-import DinnerPartySection from './DinnerPartySection'
-import DressCodeSection from './DressCodeSection'
-import GoodToKnowSection from './GoodToKnowSection'
-import ToastmasterSection from './ToastmasterSection'
-import OSASection from './OSASection'
-import RSVPSection from './RSVPSection'
+// Lazy load heavy sections for code splitting
+const CountdownSection = lazy(() => import('./CountdownSection'))
+const StorySection = lazy(() => import('./StorySection'))
+const WeddingDetailsSection = lazy(() => import('./WeddingDetailsSection'))
+const VigselSection = lazy(() => import('./VigselSection'))
+const AddressSection = lazy(() => import('./AddressSection'))
+const DinnerPartySection = lazy(() => import('./DinnerPartySection'))
+const DressCodeSection = lazy(() => import('./DressCodeSection'))
+const GoodToKnowSection = lazy(() => import('./GoodToKnowSection'))
+const ToastmasterSection = lazy(() => import('./ToastmasterSection'))
+const OSASection = lazy(() => import('./OSASection'))
+const RSVPSection = lazy(() => import('./RSVPSection'))
 
 // Component mapping
 const componentMap: Record<string, ComponentType<any>> = {
@@ -46,7 +48,18 @@ export default function SectionRegistry() {
           console.warn(`Section component not found for id: ${section.id}`)
           return null
         }
-        return <SectionComponent key={section.id} />
+        return (
+          <Suspense
+            key={section.id}
+            fallback={
+              <div className="flex items-center justify-center py-20">
+                <LoadingSpinner size="medium" />
+              </div>
+            }
+          >
+            <SectionComponent />
+          </Suspense>
+        )
       })}
     </>
   )

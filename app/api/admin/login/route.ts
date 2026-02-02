@@ -1,5 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
+import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
+import { ErrorCode } from '@/lib/api/errorHandler'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'wedding2026'
 
@@ -14,10 +16,7 @@ export async function POST(request: NextRequest) {
     const { password } = body
 
     if (password !== ADMIN_PASSWORD) {
-      return NextResponse.json(
-        { error: 'Fel lösenord' },
-        { status: 401 }
-      )
+      return errorResponse('Fel lösenord', undefined, 401)
     }
 
     // Create session token
@@ -33,17 +32,26 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
 
-    return NextResponse.json({ success: true })
+    return successResponse({ success: true })
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    return errorResponse(
+      'Internt serverfel',
+      error instanceof Error ? error.message : 'Okänt fel',
+      500
     )
   }
 }
 
 export async function DELETE() {
-  const cookieStore = await cookies()
-  cookieStore.delete('admin_session')
-  return NextResponse.json({ success: true })
+  try {
+    const cookieStore = await cookies()
+    cookieStore.delete('admin_session')
+    return successResponse({ success: true })
+  } catch (error) {
+    return errorResponse(
+      'Kunde inte logga ut',
+      error instanceof Error ? error.message : 'Okänt fel',
+      500
+    )
+  }
 }

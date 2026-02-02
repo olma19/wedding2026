@@ -85,13 +85,14 @@ export async function GET() {
       ? 'error'
       : 'partial'
 
-  return NextResponse.json(
-    {
-      status: overallStatus,
-      ...results,
-    },
-    {
-      status: overallStatus === 'success' ? 200 : overallStatus === 'error' ? 500 : 200,
-    }
-  )
+  // For test route, we always return diagnostic data (even on errors)
+  // This is a special case - we want to show diagnostic info regardless of status
+  const responseData = {
+    status: overallStatus,
+    ...results,
+  }
+  
+  // Always return 200 with diagnostic data, even if there are errors
+  // The status field in the response indicates success/error/partial
+  return NextResponse.json(responseData, { status: 200 })
 }

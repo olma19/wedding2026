@@ -22,32 +22,79 @@ A beautiful, informative wedding landing page built with Next.js, featuring RSVP
 
 ```
 wedding2026/
-├── app/
-│   ├── api/              # API routes for RSVP submission
-│   ├── decorations/      # Decoration showcase page
-│   └── page.tsx          # Main landing page
-├── components/
-│   ├── forms/            # Form components (FormField, PersonFormSection, etc.)
-│   ├── sections/         # Section components (HeroSection, RSVPSection, etc.)
-│   └── ...               # Other components (FlowerDecoration, SectionTitle, etc.)
-├── config/               # Configuration files (wedding.ts)
-├── docs/                 # Documentation (ARCHITECTURE.md, COMPONENTS.md)
-├── hooks/                # Custom React hooks
-├── lib/
-│   ├── api/              # API utilities (errorHandler, responseHelpers)
-│   ├── colors/           # Color scheme utilities (gradients)
-│   ├── decorations/      # Decoration utilities (variations)
-│   └── utils/            # General utilities (classNames, stringHelpers, dateHelpers)
-├── types/                # TypeScript type definitions
-└── public/               # Static assets
+├── app/                      # Next.js App Router
+│   ├── api/                  # API routes (RSVP, admin, test)
+│   ├── decorations/          # Decoration showcase page
+│   ├── layout.tsx            # Root layout
+│   └── page.tsx              # Main landing page
+├── components/               # React components
+│   ├── forms/                # Form components
+│   │   ├── FormField.tsx     # Reusable form input
+│   │   ├── PersonFormSection.tsx
+│   │   ├── GuestCountSelector.tsx
+│   │   └── SuccessMessage.tsx
+│   ├── sections/             # Page section components
+│   │   ├── SectionWrapper.tsx  # Reusable section wrapper
+│   │   ├── SectionRegistry.tsx  # Dynamic section rendering
+│   │   ├── HeroSection.tsx
+│   │   ├── RSVPSection.tsx
+│   │   └── ...                # Other sections
+│   ├── ui/                   # Reusable UI components
+│   │   ├── Button.tsx
+│   │   ├── LinkButton.tsx
+│   │   ├── ContactLink.tsx
+│   │   └── SectionDivider.tsx
+│   ├── FlowerDecoration.tsx  # Decoration dispatcher
+│   ├── LeafDecoration.tsx    # Leaf decoration component
+│   ├── SectionTitle.tsx      # Section title with decorations
+│   ├── CountdownTimer.tsx    # Countdown display
+│   ├── StickyCountdown.tsx   # Sticky header countdown
+│   └── ...                   # Other components
+├── config/                   # Configuration files
+│   ├── wedding.ts            # Wedding configuration
+│   └── sections.ts           # Section configuration
+├── docs/                     # Documentation
+│   ├── ARCHITECTURE.md       # Architecture overview
+│   ├── COMPONENTS.md         # Component API docs
+│   └── hooks.md              # Custom hooks documentation
+├── hooks/                    # Custom React hooks
+│   ├── useSectionColors.ts
+│   ├── useFormGradients.ts
+│   ├── useRSVPSubmission.ts
+│   └── useDecorationCounter.ts
+├── lib/                      # Library utilities
+│   ├── api/                  # API utilities
+│   │   ├── errorHandler.ts   # Error handling
+│   │   └── responseHelpers.ts
+│   ├── colors/               # Color scheme utilities
+│   │   └── gradients.ts      # Form gradients
+│   ├── decorations/          # Decoration utilities
+│   │   └── variations.ts     # Decoration variation logic
+│   └── utils/                # General utilities
+│       ├── classNames.ts     # Class name utilities
+│       ├── stringHelpers.ts  # String manipulation
+│       ├── dateHelpers.ts    # Date formatting
+│       ├── accessibility.ts  # Accessibility helpers
+│       ├── validation.ts     # Validation functions
+│       └── index.ts          # Barrel exports
+├── types/                    # TypeScript type definitions
+│   ├── sections.ts           # Section-related types
+│   ├── decorations.ts        # Decoration types
+│   ├── forms.ts              # Form types
+│   ├── rsvp.ts               # RSVP types
+│   └── wedding.ts            # Wedding config types
+└── public/                   # Static assets
+    └── decorations/          # SVG decoration assets
 ```
 
 ## Documentation
 
 - **[Architecture Overview](./docs/ARCHITECTURE.md)** - Project structure and design decisions
 - **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
+- **[Hooks Documentation](./docs/hooks.md)** - Custom React hooks guide
 - **[Refactoring Plan](./REFACTORING_PLAN.md)** - Refactoring tasks and progress
 - **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements
+- **[Decoration Guide](./DECORATION_GUIDE.md)** - Decoration system documentation
 
 ## Getting Started
 

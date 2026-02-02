@@ -7,6 +7,23 @@ import ScrollAnimation from '../ScrollAnimation'
 import type { SectionWrapperProps } from '@/types/sections'
 import { classNames } from '@/lib/utils/classNames'
 
+/**
+ * Reusable wrapper component for page sections
+ * Provides consistent structure, decorations, backgrounds, and scroll animations
+ * 
+ * @example
+ * ```tsx
+ * <SectionWrapper
+ *   title="My Section"
+ *   background="white"
+ *   decorations={[
+ *     { position: 'top-right', size: 'small', opacity: 0.2 }
+ *   ]}
+ * >
+ *   <p>Section content</p>
+ * </SectionWrapper>
+ * ```
+ */
 export default function SectionWrapper({
   children,
   title,
@@ -65,7 +82,10 @@ export default function SectionWrapper({
         }
 
         const opacity = decoration.opacity ?? 0.2
-        const rotation = decoration.rotation ?? (rotationClasses[decoration.position] || '')
+        const rotationValue = decoration.rotation ?? (rotationClasses[decoration.position] || '')
+        const rotation = typeof rotationValue === 'number' 
+          ? `rotate-${rotationValue}` 
+          : rotationValue || ''
         
         return (
           <div
@@ -87,7 +107,7 @@ export default function SectionWrapper({
         )
       })}
 
-      <div className={`container mx-auto max-w-4xl relative z-10 ${containerClassName}`}>
+      <div className={classNames('container mx-auto max-w-4xl relative z-10', containerClassName)}>
         {title && (
           <SectionTitle title={title} flowerVariant={titleVariant} />
         )}

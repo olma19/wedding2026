@@ -78,47 +78,42 @@ export default function StickyCountdown() {
       }`}
     >
       <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-center gap-6 md:gap-8">
-          <span className="text-sm md:text-base font-serif text-gray-700 hidden md:inline">
-            {weddingConfig.date.fullDate}
-          </span>
-          <div className="flex items-center gap-3 md:gap-6">
-            <div className="text-center">
-              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
-                {String(timeLeft.days).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-gray-600">D</div>
+        <div className="flex items-center justify-center gap-3 md:gap-6">
+          <div className="text-center">
+            <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
+              {String(timeLeft.days).padStart(2, '0')}
             </div>
-            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
-              <span className="hidden md:inline">:</span>
-              <span className="md:hidden">·</span>
+            <div className="text-xs text-gray-600">D</div>
+          </div>
+          <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+            <span className="hidden md:inline">:</span>
+            <span className="md:hidden">·</span>
+          </div>
+          <div className="text-center">
+            <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
+              {String(timeLeft.hours).padStart(2, '0')}
             </div>
-            <div className="text-center">
-              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
-                {String(timeLeft.hours).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-gray-600">H</div>
+            <div className="text-xs text-gray-600">H</div>
+          </div>
+          <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+            <span className="hidden md:inline">:</span>
+            <span className="md:hidden">·</span>
+          </div>
+          <div className="text-center">
+            <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
+              {String(timeLeft.minutes).padStart(2, '0')}
             </div>
-            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
-              <span className="hidden md:inline">:</span>
-              <span className="md:hidden">·</span>
+            <div className="text-xs text-gray-600">M</div>
+          </div>
+          <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+            <span className="hidden md:inline">:</span>
+            <span className="md:hidden">·</span>
+          </div>
+          <div className="text-center">
+            <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
+              {String(timeLeft.seconds).padStart(2, '0')}
             </div>
-            <div className="text-center">
-              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
-                {String(timeLeft.minutes).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-gray-600">M</div>
-            </div>
-            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
-              <span className="hidden md:inline">:</span>
-              <span className="md:hidden">·</span>
-            </div>
-            <div className="text-center">
-              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
-                {String(timeLeft.seconds).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-gray-600">S</div>
-            </div>
+            <div className="text-xs text-gray-600">S</div>
           </div>
         </div>
       </div>

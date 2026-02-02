@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 import { useColors } from './ColorSchemeProvider'
 
 interface DetailCardProps {
@@ -10,7 +10,11 @@ interface DetailCardProps {
   mainText: string
 }
 
-export default function DetailCard({ icon, title, subtitle, mainText }: DetailCardProps) {
+/**
+ * Card component for displaying details with icon, title, and text
+ * Memoized to prevent unnecessary re-renders
+ */
+const DetailCard = memo(function DetailCard({ icon, title, subtitle, mainText }: DetailCardProps) {
   const colors = useColors()
   
   return (
@@ -23,4 +27,8 @@ export default function DetailCard({ icon, title, subtitle, mainText }: DetailCa
       <p className={`text-base font-bold ${colors.text} transition-all duration-300 group-hover:scale-110`}>{mainText}</p>
     </div>
   )
-}
+})
+
+DetailCard.displayName = 'DetailCard'
+
+export default DetailCard

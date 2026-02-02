@@ -1,6 +1,6 @@
 'use client'
 
-import { useColors } from '../ColorSchemeProvider'
+import Button from '@/components/ui/Button'
 
 interface GuestCountSelectorProps {
   value: number
@@ -15,8 +15,6 @@ export default function GuestCountSelector({
   onChange,
   disabled = false,
 }: GuestCountSelectorProps) {
-  const colors = useColors()
-
   return (
     <div className="mb-6">
       <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -24,19 +22,16 @@ export default function GuestCountSelector({
       </label>
       <div className="flex flex-wrap gap-2 justify-center">
         {GUEST_COUNT_OPTIONS.map((n) => (
-          <button
+          <Button
             key={n}
             type="button"
             onClick={() => onChange(n)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-              value === n
-                ? `${colors.bgDark} text-white shadow-md`
-                : `bg-white text-gray-700 border-2 border-gray-300 ${colors.borderHover} ${colors.bgLightHover}`
-            } disabled:opacity-50 disabled:cursor-not-allowed`}
+            variant={value === n ? 'primary' : 'secondary'}
+            size="sm"
             disabled={disabled}
           >
             {n}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
