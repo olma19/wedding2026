@@ -12,11 +12,13 @@ A beautiful, informative wedding landing page built with Next.js, featuring RSVP
 
 ## Tech Stack
 
-- **Framework**: Next.js (App Router)
-- **Language**: TypeScript
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript (strict mode enabled)
 - **Styling**: Tailwind CSS
 - **Form Management**: React Hook Form + Zod
-- **Backend**: Supabase (PostgreSQL database, Auth, Storage)
+- **Backend**: Supabase (PostgreSQL database)
+- **Testing**: Vitest + React Testing Library
+- **Code Quality**: ESLint + Prettier
 
 ## Project Structure
 
@@ -92,9 +94,12 @@ wedding2026/
 - **[Architecture Overview](./docs/ARCHITECTURE.md)** - Project structure and design decisions
 - **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
 - **[Hooks Documentation](./docs/hooks.md)** - Custom React hooks guide
+- **[Image Patterns](./docs/IMAGE_PATTERNS.md)** - Next.js Image component patterns and best practices
 - **[Refactoring Plan](./REFACTORING_PLAN.md)** - Refactoring tasks and progress
+- **[Refactoring Summary](./REFACTORING_SUMMARY.md)** - Summary of completed refactoring work
 - **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements
 - **[Decoration Guide](./DECORATION_GUIDE.md)** - Decoration system documentation
+- **[Troubleshooting Guide](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
 ## Getting Started
 
@@ -142,6 +147,34 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev          # Start development server
+
+# Building
+npm run build        # Build for production
+npm run start        # Start production server
+
+# Code Quality
+npm run lint         # Run ESLint
+npm run format       # Format code with Prettier
+npm run format:check # Check formatting without modifying files
+
+# Testing
+npm run test         # Run tests in watch mode
+npm run test:run     # Run tests once
+npm run test:ui      # Run tests with UI
+npm run test:coverage # Run tests with coverage report
+```
+
+### Type Checking
+
+```bash
+npx tsc --noEmit     # Check TypeScript types without building
+```
 
 ## Deployment
 

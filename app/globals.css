@@ -20,6 +20,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Note: All custom CSS is properly scoped and doesn't conflict with Tailwind:
+ * - Animations use unique class names
+ * - CSS variables are used for theming
+ * - Only one media query for dark mode preference (doesn't conflict with Tailwind breakpoints)
+ * - Custom utilities are in @layer utilities to work with Tailwind's specificity
+ */
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
