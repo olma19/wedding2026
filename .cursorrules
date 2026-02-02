@@ -4,78 +4,630 @@
 A Next.js wedding landing page with RSVP functionality and food allergy collection.
 
 ## Tech Stack
-- **Framework**: Next.js (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS (recommended for modern UI)
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript 5+
+- **Styling**: Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
 - **Backend**: Supabase (Database, Auth, Storage)
 - **Form Handling**: React Hook Form with Zod validation
 
-## Code Style & Best Practices
+---
 
-### General
-- Use TypeScript for type safety
-- Follow Next.js 14+ App Router conventions
-- Use functional components with hooks
-- Prefer server components by default, use 'use client' only when needed
-- Keep components small and focused
-- Use meaningful variable and function names
+## 🎯 Next.js App Router Best Practices
 
-### File Structure
-- Use Next.js App Router structure (`app/` directory)
-- Components in `components/` directory
-- Types/interfaces in `types/` directory
-- Utilities in `lib/` or `utils/` directory
-- API routes in `app/api/` directory
+### Server vs Client Components
 
-### Styling
-- Use Tailwind CSS utility classes
-- Create reusable component styles
-- Ensure responsive design (mobile-first approach)
-- Maintain consistent spacing and typography
+**Default to Server Components:**
+- ✅ Use Server Components by default (no 'use client' directive)
+- ✅ Server Components can directly access backend resources (Supabase server client)
+- ✅ Server Components reduce JavaScript bundle size
+- ✅ Server Components improve SEO and initial page load
 
-### Forms & Validation
-- Use React Hook Form for form management
-- Validate with Zod schemas
-- Provide clear error messages
-- Show loading states during submission
-- Handle errors gracefully
+**Use Client Components Only When Needed:**
+- ✅ Interactive features (onClick, onChange, useState, useEffect)
+- ✅ Browser APIs (localStorage, window, document)
+- ✅ React hooks (useState, useEffect, useRef, useContext)
+- ✅ Event listeners
+- ✅ Third-party libraries that require client-side rendering
 
-### Data Handling
-- Use Supabase client for database operations
-- Store RSVP data in Supabase PostgreSQL database
-- Use Supabase Row Level Security (RLS) for data protection
-- Validate all user inputs with Zod before database operations
-- Sanitize data before storage
-- Use Supabase server-side client in API routes
-- Consider rate limiting for API endpoints
+**Pattern:**
+```typescript
+// ✅ Good: Server Component (default)
+export default function Section() {
+  const data = await fetchData() // Can use async/await
+  return <div>{data}</div>
+}
 
-### Accessibility
-- Use semantic HTML
-- Include proper ARIA labels
-- Ensure keyboard navigation
-- Maintain sufficient color contrast
-- Test with screen readers
+// ✅ Good: Client Component (when needed)
+'use client'
+export default function InteractiveButton() {
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount(count + 1)}>{count}</button>
+}
 
-### Performance
-- Optimize images (use Next.js Image component)
-- Implement lazy loading where appropriate
-- Minimize bundle size
-- Use server components when possible
+// ✅ Good: Composition - Server Component wrapping Client Component
+export default function Page() {
+  return (
+    <div>
+      <ServerContent />
+      <ClientInteractiveComponent />
+    </div>
+  )
+}
+```
 
-### Security
-- Never expose sensitive data in client components
-- Validate and sanitize all inputs
-- Use environment variables for secrets
-- Implement CSRF protection for forms
+### Data Fetching
 
-## Component Guidelines
-- One component per file
-- Export components as default
-- Use TypeScript interfaces for props
-- Include JSDoc comments for complex components
+**Server Components:**
+- ✅ Use async/await directly in Server Components
+- ✅ Fetch data at the component level, not in useEffect
+- ✅ Use Supabase server client (`lib/supabase/server.ts`) in Server Components
+- ✅ Revalidate data when needed using `revalidate` or `revalidatePath`
+
+**Client Components:**
+- ✅ Use React Query or SWR for client-side data fetching
+- ✅ Or use Server Actions for mutations
+- ❌ Don't fetch data in useEffect for initial render (use Server Components)
+
+**Pattern:**
+```typescript
+// ✅ Good: Server Component data fetching
+export default async function RSVPList() {
+  const { data } = await supabaseServer.from('rsvps').select()
+  return <div>{/* render data */}</div>
+}
+
+// ✅ Good: Server Action for mutations
+'use server'
+export async function submitRSVP(formData: FormData) {
+  // Server-side logic
+}
+```
+
+### Route Handlers (API Routes)
+
+**Best Practices:**
+- ✅ Use Route Handlers (`app/api/route.ts`) for external API integrations
+- ✅ Use Server Actions for form submissions and mutations (preferred)
+- ✅ Always validate input with Zod before processing
+- ✅ Return proper HTTP status codes (200, 400, 401, 500)
+- ✅ Use consistent error response format
+- ✅ Implement rate limiting for public endpoints
+- ✅ Use Supabase service role key only in API routes, never expose to client
+
+**Pattern:**
+```typescript
+// ✅ Good: Route Handler
+export async function POST(request: Request) {
+  try {
+    const body = await request.json()
+    const validated = schema.parse(body)
+    // Process...
+    return NextResponse.json({ success: true }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Invalid request' },
+      { status: 400 }
+    )
+  }
+}
+
+// ✅ Better: Server Action (for forms)
+'use server'
+export async function submitForm(formData: FormData) {
+  const data = Object.fromEntries(formData)
+  const validated = schema.parse(data)
+  // Process...
+}
+```
+
+### Images & Assets
+
+**Image Optimization:**
+- ✅ Always use `next/image` component, never `<img>` tag
+- ✅ Provide `width` and `height` or use `fill` with parent container
+- ✅ Use `priority` prop for above-the-fold images
+- ✅ Use `sizes` prop for responsive images
+- ✅ Use appropriate `quality` (default 75, can go lower for decorative images)
+- ✅ Prefer WebP format when possible
+
+**Pattern:**
+```typescript
+// ✅ Good: Next.js Image
+import Image from 'next/image'
+
+<Image
+  src="/images/couple.jpg"
+  alt="Couple photo"
+  width={1920}
+  height={1080}
+  priority // For hero images
+  sizes="100vw"
+  className="object-cover"
+/>
+
+// ✅ Good: Fill image
+<div className="relative w-full h-64">
+  <Image
+    src="/images/bg.jpg"
+    alt="Background"
+    fill
+    className="object-cover"
+    sizes="100vw"
+  />
+</div>
+```
+
+### Metadata & SEO
+
+**Static Metadata:**
+- ✅ Export `metadata` object from layout.tsx and page.tsx
+- ✅ Include title, description, openGraph, twitter cards
+- ✅ Use dynamic metadata when needed with `generateMetadata` function
+
+**Pattern:**
+```typescript
+// ✅ Good: Static metadata
+export const metadata: Metadata = {
+  title: 'Wedding 2026',
+  description: 'Join us for our special day',
+  openGraph: {
+    title: 'Wedding 2026',
+    description: 'Join us for our special day',
+    images: ['/images/og-image.jpg'],
+  },
+}
+
+// ✅ Good: Dynamic metadata
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `${couple.name1} & ${couple.name2} Wedding`,
+  }
+}
+```
+
+### Loading & Error States
+
+**Loading States:**
+- ✅ Create `loading.tsx` files for automatic loading UI
+- ✅ Use Suspense boundaries for granular loading states
+- ✅ Show skeleton loaders, not just spinners
+- ✅ Use `loading.tsx` in route segments
+
+**Error Handling:**
+- ✅ Create `error.tsx` files for error boundaries
+- ✅ Use `error.tsx` with error and reset props
+- ✅ Log errors appropriately (server-side)
+- ✅ Show user-friendly error messages
+
+**Pattern:**
+```typescript
+// ✅ Good: loading.tsx
+export default function Loading() {
+  return <div>Loading...</div>
+}
+
+// ✅ Good: error.tsx
+'use client'
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button onClick={() => reset()}>Try again</button>
+    </div>
+  )
+}
+```
+
+### Caching & Revalidation
+
+**Caching Strategy:**
+- ✅ Use `cache()` for request deduplication
+- ✅ Use `unstable_cache` for custom caching
+- ✅ Understand `fetch` caching options (default, no-store, force-cache)
+- ✅ Use `revalidate` for time-based revalidation
+- ✅ Use `revalidatePath` or `revalidateTag` for on-demand revalidation
+
+**Pattern:**
+```typescript
+// ✅ Good: Cached data fetching
+import { cache } from 'react'
+
+export const getWeddingData = cache(async () => {
+  const data = await fetch('...', { next: { revalidate: 3600 } })
+  return data.json()
+})
+```
+
+---
+
+## 📁 File Structure & Organization
+
+### Directory Structure
+```
+app/
+  ├── (routes)/          # Route groups (optional)
+  ├── api/               # API routes
+  │   └── [route]/route.ts
+  ├── layout.tsx         # Root layout
+  ├── page.tsx           # Home page
+  ├── loading.tsx        # Loading UI
+  ├── error.tsx          # Error boundary
+  └── not-found.tsx     # 404 page
+
+components/
+  ├── sections/          # Page sections
+  ├── forms/             # Form components
+  ├── decorations/       # Decoration components
+  └── [shared]/          # Shared components
+
+lib/
+  ├── supabase/          # Supabase clients
+  ├── validations/       # Zod schemas
+  ├── colors/            # Color utilities
+  └── utils/             # General utilities
+
+types/                   # TypeScript types
+config/                  # Configuration files
+hooks/                   # Custom React hooks
+```
+
+### Naming Conventions
+- ✅ Use PascalCase for components: `RSVPForm.tsx`
+- ✅ Use camelCase for utilities: `formatDate.ts`
+- ✅ Use kebab-case for routes: `app/rsvp/page.tsx`
+- ✅ Use descriptive names: `PersonFormSection.tsx` not `Form1.tsx`
+- ✅ Prefix hooks with `use`: `useColors.ts`
+- ✅ Prefix types/interfaces appropriately: `RSVPFormData`, `SectionProps`
+
+---
+
+## 🎨 Component Best Practices
+
+### Component Structure
+```typescript
+// ✅ Good: Well-structured component
+'use client' // Only if needed
+
+import { useState } from 'react'
+import type { ComponentProps } from './types'
+
+interface Props {
+  title: string
+  onSubmit: (data: FormData) => void
+}
+
+export default function Component({ title, onSubmit }: Props) {
+  // 1. Hooks
+  const [state, setState] = useState()
+  
+  // 2. Event handlers
+  const handleSubmit = () => { /* ... */ }
+  
+  // 3. Render
+  return (
+    <div>
+      {/* JSX */}
+    </div>
+  )
+}
+```
+
+### Component Guidelines
+- ✅ One component per file
+- ✅ Export components as default
+- ✅ Use TypeScript interfaces for props (not types for props)
+- ✅ Keep components under 200 lines (extract sub-components)
+- ✅ Extract complex logic into custom hooks
+- ✅ Use composition over prop drilling
+- ✅ Include JSDoc comments for complex components
+- ✅ Co-locate related components (e.g., `FormField.tsx` and `FormField.test.tsx`)
+
+### Props & Types
+```typescript
+// ✅ Good: Interface for props
+interface ButtonProps {
+  children: React.ReactNode
+  onClick: () => void
+  variant?: 'primary' | 'secondary'
+  disabled?: boolean
+}
+
+// ✅ Good: Extend HTML attributes when needed
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string
+  error?: string
+}
+
+// ✅ Good: Use type for unions, interfaces for objects
+type Size = 'small' | 'medium' | 'large'
+interface ComponentProps {
+  size: Size
+}
+```
+
+---
+
+## 🔒 Security Best Practices
+
+### Environment Variables
+- ✅ Never commit `.env.local` or `.env`
+- ✅ Use `NEXT_PUBLIC_` prefix only for client-safe variables
+- ✅ Use server-only variables without prefix (never exposed to client)
+- ✅ Validate environment variables at startup
+- ✅ Use different keys for development and production
+
+### Input Validation
+- ✅ Always validate on server-side (Zod schemas)
+- ✅ Sanitize user input before database operations
+- ✅ Use parameterized queries (Supabase handles this)
+- ✅ Never trust client-side validation alone
+
+### API Security
+- ✅ Use Supabase RLS (Row Level Security) policies
+- ✅ Validate authentication in API routes
+- ✅ Implement rate limiting for public endpoints
+- ✅ Use CSRF tokens for state-changing operations
+- ✅ Never expose service role keys to client
+
+---
+
+## ⚡ Performance Optimization
+
+### Code Splitting
+- ✅ Use dynamic imports for heavy components: `const Heavy = dynamic(() => import('./Heavy'))`
+- ✅ Lazy load components below the fold
+- ✅ Split large libraries (import only what you need)
+
+### Bundle Optimization
+- ✅ Use `next/dynamic` with `ssr: false` for client-only components
+- ✅ Avoid importing entire libraries (use tree-shaking)
+- ✅ Use React.memo for expensive components
+- ✅ Use useMemo/useCallback appropriately (don't overuse)
+
+### Rendering Optimization
+- ✅ Use Server Components to reduce client bundle
+- ✅ Implement proper loading states (avoid layout shift)
+- ✅ Optimize images (next/image handles this)
+- ✅ Use `font-display: swap` for web fonts
+- ✅ Minimize re-renders with proper state management
+
+---
+
+## 🧪 TypeScript Best Practices
+
+### Type Safety
+- ✅ Use `strict: true` in tsconfig.json
+- ✅ Avoid `any` type (use `unknown` if needed)
+- ✅ Use type guards for runtime validation
+- ✅ Prefer interfaces for object shapes
+- ✅ Use type aliases for unions/primitives
+- ✅ Export types from `types/` directory
+
+### Type Patterns
+```typescript
+// ✅ Good: Proper typing
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+// ✅ Good: Type guards
+function isUser(obj: unknown): obj is User {
+  return typeof obj === 'object' && obj !== null && 'id' in obj
+}
+
+// ✅ Good: Utility types
+type PartialUser = Partial<User>
+type UserEmail = Pick<User, 'email'>
+```
+
+---
+
+## 🎯 Code Style & Conventions
+
+### General Rules
+- ✅ Use functional components with hooks
+- ✅ Use meaningful variable and function names
+- ✅ Keep functions small and focused (single responsibility)
+- ✅ Extract magic numbers/strings to constants
+- ✅ Use early returns to reduce nesting
+- ✅ Prefer const over let, avoid var
+
+### Tailwind CSS
+- ✅ Use utility classes, avoid inline styles
+- ✅ Create reusable component classes when needed
+- ✅ Use responsive prefixes (sm:, md:, lg:)
+- ✅ Mobile-first approach
+- ✅ Use arbitrary values sparingly: `bg-[#custom]`
+- ✅ Extract repeated patterns to component classes
+
+### Comments & Documentation
+- ✅ Write self-documenting code (clear names > comments)
+- ✅ Add JSDoc for complex functions/components
+- ✅ Comment "why" not "what"
+- ✅ Keep comments up-to-date with code changes
+- ✅ Remove commented-out code before committing
+
+---
+
+## 🧩 React Patterns
+
+### Hooks Best Practices
+- ✅ Follow Rules of Hooks (top-level only, same order)
+- ✅ Extract custom hooks for reusable logic
+- ✅ Use useMemo for expensive calculations
+- ✅ Use useCallback for stable function references (when passing to memoized children)
+- ✅ Clean up effects (return cleanup function)
+- ✅ Don't overuse useMemo/useCallback (profile first)
+
+### State Management
+- ✅ Use useState for local component state
+- ✅ Use useReducer for complex state logic
+- ✅ Use Context for shared state (avoid prop drilling)
+- ✅ Consider Zustand/Jotai for global state if needed
+- ✅ Keep state as close to usage as possible
+
+### Event Handlers
+- ✅ Use descriptive handler names: `handleSubmit`, `onClick`
+- ✅ Extract complex handlers to separate functions
+- ✅ Use arrow functions or useCallback appropriately
+- ✅ Pass event handlers as props with `on` prefix: `onClick`, `onChange`
+
+---
+
+## 📝 Forms & Validation
+
+### React Hook Form
+- ✅ Use React Hook Form for all forms
+- ✅ Validate with Zod schemas (@hookform/resolvers)
+- ✅ Show field-level errors
+- ✅ Disable submit button during submission
+- ✅ Show loading states
+- ✅ Handle success/error states gracefully
+
+### Form Patterns
+```typescript
+// ✅ Good: Form with validation
+const schema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1),
+})
+
+const { register, handleSubmit, formState: { errors } } = useForm({
+  resolver: zodResolver(schema),
+})
+
+// ✅ Good: Server Action integration
+const onSubmit = async (data: FormData) => {
+  'use server'
+  const validated = schema.parse(data)
+  // Process...
+}
+```
+
+---
+
+## 🗄️ Database & Supabase
+
+### Supabase Patterns
+- ✅ Use server client (`lib/supabase/server.ts`) in Server Components
+- ✅ Use client (`lib/supabase/client.ts`) only in Client Components
+- ✅ Always use RLS policies
+- ✅ Use transactions for multi-step operations
+- ✅ Handle errors properly (check error.code)
+- ✅ Use TypeScript types from Supabase CLI when possible
+
+### Query Patterns
+```typescript
+// ✅ Good: Server Component query
+const { data, error } = await supabaseServer
+  .from('rsvps')
+  .select('*')
+  .eq('attending', true)
+
+if (error) {
+  // Handle error
+}
+
+// ✅ Good: Error handling
+try {
+  const { data, error } = await supabaseServer.from('table').select()
+  if (error) throw error
+  return data
+} catch (error) {
+  console.error('Database error:', error)
+  throw new Error('Failed to fetch data')
+}
+```
+
+---
+
+## ♿ Accessibility (a11y)
+
+### Semantic HTML
+- ✅ Use semantic HTML elements (nav, main, section, article)
+- ✅ Use proper heading hierarchy (h1 → h2 → h3)
+- ✅ Include alt text for all images
+- ✅ Use labels for all form inputs
+- ✅ Use ARIA labels when semantic HTML isn't enough
+
+### Keyboard Navigation
+- ✅ Ensure all interactive elements are keyboard accessible
+- ✅ Use proper focus management
+- ✅ Skip links for main content
+- ✅ Visible focus indicators
+
+### Screen Readers
+- ✅ Test with screen readers
+- ✅ Use ARIA attributes appropriately
+- ✅ Provide text alternatives for icons
+- ✅ Announce dynamic content changes
+
+---
+
+## 🚀 Deployment & Production
+
+### Build Optimization
+- ✅ Run `next build` locally before deploying
+- ✅ Fix all TypeScript errors
+- ✅ Fix all ESLint warnings
+- ✅ Test production build locally: `next start`
+- ✅ Check bundle size with `@next/bundle-analyzer`
+
+### Environment Setup
+- ✅ Use different Supabase projects for dev/prod
+- ✅ Set up proper environment variables in deployment platform
+- ✅ Use preview deployments for testing
+- ✅ Monitor error logs in production
+
+---
+
+## 📚 Additional Resources
+
+### When to Use What
+- **Server Components**: Default choice, use for data fetching, static content
+- **Client Components**: Use for interactivity, browser APIs, hooks
+- **Server Actions**: Use for form submissions, mutations
+- **Route Handlers**: Use for external API integrations, webhooks
+- **Middleware**: Use for authentication, redirects, headers
+
+### Common Patterns
+- ✅ Colocate related files (component + types + styles)
+- ✅ Use barrel exports (`index.ts`) for cleaner imports
+- ✅ Create shared constants file for magic values
+- ✅ Use enums or const objects for fixed sets of values
+- ✅ Extract complex logic to utility functions
+
+---
+
+## 🔄 Refactoring Guidelines
+
+When refactoring:
+1. ✅ Start with highest impact changes (see REFACTORING_PLAN.md)
+2. ✅ Test thoroughly after each change
+3. ✅ Keep old code working during transition
+4. ✅ Update types and documentation
+5. ✅ Consider breaking changes carefully
+
+---
 
 ## Git Conventions
-- Use descriptive commit messages
-- Create feature branches for new functionality
-- Keep commits focused and atomic
+- ✅ Use descriptive commit messages
+- ✅ Create feature branches for new functionality
+- ✅ Keep commits focused and atomic
+- ✅ Write meaningful PR descriptions
+- ✅ Review code before merging
+
+---
+
+**Last Updated:** 2026-02-02
+**Next.js Version:** 14.2.5+
+**TypeScript Version:** 5.5.4+
