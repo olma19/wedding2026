@@ -1,10 +1,14 @@
+'use client'
+
 import FlowerDecoration from '../FlowerDecoration'
 import SectionTitle from '../SectionTitle'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
+import { useColors } from '../ColorSchemeProvider'
 
 export default function GoodToKnowSection() {
   const { goodToKnow } = weddingConfig
+  const colors = useColors()
 
   const items = [
     { title: 'Mat och dryck', content: goodToKnow.foodAndDrinks, icon: '🍽️' },
@@ -21,12 +25,12 @@ export default function GoodToKnowSection() {
   ]
 
   return (
-    <section className="relative py-20 px-4 bg-pink-50 overflow-hidden scroll-mt-20">
+    <section className={`relative py-20 px-4 ${colors.bgLight} overflow-hidden scroll-mt-20`}>
       <div className="absolute top-10 right-5 opacity-20 transform -rotate-12">
-        <FlowerDecoration size="medium" variant="flower" />
+        <FlowerDecoration size="medium" />
       </div>
       <div className="absolute bottom-10 left-10 opacity-20 transform rotate-45">
-        <FlowerDecoration size="small" variant="leaf" />
+        <FlowerDecoration size="small" />
       </div>
 
       <div className="container mx-auto max-w-4xl relative z-10">
@@ -35,7 +39,7 @@ export default function GoodToKnowSection() {
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {items.map((item, index) => (
             <ScrollAnimation key={item.title} delay={index * 100}>
-              <div className="bg-white rounded-xl shadow-md p-6 border border-pink-100 hover:shadow-lg transition-shadow">
+              <div className={`bg-white rounded-xl shadow-md p-6 border ${colors.borderLight} hover:shadow-lg transition-shadow`}>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
                   <span>{item.icon}</span>
                   {item.title}

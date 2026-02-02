@@ -23,7 +23,7 @@ export default function HeroSection() {
       
       {/* Floral decorations - subtle on dark overlay */}
       <div className="absolute top-10 left-10 opacity-20 transform rotate-12 animate-float pointer-events-none">
-        <FlowerDecoration size="large" variant="flower" />
+        <FlowerDecoration size="large" />
       </div>
       <div className="absolute top-20 right-20 opacity-15 transform -rotate-12 animate-float-slow pointer-events-none" style={{ animationDelay: '1s' }}>
         <FlowerDecoration size="medium" variant="branch" />
@@ -32,7 +32,7 @@ export default function HeroSection() {
         <FlowerDecoration size="medium" variant="leaf" />
       </div>
       <div className="absolute bottom-10 right-10 opacity-15 transform -rotate-45 animate-float-slow pointer-events-none" style={{ animationDelay: '3s' }}>
-        <FlowerDecoration size="large" variant="flower" />
+        <FlowerDecoration size="large" />
       </div>
       
       <div className="relative z-10 text-center px-4 pb-24 md:pb-32">

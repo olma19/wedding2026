@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { weddingConfig } from '@/config/wedding'
+import { useColors } from './ColorSchemeProvider'
 
 interface TimeLeft {
   days: number
@@ -14,6 +15,7 @@ export default function StickyCountdown() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [isVisible, setIsVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const colors = useColors()
 
   useEffect(() => {
     setMounted(true)
@@ -69,7 +71,7 @@ export default function StickyCountdown() {
 
   return (
     <div 
-      className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md border-b border-pink-100 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md border-b ${colors.borderLight} transition-all duration-500 ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 -translate-y-full pointer-events-none'
@@ -82,28 +84,37 @@ export default function StickyCountdown() {
           </span>
           <div className="flex items-center gap-3 md:gap-6">
             <div className="text-center">
-              <div className="text-lg md:text-2xl font-bold text-pink-600">
+              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
                 {String(timeLeft.days).padStart(2, '0')}
               </div>
               <div className="text-xs text-gray-600">D</div>
             </div>
-            <span className="text-pink-400 text-xl">:</span>
+            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+              <span className="hidden md:inline">:</span>
+              <span className="md:hidden">·</span>
+            </div>
             <div className="text-center">
-              <div className="text-lg md:text-2xl font-bold text-pink-600">
+              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
                 {String(timeLeft.hours).padStart(2, '0')}
               </div>
               <div className="text-xs text-gray-600">H</div>
             </div>
-            <span className="text-pink-400 text-xl">:</span>
+            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+              <span className="hidden md:inline">:</span>
+              <span className="md:hidden">·</span>
+            </div>
             <div className="text-center">
-              <div className="text-lg md:text-2xl font-bold text-pink-600">
+              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
                 {String(timeLeft.minutes).padStart(2, '0')}
               </div>
               <div className="text-xs text-gray-600">M</div>
             </div>
-            <span className="text-pink-400 text-xl">:</span>
+            <div className={`${colors.textMedium} text-sm md:text-xl flex items-center h-full`}>
+              <span className="hidden md:inline">:</span>
+              <span className="md:hidden">·</span>
+            </div>
             <div className="text-center">
-              <div className="text-lg md:text-2xl font-bold text-pink-600">
+              <div className={`text-lg md:text-2xl font-bold ${colors.text}`}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </div>
               <div className="text-xs text-gray-600">S</div>

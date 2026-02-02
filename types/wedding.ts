@@ -101,4 +101,8 @@ export interface WeddingConfig {
   toastmaster: Toastmaster
   /** OSA form: deadline and bus info */
   osa: OSA
+  /** Color scheme: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red' */
+  colorScheme?: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red'
+  /** Decoration type: 'flower' | 'leaf' - controls which decorations are used throughout the site */
+  decorationType?: 'flower' | 'leaf'
 }

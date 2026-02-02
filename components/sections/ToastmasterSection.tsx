@@ -1,24 +1,28 @@
+'use client'
+
 import Image from 'next/image'
 import FlowerDecoration from '../FlowerDecoration'
 import SectionTitle from '../SectionTitle'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
+import { useColors } from '../ColorSchemeProvider'
 
 export default function ToastmasterSection() {
   const { toastmaster } = weddingConfig
+  const colors = useColors()
   const people = toastmaster.people ?? []
 
   return (
     <section className="relative py-20 px-4 bg-white overflow-hidden scroll-mt-20">
       <div className="absolute top-10 left-5 opacity-20 transform rotate-12">
-        <FlowerDecoration size="medium" variant="flower" />
+        <FlowerDecoration size="medium" />
       </div>
       <div className="absolute bottom-5 right-10 opacity-20 transform -rotate-45">
         <FlowerDecoration size="small" variant="branch" />
       </div>
 
       <div className="container mx-auto max-w-4xl md:max-w-6xl relative z-10">
-        <SectionTitle title={toastmaster.title} flowerVariant="flower" />
+        <SectionTitle title={toastmaster.title} />
 
         <ScrollAnimation delay={0}>
           <p className="text-center text-lg text-gray-700 max-w-2xl mx-auto mb-8">
@@ -52,14 +56,14 @@ export default function ToastmasterSection() {
                 <div className="text-gray-600 text-sm space-y-1">
                   {person.phone && (
                     <p>
-                      <a href={`tel:${person.phone.replace(/\s/g, '')}`} className="hover:text-pink-600 transition-colors">
+                      <a href={`tel:${person.phone.replace(/\s/g, '')}`} className={`${colors.textHover} transition-colors`}>
                         {person.phone}
                       </a>
                     </p>
                   )}
                   {person.email && (
                     <p>
-                      <a href={`mailto:${person.email}`} className="hover:text-pink-600 transition-colors">
+                      <a href={`mailto:${person.email}`} className={`${colors.textHover} transition-colors`}>
                         {person.email}
                       </a>
                     </p>

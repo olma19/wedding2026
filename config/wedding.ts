@@ -77,4 +77,10 @@ export const weddingConfig: WeddingConfig = {
   },
 
   rsvpDeadline: 'Senast 16/05/2026',
+
+  // Color scheme: Change this to 'pink', 'rose', 'purple', 'blue', 'teal', 'green', 'sage', or 'red' to update the entire site's color theme
+  colorScheme: 'sage',
+  
+  // Decoration type: 'flower' for flower decorations, 'leaf' for leaf decorations with variants
+  decorationType: 'flower',
 }
