@@ -3,7 +3,6 @@
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rsvpSchema, type RSVPFormData } from '@/lib/validations/rsvp'
-import { weddingConfig } from '@/config/wedding'
 import FlowerDecoration from './FlowerDecoration'
 import { useFormGradients } from '@/hooks/useFormGradients'
 import { useColors } from './ColorSchemeProvider'

@@ -1,6 +1,6 @@
 'use client'
 
-import { memo } from 'react'
+import { memo, forwardRef } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { classNames } from '@/lib/utils/classNames'
 import { generateFieldId, getAriaLabel, getAriaDescribedBy } from '@/lib/utils/accessibility'
@@ -22,6 +22,7 @@ interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 /**
  * Reusable form input field component with label, error display, and accessibility support
  * Memoized to prevent unnecessary re-renders when parent form state changes
+ * Uses forwardRef to support react-hook-form refs
  * 
  * @example
  * ```tsx
@@ -34,7 +35,7 @@ interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
  * />
  * ```
  */
-const FormField = memo(function FormField({
+const FormField = memo(forwardRef<HTMLInputElement, FormFieldProps>(function FormField({
   label,
   error,
   required,
@@ -42,7 +43,7 @@ const FormField = memo(function FormField({
   fieldId,
   id,
   ...inputProps
-}: FormFieldProps) {
+}, ref) {
   const inputId = id || fieldId || generateFieldId('field')
   const errorId = `${inputId}-error`
   const hasError = !!error
@@ -57,6 +58,7 @@ const FormField = memo(function FormField({
       </label>
       <input
         {...inputProps}
+        ref={ref}
         id={inputId}
         aria-label={getAriaLabel(label, required)}
         aria-required={required}
@@ -75,7 +77,7 @@ const FormField = memo(function FormField({
       )}
     </div>
   )
-})
+}))
 
 FormField.displayName = 'FormField'
 

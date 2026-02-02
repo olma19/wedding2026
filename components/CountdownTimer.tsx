@@ -63,7 +63,7 @@ export default function CountdownTimer() {
 
   return (
     <div className="flex items-center justify-center gap-3 md:gap-4 max-w-2xl mx-auto">
-        {timeUnits.map((unit, index) => (
+        {timeUnits.map((unit) => (
           <div
             key={unit.label}
             className={`bg-white rounded-lg shadow-md p-2 md:p-3 border-2 ${colors.borderLight} flex-1 max-w-[120px] transform hover:scale-105 transition-transform duration-300`}

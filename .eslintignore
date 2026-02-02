@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Generated files
+*.min.js
+*.bundle.js
+
+# Config files
+next.config.js
+tailwind.config.ts
+postcss.config.js
+vitest.config.ts
+
+# Test files (handled by Vitest)
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Type definitions
+*.d.ts
+
+# Environment files
+.env*
+!.env.example

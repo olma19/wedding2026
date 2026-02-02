@@ -1,5 +1,14 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
   "rules": {
     "no-restricted-syntax": [
       "warn",
@@ -15,6 +24,33 @@
         "selector": "JSXAttribute[name.name='className'] > JSXExpressionContainer > TemplateLiteral[quasis.1.value.raw.length>0][expressions.length>0]",
         "message": "Use classNames() utility instead of template literals with string parts for className. Import from '@/lib/utils/classNames'"
       }
-    ]
+    ],
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ],
+    "import/no-duplicates": "warn"
   }
 }

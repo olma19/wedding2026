@@ -1,7 +1,6 @@
 'use client'
 
 import { useColors } from '../components/ColorSchemeProvider'
-import type { ColorSchemeName } from '@/lib/colors'
 
 /**
  * Hook to get colors with section-specific defaults

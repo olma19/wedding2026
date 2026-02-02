@@ -7,23 +7,6 @@ import ScrollAnimation from '../ScrollAnimation'
 import type { SectionWrapperProps } from '@/types/sections'
 import { classNames } from '@/lib/utils/classNames'
 
-/**
- * Reusable wrapper component for page sections
- * Provides consistent structure, decorations, backgrounds, and scroll animations
- * 
- * @example
- * ```tsx
- * <SectionWrapper
- *   title="My Section"
- *   background="white"
- *   decorations={[
- *     { position: 'top-right', size: 'small', opacity: 0.2 }
- *   ]}
- * >
- *   <p>Section content</p>
- * </SectionWrapper>
- * ```
- */
 export default function SectionWrapper({
   children,
   title,

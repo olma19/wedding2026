@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
 import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
-import { ErrorCode } from '@/lib/api/errorHandler'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'wedding2026'
 

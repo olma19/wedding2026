@@ -24,7 +24,7 @@ export async function GET() {
 
   // Test Server Connection (Admin)
   try {
-    const { data, error } = await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from('rsvps')
       .select('count')
       .limit(1)

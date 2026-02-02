@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+
+# Generated files
+*.min.js
+*.bundle.js
+*.min.css
+*.bundle.css
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env*
+!.env.example
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+.DS_Store
+*.pem
+
+# Public assets (images, fonts, etc.)
+public/
+
+# SVG files (may have specific formatting)
+*.svg

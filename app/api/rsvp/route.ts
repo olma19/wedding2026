@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import { rsvpSchema } from '@/lib/validations/rsvp'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
 import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
-import { handleDatabaseError, ErrorCode } from '@/lib/api/errorHandler'
+import { handleDatabaseError } from '@/lib/api/errorHandler'
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
         ? rsvpData.attendees.map((a) => `${a.firstname} ${a.lastname}`).join(', ')
         : 'Ej deltagande'
 
-    let supabaseError: any = null
     const { data, error } = await supabaseAdmin
       .from('rsvps')
       .insert({
@@ -94,7 +93,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET endpoint to retrieve RSVPs (for admin use only)
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Require admin authentication
     const isAuthenticated = await isAdminAuthenticated()

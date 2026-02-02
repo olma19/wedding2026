@@ -43,7 +43,7 @@ if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
 console.log('\n🔐 Testing Anon Key Connection:')
 try {
   const anonClient = createClient(supabaseUrl, supabaseAnonKey)
-  const { data: anonData, error: anonError } = await anonClient
+  const { error: anonError } = await anonClient
     .from('rsvps')
     .select('id')
     .limit(0)
@@ -77,7 +77,7 @@ try {
     },
   })
 
-  const { data: adminData, error: adminError } = await adminClient
+  const { error: adminError } = await adminClient
     .from('rsvps')
     .select('count')
     .limit(1)

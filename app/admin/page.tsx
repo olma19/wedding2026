@@ -129,7 +129,7 @@ export default function AdminPage() {
     }
     
     // For attending RSVPs, create one row per attendee
-    return rsvp.attendees.map((attendee: any, index: number) => ({
+    return rsvp.attendees.map((attendee: any) => ({
       rsvpId: rsvp.id,
       firstName: attendee.firstname || '',
       lastName: attendee.lastname || '',

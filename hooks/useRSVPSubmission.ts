@@ -21,9 +21,15 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
   const [submitSuccess, setSubmitSuccess] = useState(false)
 
   const createConfetti = () => {
+    // Skip confetti creation if document is not available (e.g., in tests or SSR)
+    if (typeof document === 'undefined') return
+    
     const colors = ['#f472b6', '#ec4899', '#f9a8d4', '#fbbf24', '#f59e0b']
     for (let i = 0; i < 50; i++) {
       setTimeout(() => {
+        // Double-check document exists before creating confetti
+        if (typeof document === 'undefined') return
+        
         const confetti = document.createElement('div')
         confetti.className = 'confetti'
         confetti.style.left = Math.random() * 100 + '%'
@@ -31,7 +37,11 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
         confetti.style.animationDelay = Math.random() * 0.5 + 's'
         confetti.style.animationDuration = Math.random() * 2 + 2 + 's'
         document.body.appendChild(confetti)
-        setTimeout(() => confetti.remove(), 3000)
+        setTimeout(() => {
+          if (typeof document !== 'undefined' && confetti.parentNode) {
+            confetti.remove()
+          }
+        }, 3000)
       }, i * 20)
     }
   }
