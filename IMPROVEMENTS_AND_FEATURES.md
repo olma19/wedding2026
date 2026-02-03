@@ -70,15 +70,27 @@ A living document for potential improvements, enhancements, and new features for
 
 ### RSVP Improvements
 
-#### 💡 RSVP Confirmation Email 🔥
+#### ✅ RSVP Confirmation Email ✅
 **Description:** Send email confirmation when guest submits RSVP
-- [ ] Set up email service (Resend, SendGrid, etc.)
-- [ ] Create email template
-- [ ] Send confirmation on successful RSVP submission
-- [ ] Include RSVP details in email
-- [ ] Add unsubscribe option
+- [x] Set up email service (Resend)
+- [x] Create email template (HTML + text versions)
+- [x] Send confirmation on successful RSVP submission
+- [x] Include RSVP details in email (names, allergies, bus, songs)
+- [x] Add email field to RSVP form
+- [ ] Add unsubscribe option (future enhancement)
 
 **Impact:** Better guest experience, reduces confusion
+
+**Files Created:**
+- `lib/email/resend.ts` - Email service with Resend integration
+- `docs/EMAIL_SETUP.md` - Setup guide for Resend
+
+**Files Modified:**
+- `components/RSVPForm.tsx` - Added email input field
+- `lib/validations/rsvp.ts` - Added email validation
+- `app/api/rsvp/route.ts` - Integrated email sending
+- `env.example` - Added Resend configuration
+- `README.md` - Updated with Resend setup instructions
 
 ---
 
@@ -557,13 +569,33 @@ A living document for potential improvements, enhancements, and new features for
 
 ## 🎯 Quick Wins (Easy to Implement)
 
-#### 💡 Loading Skeletons 🟡
+#### ✅ Loading Skeletons ✅
 **Description:** Better loading states
-- [ ] Skeleton loaders for sections
-- [ ] Replace spinners with skeletons
-- [ ] Smooth loading transitions
+- [x] Skeleton loaders for sections
+  - [x] Created base `Skeleton` component with variants (text, circular, rectangular, rounded)
+  - [x] Created `SectionSkeleton` component for section placeholders
+  - [x] Created `CardSkeleton` component for card placeholders
+  - [x] Created `SectionSkeletonLoader` with section-specific skeletons
+- [x] Replace spinners with skeletons
+  - [x] Updated `SectionRegistry` to use skeletons instead of spinners
+  - [x] Section-specific skeletons match actual content structure
+- [x] Smooth loading transitions
+  - [x] Pulse and wave animations
+  - [x] Shimmer animation added to globals.css
 
 **Impact:** Better perceived performance
+
+**Files Created:**
+- `components/ui/Skeleton.tsx` - Base skeleton component
+- `components/ui/SectionSkeleton.tsx` - Section skeleton component
+- `components/ui/CardSkeleton.tsx` - Card skeleton component
+- `components/sections/SectionSkeletonLoader.tsx` - Section-specific skeleton mappings
+- `components/ui/Skeleton.test.tsx` - Test suite for skeleton components
+
+**Files Modified:**
+- `components/sections/SectionRegistry.tsx` - Uses skeletons instead of spinners
+- `app/globals.css` - Added shimmer animation
+- `components/ui/index.ts` - Added skeleton exports
 
 ---
 

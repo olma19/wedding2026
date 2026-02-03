@@ -11,6 +11,7 @@ const attendeeSchema = z.object({
 export const rsvpSchema = z
   .object({
     attending: z.boolean(),
+    email: z.string().email('Ogiltig e-postadress').optional().or(z.literal('')),
     number_of_attendees: z
       .number()
       .int('Måste vara ett heltal')

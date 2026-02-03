@@ -4,6 +4,8 @@ import { rsvpSchema } from '@/lib/validations/rsvp'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
 import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
 import { handleDatabaseError } from '@/lib/api/errorHandler'
+import { sendRSVPConfirmationEmail } from '@/lib/email/resend'
+import { weddingConfig } from '@/config/wedding'
 
 export async function POST(request: NextRequest) {
   try {
@@ -79,6 +81,29 @@ export async function POST(request: NextRequest) {
         dbErrorResponse.error?.details || error.message,
         500
       )
+    }
+
+    // Send confirmation email if email is provided
+    if (rsvpData.email && rsvpData.email.trim()) {
+      try {
+        const emailResult = await sendRSVPConfirmationEmail({
+          to: rsvpData.email.trim(),
+          guestName: guestName,
+          numberOfAttendees: rsvpData.number_of_attendees,
+          attendees: rsvpData.attendees || [],
+          weddingDate: weddingConfig.date.fullDate,
+          weddingLocation: weddingConfig.location.fullAddress,
+          coupleNames: `${weddingConfig.couple.name1} & ${weddingConfig.couple.name2}`,
+        })
+
+        if (!emailResult.success) {
+          // Log error but don't fail the RSVP submission
+          console.error('Failed to send confirmation email:', emailResult.error)
+        }
+      } catch (emailError) {
+        // Log error but don't fail the RSVP submission
+        console.error('Error sending confirmation email:', emailError)
+      }
     }
 
     return successResponse({ message: 'OSA skickad framgångsrikt', data }, 201)

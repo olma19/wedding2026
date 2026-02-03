@@ -3,7 +3,7 @@
 import { lazy, Suspense } from 'react'
 import { getEnabledSections } from '@/config/sections'
 import type { ComponentType } from 'react'
-import LoadingSpinner from '../LoadingSpinner'
+import { getSectionSkeleton } from './SectionSkeletonLoader'
 
 // Lazy load heavy sections for code splitting
 const CountdownSection = lazy(() => import('./CountdownSection'))
@@ -36,6 +36,8 @@ const componentMap: Record<string, ComponentType<any>> = {
 /**
  * Component that renders all enabled sections in order
  * Uses the section configuration system for dynamic rendering
+ * 
+ * Uses skeleton loaders instead of spinners for better perceived performance
  */
 export default function SectionRegistry() {
   const sections = getEnabledSections()
@@ -51,11 +53,7 @@ export default function SectionRegistry() {
         return (
           <Suspense
             key={section.id}
-            fallback={
-              <div className="flex items-center justify-center py-20">
-                <LoadingSpinner size="medium" />
-              </div>
-            }
+            fallback={getSectionSkeleton(section.id)}
           >
             <SectionComponent />
           </Suspense>

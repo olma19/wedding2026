@@ -10,6 +10,7 @@ import { useRSVPSubmission } from '@/hooks/useRSVPSubmission'
 import GuestCountSelector from './forms/GuestCountSelector'
 import PersonFormSection from './forms/PersonFormSection'
 import SuccessMessage from './forms/SuccessMessage'
+import FormField from './forms/FormField'
 import Button from '@/components/ui/Button'
 import { classNames } from '@/lib/utils/classNames'
 import ErrorBoundary from './ErrorBoundary'
@@ -39,6 +40,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
     resolver: zodResolver(rsvpSchema),
     defaultValues: {
       attending: true,
+      email: '',
       number_of_attendees: 1,
       attendees: [
         { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' },
@@ -114,6 +116,22 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             type="hidden"
             {...register('number_of_attendees', { valueAsNumber: true })}
           />
+          
+          {/* Email field */}
+          <div className="mb-6">
+            <FormField
+              {...register('email')}
+              label="E-postadress (för bekräftelse)"
+              type="email"
+              disabled={isSubmitting}
+              placeholder="din@epost.se"
+              error={errors.email?.message}
+            />
+            <p className="mt-1 text-xs text-gray-600">
+              Vi skickar en bekräftelse till denna e-postadress när din OSA är mottagen.
+            </p>
+          </div>
+          
           <GuestCountSelector
             value={number_of_attendees}
             onChange={(n) => {

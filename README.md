@@ -213,11 +213,11 @@ NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
 SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key"
 
-# Email (if implementing notifications)
-SMTP_HOST=""
-SMTP_PORT=""
-SMTP_USER=""
-SMTP_PASS=""
+# Email (Resend - for RSVP confirmations)
+# Get your API key from https://resend.com/api-keys
+RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+RESEND_FROM_EMAIL="noreply@wedding2026.com"
+RESEND_FROM_NAME="Kristian & Mimmi"
 ```
 
 ### Getting Supabase Credentials
@@ -226,6 +226,16 @@ SMTP_PASS=""
 2. Go to Project Settings > API
 3. Copy the Project URL and anon/public key
 4. Copy the service_role key (keep this secret, server-side only)
+
+### Getting Resend API Key (for Email Confirmations)
+
+1. Sign up at [resend.com](https://resend.com) (free tier: 100 emails/day)
+2. Go to API Keys section
+3. Create a new API key
+4. Copy the key (starts with `re_`)
+5. For development, you can use `onboarding@resend.dev` as FROM_EMAIL
+6. For production, verify your domain in Resend dashboard
+7. See [docs/EMAIL_SETUP.md](docs/EMAIL_SETUP.md) for detailed instructions
 
 ## License
 
