@@ -15,7 +15,6 @@ const DinnerPartySection = lazy(() => import('./DinnerPartySection'))
 const DressCodeSection = lazy(() => import('./DressCodeSection'))
 const GoodToKnowSection = lazy(() => import('./GoodToKnowSection'))
 const ToastmasterSection = lazy(() => import('./ToastmasterSection'))
-const OSASection = lazy(() => import('./OSASection'))
 const RSVPSection = lazy(() => import('./RSVPSection'))
 
 // Component mapping
@@ -29,7 +28,6 @@ const componentMap: Record<string, ComponentType<any>> = {
   'dress-code': DressCodeSection,
   'good-to-know': GoodToKnowSection,
   'toastmaster': ToastmasterSection,
-  'osa': OSASection,
   'rsvp': RSVPSection,
 }
 

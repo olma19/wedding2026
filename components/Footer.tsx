@@ -2,6 +2,7 @@
 
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from './ColorSchemeProvider'
+import { sectionTexts, formatSectionText } from '@/config/section-texts'
 
 export default function Footer() {
   const { couple, date } = weddingConfig
@@ -16,10 +17,10 @@ export default function Footer() {
           </p>
         )}
         <p className="text-white/80 mb-4">
-          Med kärlek och glädje
+          {sectionTexts.footer.withLove}
         </p>
         <p className="text-sm text-white/60">
-          © {date.year} Bröllop. Alla rättigheter förbehållna.
+          {formatSectionText(sectionTexts.footer.copyright, { year: date.year })}
         </p>
       </div>
     </footer>

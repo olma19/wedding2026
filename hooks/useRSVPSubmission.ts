@@ -53,7 +53,7 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
     // Always attending since we removed the radio buttons
     const payload = { ...data, attending: true }
     
-    console.log('Submitting OSA payload:', payload)
+    console.log('Submitting RSVP payload:', payload)
     
     try {
       const response = await fetch('/api/rsvp', {
@@ -72,7 +72,7 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
           result = { error: 'Okänt fel', details: `HTTP ${response.status}: ${response.statusText}` }
         }
         console.error('API error response:', result)
-        throw new Error(result.details || result.error || 'Kunde inte skicka OSA')
+        throw new Error(result.details || result.error || 'Kunde inte skicka RSVP')
       }
       
       const result = await response.json()
@@ -82,7 +82,7 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
       onSuccess?.()
       setTimeout(() => setSubmitSuccess(false), 5000)
     } catch (err: unknown) {
-      console.error('OSA submission error:', err)
+      console.error('RSVP submission error:', err)
       const errorMessage = err instanceof Error ? err.message : 'Ett fel uppstod. Försök igen.'
       setSubmitError(errorMessage)
     } finally {

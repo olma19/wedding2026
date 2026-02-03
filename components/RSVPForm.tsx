@@ -14,6 +14,7 @@ import FormField from './forms/FormField'
 import Button from '@/components/ui/Button'
 import { classNames } from '@/lib/utils/classNames'
 import ErrorBoundary from './ErrorBoundary'
+import { sectionTexts } from '@/config/section-texts'
 
 interface RSVPFormProps {
   onSuccess?: () => void
@@ -98,7 +99,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
           colors.borderLight
         )}
         noValidate
-        aria-label="OSA formulär"
+        aria-label={sectionTexts.rsvp.form.ariaLabel}
       >
         {/* Decorative background elements */}
         <div className="absolute top-4 right-4 opacity-10">
@@ -116,21 +117,6 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             type="hidden"
             {...register('number_of_attendees', { valueAsNumber: true })}
           />
-          
-          {/* Email field */}
-          <div className="mb-6">
-            <FormField
-              {...register('email')}
-              label="E-postadress (för bekräftelse)"
-              type="email"
-              disabled={isSubmitting}
-              placeholder="din@epost.se"
-              error={errors.email?.message}
-            />
-            <p className="mt-1 text-xs text-gray-600">
-              Vi skickar en bekräftelse till denna e-postadress när din OSA är mottagen.
-            </p>
-          </div>
           
           <GuestCountSelector
             value={number_of_attendees}
@@ -160,6 +146,21 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             <p className="mb-4 text-sm text-red-500">{errors.attendees.message}</p>
           )}
 
+          {/* Email field - moved to bottom */}
+          <div className="mb-6">
+            <FormField
+              {...register('email')}
+              label={sectionTexts.rsvp.form.email.label}
+              type="email"
+              disabled={isSubmitting}
+              placeholder={sectionTexts.rsvp.form.email.placeholder}
+              error={errors.email?.message}
+            />
+            <p className="mt-1 text-xs text-gray-600">
+              {sectionTexts.rsvp.form.email.helpText}
+            </p>
+          </div>
+
           {submitError && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-600">{submitError}</p>
@@ -173,7 +174,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             className="w-full"
             size="lg"
           >
-            Skicka OSA
+            {sectionTexts.rsvp.form.submit.label}
           </Button>
         </div>
       </form>

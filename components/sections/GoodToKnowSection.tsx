@@ -6,27 +6,28 @@ import { weddingConfig } from '@/config/wedding'
 import Card from '../ui/Card'
 import CardHeader from '../ui/CardHeader'
 import CardContent from '../ui/CardContent'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function GoodToKnowSection() {
   const { goodToKnow } = weddingConfig
 
   const items = [
-    { title: 'Mat och dryck', content: goodToKnow.foodAndDrinks, icon: '🍽️' },
+    { title: sectionTexts['good-to-know'].items.foodAndDrinks.title, content: goodToKnow.foodAndDrinks, icon: sectionTexts['good-to-know'].items.foodAndDrinks.icon },
     {
-      title: 'Hotell',
+      title: sectionTexts['good-to-know'].items.hotels.title,
       content: goodToKnow.hotelDiscountCode
         ? `${goodToKnow.hotels} Rabattkod: ${goodToKnow.hotelDiscountCode}`
         : goodToKnow.hotels,
-      icon: '🏨',
+      icon: sectionTexts['good-to-know'].items.hotels.icon,
     },
-    { title: 'Klädkod', content: goodToKnow.dressCode, icon: '👔' },
-    { title: 'Barn', content: goodToKnow.children, icon: '👶' },
-    { title: 'Gåvor', content: goodToKnow.gifts, icon: '🎁' },
+    { title: sectionTexts['good-to-know'].items.dressCode.title, content: goodToKnow.dressCode, icon: sectionTexts['good-to-know'].items.dressCode.icon },
+    { title: sectionTexts['good-to-know'].items.children.title, content: goodToKnow.children, icon: sectionTexts['good-to-know'].items.children.icon },
+    { title: sectionTexts['good-to-know'].items.gifts.title, content: goodToKnow.gifts, icon: sectionTexts['good-to-know'].items.gifts.icon },
   ]
 
   return (
     <SectionWrapper
-      title={goodToKnow.title}
+      title={sectionTexts['good-to-know'].title}
       titleVariant="branch"
       decorations={[
         { position: 'top-right', size: 'medium', opacity: 0.2 },

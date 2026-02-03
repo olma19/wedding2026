@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import FlowerDecoration from '../FlowerDecoration'
 import { weddingConfig } from '@/config/wedding'
+import { sectionTexts } from '@/config/section-texts'
 
 const HERO_IMAGE_PLACEHOLDER = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&h=1080&q=80'
 
@@ -55,7 +56,7 @@ export default function HeroSection() {
         
         {/* Main heading */}
         <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-4 tracking-tight drop-shadow-md">
-          Vi gifter oss!
+          {sectionTexts.hero.mainHeading}
         </h1>
         
         {/* Year */}
@@ -68,9 +69,9 @@ export default function HeroSection() {
         </div>
         
         {/* Intro text */}
-        {weddingConfig.hero?.introText && (
+        {sectionTexts.hero.introText && (
           <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto drop-shadow-sm">
-            {weddingConfig.hero.introText}
+            {sectionTexts.hero.introText}
           </p>
         )}
       </div>

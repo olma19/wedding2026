@@ -5,6 +5,7 @@ import SectionWrapper from './SectionWrapper'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from '../ColorSchemeProvider'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function ToastmasterSection() {
   const { toastmaster } = weddingConfig
@@ -13,7 +14,7 @@ export default function ToastmasterSection() {
 
   return (
     <SectionWrapper
-      title={toastmaster.title}
+      title={sectionTexts.toastmaster.title}
       background="white"
       decorations={[
         { position: 'top-left', size: 'medium', opacity: 0.2 },
@@ -31,7 +32,7 @@ export default function ToastmasterSection() {
       {/* Shared image */}
       {toastmaster.imageUrl && (
         <ScrollAnimation delay={100}>
-          <div className="relative w-full aspect-[4/3] md:h-[800px] rounded-lg overflow-hidden shadow-xl mb-8">
+          <div className="relative w-full max-w-5xl mx-auto aspect-[4/3] md:h-[800px] rounded-lg overflow-hidden shadow-xl mb-8">
             <Image
               src={toastmaster.imageUrl}
               alt={toastmaster.title}

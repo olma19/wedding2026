@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       // Use handleDatabaseError for consistent error handling
       const dbErrorResponse = handleDatabaseError(error)
       return errorResponse(
-        dbErrorResponse.error?.error || 'Kunde inte spara OSA',
+        dbErrorResponse.error?.error || 'Kunde inte spara RSVP',
         dbErrorResponse.error?.details || error.message,
         500
       )
@@ -86,14 +86,29 @@ export async function POST(request: NextRequest) {
     // Send confirmation email if email is provided
     if (rsvpData.email && rsvpData.email.trim()) {
       try {
+        // Get website URL for email link
+        let websiteUrl = process.env.NEXT_PUBLIC_SITE_URL
+        if (!websiteUrl) {
+          const origin = request.headers.get('origin')
+          const host = request.headers.get('host')
+          if (origin) {
+            websiteUrl = origin
+          } else if (host) {
+            websiteUrl = `https://${host}`
+          } else {
+            websiteUrl = 'http://localhost:3000'
+          }
+        }
+
         const emailResult = await sendRSVPConfirmationEmail({
           to: rsvpData.email.trim(),
           guestName: guestName,
           numberOfAttendees: rsvpData.number_of_attendees,
           attendees: rsvpData.attendees || [],
           weddingDate: weddingConfig.date.fullDate,
-          weddingLocation: weddingConfig.location.fullAddress,
+          weddingLocation: weddingConfig.location.fullAddress || weddingConfig.location.address,
           coupleNames: `${weddingConfig.couple.name1} & ${weddingConfig.couple.name2}`,
+          websiteUrl,
         })
 
         if (!emailResult.success) {
@@ -106,7 +121,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return successResponse({ message: 'OSA skickad framgångsrikt', data }, 201)
+    return successResponse({ message: 'RSVP skickad framgångsrikt', data }, 201)
   } catch (error) {
     const unknownErrorResponse = handleDatabaseError(error)
     return errorResponse(
@@ -145,7 +160,7 @@ export async function GET(_request: NextRequest) {
       // Use handleDatabaseError for consistent error handling
       const dbErrorResponse = handleDatabaseError(error)
       return errorResponse(
-        dbErrorResponse.error?.error || 'Kunde inte hämta OSA',
+        dbErrorResponse.error?.error || 'Kunde inte hämta RSVP',
         dbErrorResponse.error?.details || error.message,
         500
       )

@@ -1,6 +1,7 @@
 'use client'
 
 import { Component, type ReactNode } from 'react'
+import { sectionTexts } from '@/config/section-texts'
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -55,15 +56,15 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               </svg>
             </div>
             <h2 className="text-xl font-bold text-gray-800 mb-2">
-              Något gick fel
+              {sectionTexts.ui.errorBoundary.heading}
             </h2>
             <p className="text-gray-600 mb-4">
-              Vi beklagar, men något oväntat hände. Vänligen ladda om sidan.
+              {sectionTexts.ui.errorBoundary.message}
             </p>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500">
-                  Teknisk information
+                  {sectionTexts.ui.errorBoundary.technicalInfo}
                 </summary>
                 <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto">
                   {this.state.error.toString()}
@@ -74,7 +75,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               onClick={() => window.location.reload()}
               className="mt-4 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
             >
-              Ladda om sidan
+              {sectionTexts.ui.errorBoundary.reloadButton}
             </button>
           </div>
         </div>

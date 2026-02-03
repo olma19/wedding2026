@@ -3,6 +3,7 @@
 import SectionWrapper from './SectionWrapper'
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from '../ColorSchemeProvider'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function DinnerPartySection() {
   const { dinnerParty } = weddingConfig
@@ -10,7 +11,7 @@ export default function DinnerPartySection() {
 
   return (
     <SectionWrapper
-      title={dinnerParty.title}
+      title={sectionTexts['dinner-party'].title}
       background="white"
       decorations={[
         { position: 'top-left', size: 'medium', opacity: 0.2 },

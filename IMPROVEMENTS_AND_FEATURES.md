@@ -142,17 +142,22 @@ A living document for potential improvements, enhancements, and new features for
 
 ### Admin Dashboard Enhancements
 
-#### 💡 Enhanced Admin Dashboard 🔥
+#### ✅ Enhanced Admin Dashboard ✅
 **Description:** More comprehensive admin interface
-- [ ] Dashboard with statistics (total RSVPs, attending count, etc.)
-- [ ] Visual charts/graphs (attendance rate, dietary restrictions, etc.)
-- [ ] Guest list management
-- [ ] RSVP details view
-- [ ] Export functionality (CSV, PDF)
-- [ ] Search and filter capabilities
-- [ ] Bulk actions
+- [x] Dashboard with statistics (total RSVPs, attending count, etc.)
+- [x] Visual charts/graphs (attendance rate progress bar)
+- [x] Enhanced statistics cards with icons and gradients
+- [x] RSVP details modal/view
+- [x] Export functionality (CSV)
+- [x] Search and filter capabilities (name, allergies, songs, attending status, bus)
+- [ ] Guest list management (separate feature)
+- [ ] PDF export (future enhancement)
+- [ ] Bulk actions (future enhancement)
 
 **Impact:** Easier event management
+
+**Files Modified:**
+- `app/admin/page.tsx` - Enhanced with search, filters, tabs, modal, and improved UI
 
 ---
 
@@ -311,15 +316,20 @@ A living document for potential improvements, enhancements, and new features for
 
 ## 🎵 Music & Entertainment
 
-#### 💡 Song Request Playlist 🟡
+#### ✅ Song Request Playlist ✅
 **Description:** Display submitted song requests
-- [ ] Show all song requests (public or admin-only)
-- [ ] Create Spotify/Apple Music playlist
-- [ ] Vote on songs (if desired)
-- [ ] Filter duplicates
-- [ ] Export to DJ
+- [x] Show all song requests in admin dashboard
+- [x] Filter duplicates (case-insensitive)
+- [x] Show count for duplicate requests
+- [x] Display who requested each song
+- [x] Export to text file for DJ
+- [ ] Create Spotify/Apple Music playlist (future enhancement)
+- [ ] Vote on songs (future enhancement)
 
 **Impact:** Better party music, guest engagement
+
+**Files Modified:**
+- `app/admin/page.tsx` - Added song requests tab with duplicate filtering and export
 
 ---
 

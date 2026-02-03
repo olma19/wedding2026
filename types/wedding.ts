@@ -77,9 +77,10 @@ export interface Toastmaster {
   }>
 }
 
-/** OSA (RSVP): bus info shown when guest selects bus transport */
-export interface OSA {
+/** RSVP: deadline and bus info shown when guest selects bus transport */
+export interface RSVP {
   deadline: string
+  deadlineShort?: string
   /** Shown when guest selects "transport with bus" = yes */
   busInfo: string
 }
@@ -91,7 +92,6 @@ export interface WeddingConfig {
   couple: Couple
   hero: Hero
   story: Story
-  rsvpDeadline: string
   dressCode?: DressCode
   /** Dinner and party section */
   dinnerParty: DinnerParty
@@ -99,8 +99,8 @@ export interface WeddingConfig {
   goodToKnow: GoodToKnow
   /** Toastmaster / Toast madame with images and speech note */
   toastmaster: Toastmaster
-  /** OSA form: deadline and bus info */
-  osa: OSA
+  /** RSVP form: deadline and bus info */
+  rsvp: RSVP
   /** Color scheme: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red' */
   colorScheme?: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red'
   /** Decoration type: 'flower' | 'leaf' - controls which decorations are used throughout the site */

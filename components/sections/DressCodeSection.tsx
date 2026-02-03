@@ -2,6 +2,7 @@
 
 import SectionWrapper from './SectionWrapper'
 import { weddingConfig } from '@/config/wedding'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function DressCodeSection() {
   const dressCode = weddingConfig.dressCode
@@ -9,7 +10,7 @@ export default function DressCodeSection() {
 
   return (
     <SectionWrapper
-      title={dressCode.title}
+      title={sectionTexts['dress-code'].title}
       titleVariant="branch"
       decorations={[
         { position: 'top-right', size: 'medium', opacity: 0.2 },

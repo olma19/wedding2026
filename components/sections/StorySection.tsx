@@ -4,13 +4,14 @@ import SectionWrapper from './SectionWrapper'
 import FlowerDecoration from '../FlowerDecoration'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function StorySection() {
   const { couple, story } = weddingConfig
 
   return (
     <SectionWrapper
-      title="Vår berättelse"
+      title={sectionTexts.story.title}
       titleVariant="leaf"
       customBackground="bg-gradient-to-b from-white to-pink-50"
       decorations={[]}

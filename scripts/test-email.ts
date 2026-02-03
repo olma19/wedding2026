@@ -43,7 +43,7 @@ async function testEmail() {
       },
     ],
     weddingDate: weddingConfig.date.fullDate,
-    weddingLocation: weddingConfig.location.fullAddress,
+    weddingLocation: weddingConfig.location.fullAddress || weddingConfig.location.address,
     coupleNames: `${weddingConfig.couple.name1} & ${weddingConfig.couple.name2}`,
   }
 

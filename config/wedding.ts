@@ -71,12 +71,11 @@ export const weddingConfig: WeddingConfig = {
     ],
   },
 
-  osa: {
+  rsvp: {
     deadline: 'Senast 16 maj 2026',
+    deadlineShort: 'Senast 16/05/2026',
     busInfo: 'Buss avgår från [plats] kl [tid] och tillbaka efter festen. Anmäl intresse i formuläret nedan.',
   },
-
-  rsvpDeadline: 'Senast 16/05/2026',
 
   // Color scheme: Change this to 'pink', 'rose', 'purple', 'blue', 'teal', 'green', 'sage', or 'red' to update the entire site's color theme
   colorScheme: 'sage',

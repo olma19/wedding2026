@@ -5,9 +5,10 @@ import SectionTitle from '../SectionTitle'
 import RSVPForm from '../RSVPForm'
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from '../ColorSchemeProvider'
+import { sectionTexts, formatSectionText } from '@/config/section-texts'
 
 export default function RSVPSection() {
-  const { rsvpDeadline } = weddingConfig
+  const { rsvp } = weddingConfig
   const colors = useColors()
 
   return (
@@ -23,11 +24,10 @@ export default function RSVPSection() {
       showScrollAnimation={false}
     >
       <div className="text-center mb-12">
-        <SectionTitle title="RSVP" showDivider={false} />
+        <SectionTitle title={sectionTexts.rsvp.title} showDivider={false} />
         <div className={`h-1 w-24 ${colors.bgMedium} mx-auto mb-4`}></div>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Vänligen bekräfta din närvaro {rsvpDeadline.toLowerCase()}. 
-          Vi ser fram emot att höra från dig!
+          {formatSectionText(sectionTexts.rsvp.description, { deadline: rsvp.deadline.toLowerCase() })}
         </p>
       </div>
       

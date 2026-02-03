@@ -85,9 +85,6 @@ const sectionSkeletonMap: Record<string, () => React.ReactNode> = {
   'toastmaster': () => (
     <SectionSkeleton showTitle showContent contentLines={3} />
   ),
-  'osa': () => (
-    <SectionSkeleton showTitle showContent contentLines={3} />
-  ),
 }
 
 /**

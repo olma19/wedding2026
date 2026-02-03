@@ -1,6 +1,7 @@
 'use client'
 
 import Button from '@/components/ui/Button'
+import { sectionTexts } from '@/config/section-texts'
 
 interface GuestCountSelectorProps {
   value: number
@@ -18,7 +19,7 @@ export default function GuestCountSelector({
   return (
     <div className="mb-6">
       <label className="block text-sm font-medium text-gray-700 mb-3">
-        Antal personer <span className="text-red-500">*</span>
+        {sectionTexts.rsvp.form.guestCount.label} <span className="text-red-500">*</span>
       </label>
       <div className="flex flex-wrap gap-2 justify-center">
         {GUEST_COUNT_OPTIONS.map((n) => (

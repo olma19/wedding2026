@@ -75,15 +75,9 @@ export const sectionRegistry: SectionConfig[] = [
     title: 'Toastmaster',
   },
   {
-    id: 'osa',
-    enabled: true,
-    order: 11,
-    title: 'OSA',
-  },
-  {
     id: 'rsvp',
     enabled: true,
-    order: 12,
+    order: 11,
     title: 'RSVP',
   },
 ]

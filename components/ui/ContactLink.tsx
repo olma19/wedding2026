@@ -2,6 +2,7 @@
 
 import { useColors } from '../ColorSchemeProvider'
 import { classNames } from '@/lib/utils/classNames'
+import { sectionTexts } from '@/config/section-texts'
 
 interface ContactLinkProps {
   type: 'phone' | 'email'
@@ -36,7 +37,7 @@ export default function ContactLink({
         colors.textHover,
         className
       )}
-      aria-label={type === 'phone' ? `Ring ${value}` : `Skicka e-post till ${value}`}
+      aria-label={type === 'phone' ? sectionTexts.ui.contactLink.phone.replace('{value}', value) : sectionTexts.ui.contactLink.email.replace('{value}', value)}
     >
       {displayValue}
     </a>

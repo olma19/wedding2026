@@ -7,6 +7,7 @@ import FlowerDecoration from '../FlowerDecoration'
 import { useFormGradients } from '@/hooks/useFormGradients'
 import { useColors } from '../ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
+import { sectionTexts, formatSectionText } from '@/config/section-texts'
 
 /**
  * Props for PersonFormSection component
@@ -48,7 +49,7 @@ export default function PersonFormSection({
 }: PersonFormSectionProps) {
   const colors = useColors()
   const gradients = useFormGradients()
-  const { osa } = weddingConfig
+  const { rsvp } = weddingConfig
 
   return (
     <div 
@@ -68,24 +69,24 @@ export default function PersonFormSection({
       <div className="relative z-10">
         <h3 className={`text-lg font-semibold ${colors.textDark} mb-4 flex items-center gap-2`}>
           <span className={`text-xl ${colors.icon}`}>👤</span>
-          Person {index + 1}
+          {formatSectionText(sectionTexts.rsvp.form.person.label, { number: String(index + 1) })}
         </h3>
         
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           <FormField
             {...register(`attendees.${index}.firstname`)}
-            label="Förnamn"
+            label={sectionTexts.rsvp.form.person.firstName.label}
             required
             disabled={disabled}
-            placeholder="Förnamn"
+            placeholder={sectionTexts.rsvp.form.person.firstName.placeholder}
             error={errors.attendees?.[index]?.firstname?.message}
           />
           <FormField
             {...register(`attendees.${index}.lastname`)}
-            label="Efternamn"
+            label={sectionTexts.rsvp.form.person.lastName.label}
             required
             disabled={disabled}
-            placeholder="Efternamn"
+            placeholder={sectionTexts.rsvp.form.person.lastName.placeholder}
             error={errors.attendees?.[index]?.lastname?.message}
           />
         </div>
@@ -93,9 +94,9 @@ export default function PersonFormSection({
         <div className="mb-4">
           <FormField
             {...register(`attendees.${index}.allergies`)}
-            label="Allergier"
+            label={sectionTexts.rsvp.form.person.allergies.label}
             disabled={disabled}
-            placeholder="T.ex. nötter, gluten..."
+            placeholder={sectionTexts.rsvp.form.person.allergies.placeholder}
           />
         </div>
         
@@ -107,11 +108,11 @@ export default function PersonFormSection({
               className={`w-4 h-4 ${colors.icon} border-gray-400 rounded ${colors.ring} disabled:opacity-50`}
               disabled={disabled}
             />
-            <span className="ml-2 text-gray-900">Jag vill åka med buss</span>
+            <span className="ml-2 text-gray-900">{sectionTexts.rsvp.form.person.bus.label}</span>
           </label>
-          {wantsBus && osa.busInfo && (
+          {wantsBus && rsvp.busInfo && (
             <div className={`mt-3 ml-6 p-3 ${colors.bgLightHover} rounded-lg border ${colors.borderLight}`}>
-              <p className="text-gray-700 text-sm leading-relaxed">{osa.busInfo}</p>
+              <p className="text-gray-700 text-sm leading-relaxed">{rsvp.busInfo}</p>
             </div>
           )}
         </div>
@@ -119,9 +120,9 @@ export default function PersonFormSection({
         <div>
           <FormField
             {...register(`attendees.${index}.song_request`)}
-            label="Om denna låt spelas på festen kan jag inte sitta stilla"
+            label={sectionTexts.rsvp.form.person.songRequest.label}
             disabled={disabled}
-            placeholder="Artist - Låtnamn"
+            placeholder={sectionTexts.rsvp.form.person.songRequest.placeholder}
             error={errors.attendees?.[index]?.song_request?.message}
           />
         </div>
