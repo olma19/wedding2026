@@ -1,6 +1,7 @@
 'use client'
 
 import { useColors } from '../ColorSchemeProvider'
+import { useSectionIndex } from './SectionIndexContext'
 import FlowerDecoration from '../FlowerDecoration'
 import SectionTitle from '../SectionTitle'
 import ScrollAnimation from '../ScrollAnimation'
@@ -22,13 +23,19 @@ export default function SectionWrapper({
   id,
 }: SectionWrapperProps) {
   const colors = useColors()
+  const sectionIndex = useSectionIndex()
 
-  // Determine background class
-  const backgroundClass = customBackground 
-    ? customBackground 
-    : background === 'white' 
-    ? 'bg-white' 
-    : colors.bgLight
+  // When used inside SectionRegistry, alternate background by position so reordering sections doesn't make them blend
+  const backgroundClass =
+    customBackground
+      ? customBackground
+      : sectionIndex !== null
+        ? sectionIndex % 2 === 0
+          ? 'bg-white'
+          : colors.bgLight
+        : background === 'white'
+          ? 'bg-white'
+          : colors.bgLight
 
   // Default decorations if none provided
   const defaultDecorations = decorations.length === 0 

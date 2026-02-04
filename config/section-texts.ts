@@ -29,7 +29,7 @@ export interface SectionTexts {
       label: string
     }
   }
-  vigsel: {
+  ceremony: {
     title: string
     date: {
       label: string
@@ -167,7 +167,7 @@ export const sectionTexts: SectionTexts = {
       label: 'Plats',
     },
   },
-  vigsel: {
+  ceremony: {
     title: 'Vigsel',
     date: {
       label: 'Datum',

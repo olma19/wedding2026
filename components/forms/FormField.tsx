@@ -1,9 +1,9 @@
 'use client'
 
-import { memo, forwardRef } from 'react'
+import { memo, forwardRef, useId } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { classNames } from '@/lib/utils/classNames'
-import { generateFieldId, getAriaLabel, getAriaDescribedBy } from '@/lib/utils/accessibility'
+import { getAriaLabel, getAriaDescribedBy } from '@/lib/utils/accessibility'
 
 /**
  * Props for FormField component
@@ -44,7 +44,8 @@ const FormField = memo(forwardRef<HTMLInputElement, FormFieldProps>(function For
   id,
   ...inputProps
 }, ref) {
-  const inputId = id || fieldId || generateFieldId('field')
+  const reactId = useId()
+  const inputId = id || fieldId || `field-${reactId.replace(/:/g, '')}`
   const errorId = `${inputId}-error`
   const hasError = !!error
 

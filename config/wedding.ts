@@ -35,7 +35,7 @@ export const weddingConfig: WeddingConfig = {
   story: {
     paragraphs: [
       'Efter många år tillsammans är det äntligen dags att fira vår kärlek och ta nästa steg i vår resa. Vi ser fram emot att dela denna speciella dag med våra nära och kära.',
-      'Ditt närvaro skulle göra vår dag ännu mer oförglömlig.',
+      'Er närvaro skulle göra vår dag ännu mer oförglömlig.',
     ],
   },
 

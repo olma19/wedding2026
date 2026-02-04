@@ -5,6 +5,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = {
   reactStrictMode: true,
+  // Next.js 16 uses Turbopack by default; empty config acknowledges and silences the warning
+  turbopack: {},
   // Production optimizations
   compress: true,
   poweredByHeader: false,
