@@ -45,19 +45,27 @@ export interface DinnerParty {
   title: string
   time?: string
   place?: string
+  /** Address (e.g. for map link), same style as ceremony location */
+  address?: string
+  mapUrl?: string
   description: string
 }
 
-/** Good to know: food/drinks, hotels, dress code, children, gifts */
+/** Good to know: dress code, children, hotels, transport, parking, gifts */
 export interface GoodToKnow {
   title: string
-  foodAndDrinks: string
+  /** Optional – if omitted, "Mat och dryck" is not shown */
+  foodAndDrinks?: string
   hotels: string
   /** Discount code for hotels */
   hotelDiscountCode?: string
   dressCode: string
   /** e.g. "Festen är utan barn" */
   children: string
+  /** Transport / buss info */
+  transport?: string
+  /** Parkering info */
+  parking?: string
   gifts: string
 }
 

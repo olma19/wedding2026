@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rsvpSchema, type RSVPFormData } from '@/lib/validations/rsvp'
 import FlowerDecoration from './FlowerDecoration'
@@ -12,6 +12,8 @@ import PersonFormSection from './forms/PersonFormSection'
 import SuccessMessage from './forms/SuccessMessage'
 import FormField from './forms/FormField'
 import Button from '@/components/ui/Button'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
 import { classNames } from '@/lib/utils/classNames'
 import ErrorBoundary from './ErrorBoundary'
 import { sectionTexts } from '@/config/section-texts'
@@ -49,6 +51,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
     },
   })
 
+  const attending = watch('attending')
   const number_of_attendees = watch('number_of_attendees')
   const attendees = watch('attendees') ?? []
 
@@ -117,33 +120,69 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             type="hidden"
             {...register('number_of_attendees', { valueAsNumber: true })}
           />
-          
-          <GuestCountSelector
-            value={number_of_attendees}
-            onChange={(n) => {
-              setValue('number_of_attendees', n)
-              updateAttendeesCount(n)
-            }}
-            disabled={isSubmitting}
-          />
-          {errors.number_of_attendees && (
-            <p className="mt-2 text-sm text-red-500 text-center">{errors.number_of_attendees.message}</p>
-          )}
 
-          <div className="space-y-8 mb-8">
-            {fields.map((field, index) => (
-              <PersonFormSection
-                key={field.id}
-                index={index}
-                register={register}
-                errors={errors}
-                disabled={isSubmitting}
-                wantsBus={attendees[index]?.wants_bus || false}
-              />
-            ))}
+          {/* Participating: Yes / No */}
+          <div className="mb-6">
+            <Label className="block text-base font-semibold text-gray-800 mb-3">
+              {sectionTexts.rsvp.form.participating.label} <span className="text-red-500">*</span>
+            </Label>
+            <Controller
+              name="attending"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  value={field.value ? 'yes' : 'no'}
+                  onValueChange={(v) => field.onChange(v === 'yes')}
+                  className="flex flex-col sm:flex-row gap-4"
+                  disabled={isSubmitting}
+                >
+                  <div className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 transition-colors has-[:data-state=checked]:border-pink-400 has-[:data-state=checked]:bg-pink-50/50">
+                    <RadioGroupItem value="yes" id="participating-yes" />
+                    <Label htmlFor="participating-yes" className="cursor-pointer font-medium text-gray-700">
+                      {sectionTexts.rsvp.form.participating.yesLabel}
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 transition-colors has-[:data-state=checked]:border-pink-400 has-[:data-state=checked]:bg-pink-50/50">
+                    <RadioGroupItem value="no" id="participating-no" />
+                    <Label htmlFor="participating-no" className="cursor-pointer font-medium text-gray-700">
+                      {sectionTexts.rsvp.form.participating.noLabel}
+                    </Label>
+                  </div>
+                </RadioGroup>
+              )}
+            />
           </div>
-          {errors.attendees && typeof errors.attendees.message === 'string' && (
-            <p className="mb-4 text-sm text-red-500">{errors.attendees.message}</p>
+
+          {attending && (
+            <>
+              <GuestCountSelector
+                value={number_of_attendees}
+                onChange={(n) => {
+                  setValue('number_of_attendees', n)
+                  updateAttendeesCount(n)
+                }}
+                disabled={isSubmitting}
+              />
+              {errors.number_of_attendees && (
+                <p className="mt-2 text-sm text-red-500 text-center">{errors.number_of_attendees.message}</p>
+              )}
+
+              <div className="space-y-8 mb-8">
+                {fields.map((field, index) => (
+                  <PersonFormSection
+                    key={field.id}
+                    index={index}
+                    register={register}
+                    errors={errors}
+                    disabled={isSubmitting}
+                    wantsBus={attendees[index]?.wants_bus || false}
+                  />
+                ))}
+              </div>
+              {errors.attendees && typeof errors.attendees.message === 'string' && (
+                <p className="mb-4 text-sm text-red-500">{errors.attendees.message}</p>
+              )}
+            </>
           )}
 
           {/* Email field - moved to bottom */}

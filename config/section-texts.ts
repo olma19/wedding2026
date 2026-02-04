@@ -54,26 +54,12 @@ export interface SectionTexts {
   'good-to-know': {
     title: string
     items: {
-      foodAndDrinks: {
-        title: string
-        icon: string
-      }
-      hotels: {
-        title: string
-        icon: string
-      }
-      dressCode: {
-        title: string
-        icon: string
-      }
-      children: {
-        title: string
-        icon: string
-      }
-      gifts: {
-        title: string
-        icon: string
-      }
+      dressCode: { title: string; icon: string }
+      children: { title: string; icon: string }
+      hotels: { title: string; icon: string }
+      transport: { title: string; icon: string }
+      parking: { title: string; icon: string }
+      gifts: { title: string; icon: string }
     }
   }
   toastmaster: {
@@ -84,6 +70,11 @@ export interface SectionTexts {
     description: string
     form: {
       ariaLabel: string
+      participating: {
+        label: string
+        yesLabel: string
+        noLabel: string
+      }
       guestCount: {
         label: string
       }
@@ -192,26 +183,12 @@ export const sectionTexts: SectionTexts = {
   'good-to-know': {
     title: 'Bra att veta',
     items: {
-      foodAndDrinks: {
-        title: 'Mat och dryck',
-        icon: '🍽️',
-      },
-      hotels: {
-        title: 'Hotell',
-        icon: '🏨',
-      },
-      dressCode: {
-        title: 'Klädkod',
-        icon: '👔',
-      },
-      children: {
-        title: 'Barn',
-        icon: '👶',
-      },
-      gifts: {
-        title: 'Gåvor',
-        icon: '🎁',
-      },
+      dressCode: { title: 'Klädkod', icon: '👔' },
+      children: { title: 'Barn', icon: '👶' },
+      hotels: { title: 'Hotell', icon: '🏨' },
+      transport: { title: 'Transport / buss', icon: '🚌' },
+      parking: { title: 'Parkering Wallsjö Gård', icon: '🅿️' },
+      gifts: { title: 'Gåvor', icon: '🎁' },
     },
   },
   toastmaster: {
@@ -225,6 +202,11 @@ export const sectionTexts: SectionTexts = {
     description: 'Vänligen bekräfta din närvaro {deadline}. Vi ser fram emot att höra från dig!',
     form: {
       ariaLabel: 'RSVP formulär',
+      participating: {
+        label: 'Kommer du att delta?',
+        yesLabel: 'Ja, jag kommer',
+        noLabel: 'Nej, jag kan tyvärr inte',
+      },
       guestCount: {
         label: 'Antal personer',
       },

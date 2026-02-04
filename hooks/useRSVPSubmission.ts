@@ -50,8 +50,7 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
     setIsSubmitting(true)
     setSubmitError(null)
     
-    // Always attending since we removed the radio buttons
-    const payload = { ...data, attending: true }
+    const payload = { ...data }
     
     console.log('Submitting RSVP payload:', payload)
     

@@ -47,27 +47,29 @@ export const weddingConfig: WeddingConfig = {
   dinnerParty: {
     title: 'Middag och fest',
     time: '17:00',
-    place: 'Samma plats',
-    description: 'Efter vigseln bjuder vi på middag och fest. Välkommen!',
+    place: 'Wallsjö gårds loge',
+    address: 'Wallsjö, 576 92 Sävsjö',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Wallsjö+Gård+Sävsjö',
+    description: 'Efter vigseln bjuder vi på mingel bröllopsmiddag och fest. Välkomna',
   },
 
   goodToKnow: {
     title: 'Bra att veta',
-    foodAndDrinks: 'Förrätt, huvudrätt och traditionsenlig bröllopstårta. Vi bjuder på dryck såväl under middagen som i baren efteråt.',
-    hotels: 'Vi har blockerat rum på närliggande hotell. Ange rabattkod vid bokning.',
-    hotelDiscountCode: 'BROLLOP2026',
     dressCode: 'Cocktail – Semi-formal klädsel. Damer: cocktailklänning (knälång eller något längre). Herrar: kostym eller kavaj med byxor.',
     children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap. Spädbarn är självklart välkomna.',
+    hotels: 'Önskas boende rekommenderar vi Best Western hotell i Vrigstad. Boka genom att ringa till hotellet och uppge "Friskbröllop" för att ta del utav rabatterat pris.',
+    transport: 'För boende på hotellet i Vrigstad finns möjligheten att bli upphämtade utav buss som går till vigseln, från vigseln till Wallsjö Gård och vid 02.00 tillbaka till hotellet. Anmälan till bussen gör ni genom att swisha 150:- per person till 0722132377. Ange BUSS som meddelande. Bocka även i att ni önskar åka buss i OSA.',
+    parking: 'Parkering för bil finns antingen precis i anslutning till logen alternativt Vallsjö gamla kyrka som ligger på gångavstånd. Parkeringen kommer vara skyltad denna dag.',
     gifts: 'Er närvaro är den största gåvan. Om ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
   },
 
   toastmaster: {
     title: 'Toastmaster & Toastmadame',
-    speechNote: 'Tal och spex ska anmälas till toastmastern i förväg.',
+    speechNote: 'Önskar du att hålla tal eller liknande under kvällen anmäl det i förväg till våran härliga toastmaster/toastmadame som vägleder dig.',
     imageUrl: '/images/toastmaster-madame.jpg',
     people: [
-      { firstName: 'Benny', lastName: '', phone: '070-123 45 67', email: 'benny@example.com' },
-      { firstName: 'Rebecka', lastName: '', phone: '070-123 45 68', email: 'rebecka@example.com' },
+      { firstName: 'Rebecka', lastName: 'Larsson', phone: '0735-310921', email: 'Rebecka.larsson@optimera.se' },
+      { firstName: 'Benny', lastName: 'Larsson', phone: '0730-573434' },
     ],
   },
 

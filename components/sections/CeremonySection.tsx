@@ -32,7 +32,7 @@ export default function CeremonySection() {
         />
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-6 md:gap-8 text-center">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 text-center">
         <ScrollAnimation delay={0}>
           <div className="transform hover:scale-105 transition-transform duration-300 flex-shrink-0">
             <DetailCard

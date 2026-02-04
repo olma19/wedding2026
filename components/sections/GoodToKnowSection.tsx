@@ -12,16 +12,19 @@ export default function GoodToKnowSection() {
   const { goodToKnow } = weddingConfig
 
   const items = [
-    { title: sectionTexts['good-to-know'].items.foodAndDrinks.title, content: goodToKnow.foodAndDrinks, icon: sectionTexts['good-to-know'].items.foodAndDrinks.icon },
-    {
-      title: sectionTexts['good-to-know'].items.hotels.title,
-      content: goodToKnow.hotelDiscountCode
-        ? `${goodToKnow.hotels} Rabattkod: ${goodToKnow.hotelDiscountCode}`
-        : goodToKnow.hotels,
-      icon: sectionTexts['good-to-know'].items.hotels.icon,
-    },
     { title: sectionTexts['good-to-know'].items.dressCode.title, content: goodToKnow.dressCode, icon: sectionTexts['good-to-know'].items.dressCode.icon },
     { title: sectionTexts['good-to-know'].items.children.title, content: goodToKnow.children, icon: sectionTexts['good-to-know'].items.children.icon },
+    {
+      title: sectionTexts['good-to-know'].items.hotels.title,
+      content: goodToKnow.hotelDiscountCode ? `${goodToKnow.hotels} Rabattkod: ${goodToKnow.hotelDiscountCode}` : goodToKnow.hotels,
+      icon: sectionTexts['good-to-know'].items.hotels.icon,
+    },
+    ...(goodToKnow.transport
+      ? [{ title: sectionTexts['good-to-know'].items.transport.title, content: goodToKnow.transport, icon: sectionTexts['good-to-know'].items.transport.icon }]
+      : []),
+    ...(goodToKnow.parking
+      ? [{ title: sectionTexts['good-to-know'].items.parking.title, content: goodToKnow.parking, icon: sectionTexts['good-to-know'].items.parking.icon }]
+      : []),
     { title: sectionTexts['good-to-know'].items.gifts.title, content: goodToKnow.gifts, icon: sectionTexts['good-to-know'].items.gifts.icon },
   ]
 

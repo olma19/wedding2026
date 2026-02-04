@@ -230,7 +230,7 @@ describe('useRSVPSubmission', () => {
     })
   })
 
-  it('should always set attending to true in payload', async () => {
+  it('should send actual attending value in payload', async () => {
     const dataWithAttendingFalse: RSVPFormData = {
       ...mockRSVPData,
       attending: false,
@@ -251,7 +251,7 @@ describe('useRSVPSubmission', () => {
       expect(fetch).toHaveBeenCalledWith('/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...dataWithAttendingFalse, attending: true }),
+        body: JSON.stringify(dataWithAttendingFalse),
       })
     })
   })
