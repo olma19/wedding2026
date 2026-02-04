@@ -26,6 +26,14 @@ export const rsvpSchema = z
     },
     { message: 'Fyll i uppgifter för alla gäster', path: ['attendees'] }
   )
+  .refine(
+    (data) => {
+      if (data.attending) return true
+      const first = data.attendees?.[0]
+      return !!first && first.firstname.trim().length > 0 && first.lastname.trim().length > 0
+    },
+    { message: 'Fyll i förnamn och efternamn', path: ['attendees'] }
+  )
 
 export type AttendeeFormData = z.infer<typeof attendeeSchema>
 export type RSVPFormData = z.infer<typeof rsvpSchema>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rsvpSchema, type RSVPFormData } from '@/lib/validations/rsvp'
@@ -56,6 +57,13 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const attendees = watch('attendees') ?? []
 
   const { fields, replace } = useFieldArray({ control, name: 'attendees' })
+
+  // When not attending, ensure exactly one attendee (for firstname/lastname)
+  useEffect(() => {
+    if (!attending && (attendees.length !== 1)) {
+      replace([{ firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' }])
+    }
+  }, [attending, attendees.length, replace])
 
   const updateAttendeesCount = (n: number) => {
     setValue('number_of_attendees', n)
@@ -132,7 +140,14 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
               render={({ field }) => (
                 <RadioGroup
                   value={field.value ? 'yes' : 'no'}
-                  onValueChange={(v) => field.onChange(v === 'yes')}
+                  onValueChange={(v) => {
+                    const isYes = v === 'yes'
+                    field.onChange(isYes)
+                    if (!isYes) {
+                      setValue('number_of_attendees', 0)
+                      replace([{ firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' }])
+                    }
+                  }}
                   className="flex flex-col sm:flex-row gap-4"
                   disabled={isSubmitting}
                 >
@@ -152,6 +167,32 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
               )}
             />
           </div>
+
+          {!attending && (
+            <div className="mb-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  {...register('attendees.0.firstname')}
+                  label={`${sectionTexts.rsvp.form.person.firstName.label} *`}
+                  type="text"
+                  disabled={isSubmitting}
+                  placeholder={sectionTexts.rsvp.form.person.firstName.placeholder}
+                  error={errors.attendees?.[0]?.firstname?.message}
+                />
+                <FormField
+                  {...register('attendees.0.lastname')}
+                  label={`${sectionTexts.rsvp.form.person.lastName.label} *`}
+                  type="text"
+                  disabled={isSubmitting}
+                  placeholder={sectionTexts.rsvp.form.person.lastName.placeholder}
+                  error={errors.attendees?.[0]?.lastname?.message}
+                />
+              </div>
+              {errors.attendees && typeof errors.attendees.message === 'string' && (
+                <p className="text-sm text-red-500">{errors.attendees.message}</p>
+              )}
+            </div>
+          )}
 
           {attending && (
             <>

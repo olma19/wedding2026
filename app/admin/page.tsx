@@ -20,6 +20,7 @@ export default function AdminPage() {
     personRows,
     sortedPersonRows,
     stats,
+    uniqueSongs,
     sortBy,
     sortDirection,
     statCardFilter,
@@ -73,6 +74,8 @@ export default function AdminPage() {
           sortedPersonRows={sortedPersonRows}
           personRowsLength={personRows.length}
           isFiltered={statCardFilter !== null}
+          statCardFilter={statCardFilter}
+          uniqueSongs={uniqueSongs}
           rsvps={rsvps}
           sortBy={sortBy}
           sortDirection={sortDirection}

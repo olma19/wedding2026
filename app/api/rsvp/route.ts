@@ -45,10 +45,14 @@ export async function POST(request: NextRequest) {
 
     const rsvpData = validationResult.data
 
-    const guestName =
-      rsvpData.attending && rsvpData.attendees?.length
-        ? rsvpData.attendees.map((a) => `${a.firstname} ${a.lastname}`).join(', ')
-        : 'Ej deltagande'
+    let guestName: string
+    if (rsvpData.attending && rsvpData.attendees?.length) {
+      guestName = rsvpData.attendees.map((a) => `${a.firstname} ${a.lastname}`).join(', ')
+    } else {
+      const first = rsvpData.attendees?.[0]
+      const name = first ? `${(first.firstname ?? '').trim()} ${(first.lastname ?? '').trim()}`.trim() : ''
+      guestName = name || 'Ej deltagande'
+    }
 
     const { data, error } = await supabaseAdmin
       .from('rsvps')

@@ -203,7 +203,7 @@ export const sectionTexts: SectionTexts = {
     form: {
       ariaLabel: 'RSVP formulär',
       participating: {
-        label: 'Kommer du att delta?',
+        label: 'Kommer ni att delta?',
         yesLabel: 'Ja, jag kommer',
         noLabel: 'Nej, jag kan tyvärr inte',
       },

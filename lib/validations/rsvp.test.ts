@@ -48,11 +48,13 @@ describe('rsvpSchema validation', () => {
       expect(result.success).toBe(true)
     })
 
-    it('should validate non-attending RSVP', () => {
+    it('should validate non-attending RSVP with firstname and lastname', () => {
       const validData = {
         attending: false,
         number_of_attendees: 0,
-        attendees: [],
+        attendees: [
+          { firstname: 'Jane', lastname: 'Doe', allergies: '', wants_bus: false, song_request: '' },
+        ],
       }
       
       const result = rsvpSchema.safeParse(validData)
@@ -153,6 +155,31 @@ describe('rsvpSchema validation', () => {
         attendees: [],
       }
       
+      const result = rsvpSchema.safeParse(invalidData)
+      expect(result.success).toBe(false)
+    })
+
+    it('should reject non-attending when firstname/lastname are missing', () => {
+      const invalidData = {
+        attending: false,
+        number_of_attendees: 0,
+        attendees: [],
+      }
+      const result = rsvpSchema.safeParse(invalidData)
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error.errors.some(e => e.path.includes('attendees'))).toBe(true)
+      }
+    })
+
+    it('should reject non-attending when attendees[0] has empty firstname or lastname', () => {
+      const invalidData = {
+        attending: false,
+        number_of_attendees: 0,
+        attendees: [
+          { firstname: '', lastname: 'Doe', allergies: '', wants_bus: false, song_request: '' },
+        ],
+      }
       const result = rsvpSchema.safeParse(invalidData)
       expect(result.success).toBe(false)
     })
