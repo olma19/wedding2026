@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { classNames } from '@/lib/utils/classNames'
 import ErrorBoundary from './ErrorBoundary'
+import ScrollAnimation from './ScrollAnimation'
 import { sectionTexts } from '@/config/section-texts'
 
 interface RSVPFormProps {
@@ -75,7 +76,9 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   if (submitSuccess) {
     return (
       <ErrorBoundary>
-        <SuccessMessage />
+        <ScrollAnimation type="scale" delay={0}>
+          <SuccessMessage />
+        </ScrollAnimation>
       </ErrorBoundary>
     )
   }
@@ -267,7 +270,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
             type="submit"
             disabled={isSubmitting}
             isLoading={isSubmitting}
-            className="w-full"
+            className="w-full hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200"
             size="lg"
           >
             {sectionTexts.rsvp.form.submit.label}

@@ -19,8 +19,8 @@ export const DEFAULT_ANIMATION_CONFIG: AnimationConfig = {
   type: 'slide-up',
   duration: 1000,
   easing: 'ease-out',
-  threshold: 0.1,
-  rootMargin: '0px',
+  threshold: 0.05,
+  rootMargin: '80px',
 }
 
 /**
@@ -31,15 +31,15 @@ export const ANIMATION_PRESETS: Record<string, AnimationConfig> = {
     type: 'fade',
     duration: 1000,
     easing: 'ease-out',
-    threshold: 0.1,
-    rootMargin: '0px',
+    threshold: 0.05,
+    rootMargin: '80px',
   },
   'slide-up': {
     type: 'slide-up',
     duration: 1000,
     easing: 'ease-out',
-    threshold: 0.1,
-    rootMargin: '0px',
+    threshold: 0.05,
+    rootMargin: '80px',
   },
   'slide-down': {
     type: 'slide-down',
@@ -73,8 +73,8 @@ export const ANIMATION_PRESETS: Record<string, AnimationConfig> = {
     type: 'slide-up',
     duration: 1000,
     easing: 'ease-out',
-    threshold: 0.1,
-    rootMargin: '0px',
+    threshold: 0.05,
+    rootMargin: '80px',
   },
 }
 
@@ -94,7 +94,7 @@ export function getAnimationClasses(
     },
     'slide-up': {
       visible: 'opacity-100 translate-y-0',
-      hidden: 'opacity-0 translate-y-10',
+      hidden: 'opacity-0 translate-y-14',
     },
     'slide-down': {
       visible: 'opacity-100 translate-y-0',
@@ -110,7 +110,7 @@ export function getAnimationClasses(
     },
     scale: {
       visible: 'opacity-100 scale-100',
-      hidden: 'opacity-0 scale-95',
+      hidden: 'opacity-0 scale-90',
     },
     slide: {
       visible: 'opacity-100 translate-y-0',

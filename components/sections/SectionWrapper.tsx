@@ -99,7 +99,9 @@ export default function SectionWrapper({
 
       <div className={classNames('container mx-auto max-w-4xl relative z-10', containerClassName)}>
         {title && (
-          <SectionTitle title={title} flowerVariant={titleVariant} />
+          <ScrollAnimation type="slide-up" delay={0} className="mb-10 md:mb-12">
+            <SectionTitle title={title} flowerVariant={titleVariant} />
+          </ScrollAnimation>
         )}
 
         {showScrollAnimation ? (

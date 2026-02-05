@@ -62,7 +62,7 @@ export default function CountdownTimer() {
   ]
 
   return (
-    <div className="flex items-center justify-center gap-3 md:gap-4 max-w-2xl mx-auto">
+    <div className="flex items-center justify-center gap-3 md:gap-4 max-w-2xl mx-auto animate-countdown-in">
         {timeUnits.map((unit) => (
           <div
             key={unit.label}

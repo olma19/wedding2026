@@ -85,6 +85,28 @@ body {
   animation: fade-in 0.3s ease-in;
 }
 
+/* Hero entrance – slide up + fade */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-in {
+  animation: hero-in 1s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+}
+
 .animate-blob {
   animation: blob 7s infinite;
 }
@@ -151,6 +173,28 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Countdown gentle pop-in on load */
+@keyframes countdown-in {
+  from {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-countdown-in {
+  animation: countdown-in 0.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-countdown-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
 }
 
 /* Confetti animation */

@@ -39,9 +39,9 @@ export default function HeroSection() {
       </div>
       
       <div className="relative z-10 text-center px-4 pb-24 md:pb-32">
-        {/* Names in one row */}
+        {/* Names – entrance with stagger */}
         {couple.name1 && couple.name2 && (
-          <div className="mb-8">
+          <div className="mb-8 animate-hero-in opacity-0" style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
             <div className="flex items-center justify-center gap-3 md:gap-4 mb-6">
               <h2 className="text-3xl md:text-5xl font-serif font-light text-white drop-shadow-md">
                 {couple.name1}
@@ -54,13 +54,13 @@ export default function HeroSection() {
           </div>
         )}
         
-        {/* Main heading */}
-        <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-4 tracking-tight drop-shadow-md">
+        {/* Main heading – stagger */}
+        <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-4 tracking-tight drop-shadow-md animate-hero-in opacity-0" style={{ animationDelay: '0.25s', animationFillMode: 'forwards' }}>
           {sectionTexts.hero.mainHeading}
         </h1>
         
-        {/* Year */}
-        <div className="flex items-center justify-center gap-4 mb-6">
+        {/* Year – stagger */}
+        <div className="flex items-center justify-center gap-4 mb-6 animate-hero-in opacity-0" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
           <div className="h-px w-16 bg-white/80"></div>
           <span className="text-2xl md:text-3xl font-light text-white/95 italic drop-shadow-sm">
             {date.fullDate}
@@ -68,9 +68,9 @@ export default function HeroSection() {
           <div className="h-px w-16 bg-white/80"></div>
         </div>
         
-        {/* Intro text */}
+        {/* Intro text – stagger */}
         {sectionTexts.hero.introText && (
-          <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto drop-shadow-sm">
+          <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto drop-shadow-sm animate-hero-in opacity-0" style={{ animationDelay: '0.55s', animationFillMode: 'forwards' }}>
             {sectionTexts.hero.introText}
           </p>
         )}

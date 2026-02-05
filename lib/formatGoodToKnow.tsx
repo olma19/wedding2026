@@ -44,10 +44,12 @@ export function highlightPhrases(
 /**
  * Splits content by newlines, highlights each line, and returns a single array
  * of segments and <br /> elements for rendering.
+ * linePrefixes: optional array of strings (e.g. emojis) to prepend to each line by index.
  */
 export function formatContentWithNewlines(
   content: string,
-  phrases: string[]
+  phrases: string[],
+  linePrefixes?: string[]
 ): (string | React.ReactElement)[] {
   const lines = content.split('\n')
   const result: (string | React.ReactElement)[] = []
@@ -56,12 +58,17 @@ export function formatContentWithNewlines(
     if (lineIndex > 0) {
       result.push(<br key={`br-${lineIndex}`} />)
     }
-    const segments = highlightPhrases(line, phrases, String(lineIndex))
+    const prefix = linePrefixes?.[lineIndex]
+    const lineContent = prefix ? prefix + line : line
+    const segments = highlightPhrases(lineContent, phrases, String(lineIndex))
     result.push(...segments)
   })
 
   return result
 }
+
+/** Line-prefix emojis for dress code: cocktail, lady, gentleman */
+export const DRESS_CODE_LINE_EMOJIS = ['🍸 ', '👗 ', '👔 ']
 
 export type GoodToKnowItemKey =
   | 'dressCode'

@@ -66,11 +66,13 @@ export default function DinnerPartySection() {
           </ScrollAnimation>
         )}
 
-        <div className="text-lg text-gray-600 leading-relaxed w-full mt-2">
-          {dinnerParty.description.split('\n').map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
+        <ScrollAnimation delay={300}>
+          <div className="text-lg text-gray-600 leading-relaxed w-full mt-2">
+            {dinnerParty.description.split('\n').map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </ScrollAnimation>
       </div>
     </SectionWrapper>
   )

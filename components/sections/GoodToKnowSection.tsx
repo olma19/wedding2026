@@ -10,6 +10,8 @@ import { sectionTexts } from '@/config/section-texts'
 import {
   formatContentWithNewlines,
   getHighlightsForKey,
+  highlightPhrases,
+  DRESS_CODE_LINE_EMOJIS,
   type GoodToKnowItemKey,
 } from '@/lib/formatGoodToKnow'
 
@@ -87,7 +89,11 @@ export default function GoodToKnowSection() {
           const highlights = getHighlightsForKey(item.key, {
             hotelDiscountCode: goodToKnow.hotelDiscountCode,
           })
-          const formatted = formatContentWithNewlines(item.content, highlights)
+          const isDressCode = item.key === 'dressCode'
+          const dressCodeLines = isDressCode ? item.content.split('\n') : []
+          const formatted = isDressCode
+            ? null
+            : formatContentWithNewlines(item.content, highlights)
 
           return (
             <ScrollAnimation key={item.title} delay={index * 100}>
@@ -99,7 +105,28 @@ export default function GoodToKnowSection() {
                   </h3>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-gray-600 leading-relaxed">{formatted}</p>
+                  {isDressCode ? (
+                    <div className="space-y-4">
+                      {dressCodeLines.map((line, lineIndex) => (
+                        <div
+                          key={lineIndex}
+                          className="flex gap-3 items-start"
+                        >
+                          <span
+                            className="text-xl shrink-0 w-8 text-center leading-relaxed"
+                            aria-hidden
+                          >
+                            {DRESS_CODE_LINE_EMOJIS[lineIndex]?.trim() ?? ''}
+                          </span>
+                          <span className="text-gray-600 leading-relaxed pt-0.5">
+                            {highlightPhrases(line, highlights, String(lineIndex))}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600 leading-relaxed">{formatted}</p>
+                  )}
                 </CardContent>
               </Card>
             </ScrollAnimation>

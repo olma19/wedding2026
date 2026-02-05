@@ -19,7 +19,7 @@ const DetailCard = memo(function DetailCard({ icon, title, subtitle, mainText }:
   
   return (
     <div className="space-y-1 group">
-      <div className={`w-12 h-12 ${colors.bgLight} rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${colors.bgLightHover} group-hover:scale-110 group-hover:rotate-6`}>
+      <div className={`w-12 h-12 border-2 ${colors.borderMedium} ${colors.bgLight} rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${colors.bgLightHover} group-hover:scale-110 group-hover:rotate-6`}>
         {icon}
       </div>
       <h3 className={`text-sm font-semibold text-gray-800 transition-colors duration-300 ${colors.textHover}`}>{title}</h3>
