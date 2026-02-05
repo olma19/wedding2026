@@ -1,9 +1,7 @@
 /**
  * Section Text Configuration
- * All text content for sections in a structured format
- * This makes it easy to update text without touching component code
- * 
- * To update texts, edit the sectionTexts object below
+ * Single source of truth for all section copy (titles, labels, form text, etc.).
+ * Edit the sectionTexts object below; no other file is used for these texts.
  */
 
 export interface SectionTexts {
@@ -74,6 +72,7 @@ export interface SectionTexts {
         label: string
         yesLabel: string
         noLabel: string
+        noInfoMessage: string
       }
       guestCount: {
         label: string
@@ -204,14 +203,15 @@ export const sectionTexts: SectionTexts = {
     heading: 'Tack för ditt svar!',
   },
   rsvp: {
-    title: 'RSVP',
-    description: 'Vänligen bekräfta din närvaro {deadline}. Vi ser fram emot att höra från dig!',
+    title: 'OSA',
+    description: 'Vänligen bekräfta er närvaro {deadline}. Vi ser fram emot att höra från dig!',
     form: {
       ariaLabel: 'RSVP formulär',
       participating: {
         label: 'Kommer ni att delta?',
         yesLabel: 'Ja, jag kommer',
         noLabel: 'Nej, jag kan tyvärr inte',
+        noInfoMessage: 'Fyll i formuläret nedan så att vi vet att ni inte kan komma.',
       },
       guestCount: {
         label: 'Antal personer',

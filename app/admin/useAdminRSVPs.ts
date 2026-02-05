@@ -140,14 +140,18 @@ export function useAdminRSVPs() {
   const uniqueSongs = useMemo(() => getUniqueSongs(personRows), [personRows])
 
   const stats: AdminStats = useMemo(
-    () => ({
-      total: rsvps.length,
-      totalPeople: personRows.filter((p) => p.attending).length,
-      attending: rsvps.filter((r) => r.attending).length,
-      notAttending: rsvps.filter((r) => !r.attending).length,
-      busCount: personRows.filter((p) => p.attending && p.wantsBus).length,
-      songRequests: uniqueSongs.length,
-    }),
+    () => {
+      const attendingPeople = personRows.filter((p) => p.attending).length
+      return {
+        total: rsvps.length,
+        totalPeople: attendingPeople,
+        // Show person count so "Kommer" matches the filtered list when clicked
+        attending: attendingPeople,
+        notAttending: rsvps.filter((r) => !r.attending).length,
+        busCount: personRows.filter((p) => p.attending && p.wantsBus).length,
+        songRequests: uniqueSongs.length,
+      }
+    },
     [rsvps, personRows, uniqueSongs.length]
   )
 

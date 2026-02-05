@@ -38,7 +38,7 @@ export default function GoodToKnowSection() {
       ]}
       showScrollAnimation={false}
     >
-      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="flex flex-col gap-8 max-w-2xl mx-auto">
         {items.map((item, index) => (
           <ScrollAnimation key={item.title} delay={index * 100}>
             <Card variant="default" hover className="rounded-xl">

@@ -82,6 +82,8 @@ export interface Toastmaster {
     lastName: string
     phone?: string
     email?: string
+    /** Which card to show this person in */
+    role?: 'toastmaster' | 'toastmadame'
   }>
 }
 

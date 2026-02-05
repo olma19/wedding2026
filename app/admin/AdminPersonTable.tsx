@@ -2,6 +2,7 @@
 
 import type { RSVP } from '@/types/rsvp'
 import type { PersonRow } from './types'
+import { useColors } from '@/components/ColorSchemeProvider'
 
 interface AdminPersonTableProps {
   sortedPersonRows: PersonRow[]
@@ -14,6 +15,17 @@ interface AdminPersonTableProps {
   onSelectRSVP: (rsvp: RSVP) => void
 }
 
+function formatDate(createdAt: string | null | undefined): string {
+  if (!createdAt) return '–'
+  return new Date(createdAt).toLocaleDateString('sv-SE', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 export default function AdminPersonTable({
   sortedPersonRows,
   personRowsLength,
@@ -24,6 +36,8 @@ export default function AdminPersonTable({
   onSortByName,
   onSelectRSVP,
 }: AdminPersonTableProps) {
+  const colors = useColors()
+
   if (sortedPersonRows.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-8 text-center">
@@ -38,18 +52,85 @@ export default function AdminPersonTable({
 
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="overflow-x-auto">
+      {/* Mobile: card list */}
+      <div className="md:hidden divide-y divide-gray-200">
+        <button
+          type="button"
+          onClick={onSortByName}
+          className={`w-full px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLight} ${colors.bgLightHover} border-b border-gray-200 flex items-center gap-2`}
+        >
+          Sortera på namn
+          {sortBy === 'name' && (
+            <span className={colors.text}>
+              {sortDirection === 'asc' ? '↑' : '↓'}
+            </span>
+          )}
+        </button>
+        {sortedPersonRows.map((person, index) => {
+          const rsvp = rsvps.find((r) => r.id === person.rsvpId)
+          return (
+            <button
+              key={`${person.rsvpId}-${index}`}
+              type="button"
+              onClick={() => rsvp && onSelectRSVP(rsvp)}
+              className={`w-full text-left px-4 py-4 transition-colors ${colors.bgLightHover} active:opacity-90`}
+            >
+              <div className="font-medium text-gray-900">
+                {person.fullName || '–'}
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {person.attending ? (
+                  <span className="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                    Deltar
+                  </span>
+                ) : (
+                  <span className="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                    Deltar inte
+                  </span>
+                )}
+                {person.wantsBus && (
+                  <span className="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    Buss
+                  </span>
+                )}
+              </div>
+              {(person.allergies || person.songRequest) && (
+                <div className="mt-2 space-y-1 text-sm text-gray-600">
+                  {person.allergies && (
+                    <p className="truncate">
+                      <span className="text-gray-400">Allergier:</span>{' '}
+                      {person.allergies}
+                    </p>
+                  )}
+                  {person.songRequest && (
+                    <p className="truncate">
+                      <span className="text-gray-400">Låt:</span>{' '}
+                      {person.songRequest}
+                    </p>
+                  )}
+                </div>
+              )}
+              <p className="mt-1 text-xs text-gray-400">
+                {formatDate(person.createdAt)}
+              </p>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-pink-50">
+          <thead className={colors.bgLight}>
             <tr>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-pink-100 transition-colors select-none"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer select-none hover:opacity-80 transition-opacity"
                 onClick={onSortByName}
               >
                 <div className="flex items-center gap-2">
                   Namn
                   {sortBy === 'name' && (
-                    <span className="text-pink-600">
+                    <span className={colors.text}>
                       {sortDirection === 'asc' ? '↑' : '↓'}
                     </span>
                   )}
@@ -78,11 +159,11 @@ export default function AdminPersonTable({
               return (
                 <tr
                   key={`${person.rsvpId}-${index}`}
-                  className="hover:bg-pink-50 transition-colors cursor-pointer"
+                  className={`transition-colors cursor-pointer ${colors.bgLightHover}`}
                   onClick={() => rsvp && onSelectRSVP(rsvp)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {person.fullName || '-'}
+                    {person.fullName || '–'}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {person.attending ? (
@@ -104,22 +185,14 @@ export default function AdminPersonTable({
                         Ja
                       </span>
                     ) : (
-                      '-'
+                      '–'
                     )}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
-                    {person.songRequest || '-'}
+                    {person.songRequest || '–'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {person.createdAt
-                      ? new Date(person.createdAt).toLocaleDateString('sv-SE', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })
-                      : '-'}
+                    {formatDate(person.createdAt)}
                   </td>
                 </tr>
               )
@@ -127,8 +200,9 @@ export default function AdminPersonTable({
           </tbody>
         </table>
       </div>
+
       {isFiltered && personRowsLength > 0 && (
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 text-sm text-gray-600">
+        <div className="px-4 md:px-6 py-3 bg-gray-50 border-t border-gray-200 text-sm text-gray-600">
           Visar {sortedPersonRows.length} av {personRowsLength} personer
         </div>
       )}

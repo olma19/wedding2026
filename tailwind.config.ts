@@ -7,6 +7,9 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   safelist: [
+    // Gradient from-* (used dynamically in admin/sections from lib/colors.ts)
+    'from-pink-50', 'from-rose-50', 'from-purple-50', 'from-blue-50', 'from-teal-50',
+    'from-green-100', 'from-slate-100', 'from-red-50',
     // Green color scheme classes (salvia green - darker tones)
     'bg-green-50', 'bg-green-100', 'bg-green-200', 'bg-green-400', 'bg-green-500', 'bg-green-600', 'bg-green-700', 'bg-green-800', 'bg-green-900',
     'text-green-500', 'text-green-600', 'text-green-700', 'text-green-800',

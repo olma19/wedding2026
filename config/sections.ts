@@ -60,7 +60,7 @@ export const sectionRegistry: SectionConfig[] = [
     id: 'rsvp',
     enabled: true,
     order: 8,
-    title: 'RSVP',
+    title: 'OSA',
   },
 ]
 

@@ -51,7 +51,7 @@ const weddingConfigRaw: WeddingConfig = {
     place: 'Wallsjö gårds loge',
     address: 'Wallsjö, 576 92 Sävsjö',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=Wallsjö+Gård+Sävsjö',
-    description: 'Efter vigseln bjuder vi på mingel bröllopsmiddag och fest. Välkomna',
+    description: 'Efter vigseln bjuder vi på mingel bröllopsmiddag och fest.\nVälkomna',
   },
 
   goodToKnow: {
@@ -69,8 +69,8 @@ const weddingConfigRaw: WeddingConfig = {
     speechNote: 'Önskar du att hålla tal eller liknande under kvällen anmäl det i förväg till våran härliga toastmaster/toastmadame som vägleder dig.',
     imageUrl: '/images/toastmaster-madame.jpg',
     people: [
-      { firstName: 'Rebecka', lastName: 'Larsson', phone: '0735-310921', email: 'Rebecka.larsson@optimera.se' },
-      { firstName: 'Benny', lastName: 'Larsson', phone: '0730-573434' },
+      { firstName: 'Rebecka', lastName: 'Larsson', phone: '0735-310921', email: 'Rebecka.larsson@optimera.se', role: 'toastmadame' },
+      { firstName: 'Benny', lastName: 'Larsson', phone: '0730-573434', role: 'toastmaster' },
     ],
   },
 

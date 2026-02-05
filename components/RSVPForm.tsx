@@ -145,16 +145,32 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                   className="flex flex-col sm:flex-row gap-4"
                   disabled={isSubmitting}
                 >
-                  <div className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 transition-colors has-[:data-state=checked]:border-pink-400 has-[:data-state=checked]:bg-pink-50/50">
-                    <RadioGroupItem value="yes" id="participating-yes" />
-                    <Label htmlFor="participating-yes" className="cursor-pointer font-medium text-gray-700">
+                  <div
+                    className={classNames(
+                      'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
+                      field.value
+                        ? `${colors.bgDark} text-white border-transparent`
+                        : 'border-gray-200 bg-white'
+                    )}
+                  >
+                    <RadioGroupItem value="yes" id="participating-yes" className="sr-only" />
+                    <Label htmlFor="participating-yes" className={classNames('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', field.value ? 'text-white' : 'text-gray-700')}>
                       {sectionTexts.rsvp.form.participating.yesLabel}
+                      <span aria-hidden>👍</span>
                     </Label>
                   </div>
-                  <div className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 transition-colors has-[:data-state=checked]:border-pink-400 has-[:data-state=checked]:bg-pink-50/50">
-                    <RadioGroupItem value="no" id="participating-no" />
-                    <Label htmlFor="participating-no" className="cursor-pointer font-medium text-gray-700">
+                  <div
+                    className={classNames(
+                      'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
+                      !field.value
+                        ? 'bg-red-400 text-white border-transparent'
+                        : 'border-gray-200 bg-white'
+                    )}
+                  >
+                    <RadioGroupItem value="no" id="participating-no" className="sr-only" />
+                    <Label htmlFor="participating-no" className={classNames('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', !field.value ? 'text-white' : 'text-gray-700')}>
                       {sectionTexts.rsvp.form.participating.noLabel}
+                      <span aria-hidden>👎</span>
                     </Label>
                   </div>
                 </RadioGroup>
@@ -164,6 +180,12 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
 
           {!attending && (
             <div className="mb-6 space-y-4">
+              <div className={`flex items-start gap-3 rounded-lg border border-gray-200 p-4 ${colors.bgLight}`} role="status">
+                <span className="text-xl flex-shrink-0" aria-hidden>ℹ️</span>
+                <p className="text-sm text-gray-700">
+                  {sectionTexts.rsvp.form.participating.noInfoMessage}
+                </p>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   {...register('attendees.0.firstname')}
