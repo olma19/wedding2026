@@ -1,6 +1,7 @@
 import type { WeddingConfig } from '@/types/wedding'
+import { assertWeddingConfigShape } from '@/lib/config/validate'
 
-export const weddingConfig: WeddingConfig = {
+const weddingConfigRaw: WeddingConfig = {
   date: {
     day: 'Lördag',
     date: '27',
@@ -85,3 +86,6 @@ export const weddingConfig: WeddingConfig = {
   // Decoration type: 'flower' for flower decorations, 'leaf' for leaf decorations with variants
   decorationType: 'flower',
 }
+
+assertWeddingConfigShape(weddingConfigRaw)
+export const weddingConfig = weddingConfigRaw

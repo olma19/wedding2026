@@ -113,6 +113,12 @@ export interface SectionTexts {
         message: string
       }
     }
+    inviteGate: {
+      label: string
+      placeholder: string
+      submit: string
+      errorWrongCode: string
+    }
   }
   footer: {
     withLove: string
@@ -244,6 +250,12 @@ export const sectionTexts: SectionTexts = {
       success: {
         message: 'Vi har mottagit din RSVP och ser fram emot att fira med dig!',
       },
+    },
+    inviteGate: {
+      label: 'Inbjudningskod',
+      placeholder: 'Ange koden från inbjudan',
+      submit: 'Fortsätt',
+      errorWrongCode: 'Fel inbjudningskod. Kontrollera koden och försök igen.',
     },
   },
   footer: {

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { rsvpSchema, type RSVPFormData } from '@/lib/validations/rsvp'
+import { rsvpSchema, getDefaultRsvpFormValues, type RSVPFormData } from '@/lib/validations/rsvp'
 import FlowerDecoration from './FlowerDecoration'
 import { useFormGradients } from '@/hooks/useFormGradients'
 import { useColors } from './ColorSchemeProvider'
@@ -42,14 +42,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
     reset: resetForm,
   } = useForm<RSVPFormData>({
     resolver: zodResolver(rsvpSchema),
-    defaultValues: {
-      attending: true,
-      email: '',
-      number_of_attendees: 1,
-      attendees: [
-        { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' },
-      ],
-    },
+    defaultValues: getDefaultRsvpFormValues(),
   })
 
   const attending = watch('attending')
@@ -60,15 +53,16 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
 
   // When not attending, ensure exactly one attendee (for firstname/lastname)
   useEffect(() => {
-    if (!attending && (attendees.length !== 1)) {
+    if (!attending && attendees.length !== 1) {
       replace([{ firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' }])
     }
   }, [attending, attendees.length, replace])
 
+  const defaultAttendee = { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' }
   const updateAttendeesCount = (n: number) => {
     setValue('number_of_attendees', n)
     const current = watch('attendees') ?? []
-    const next = Array.from({ length: n }, (_, i) => current[i] ?? { firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' })
+    const next = Array.from({ length: n }, (_, i) => current[i] ?? defaultAttendee)
     replace(next)
   }
 

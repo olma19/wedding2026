@@ -26,9 +26,15 @@ vi.mock('@/lib/auth/admin', () => ({
   isAdminAuthenticated: vi.fn(),
 }))
 
+// Mock guest access (invite code gate)
+vi.mock('@/lib/auth/guest', () => ({
+  isGuestAllowed: vi.fn().mockResolvedValue(true),
+}))
+
 // Import after mocks
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
+import { isGuestAllowed } from '@/lib/auth/guest'
 
 // Get mock functions
 const getMocks = () => (supabaseAdmin as any)._mocks || {}
@@ -53,10 +59,25 @@ describe('POST /api/rsvp', () => {
     // Reset environment variables
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-key'
+    vi.mocked(isGuestAllowed).mockResolvedValue(true)
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
+  })
+
+  describe('Guest access', () => {
+    it('should return 403 when guest has not passed invite gate', async () => {
+      vi.mocked(isGuestAllowed).mockResolvedValue(false)
+      const request = createMockRequest(validRSVPData)
+      const response = await POST(request)
+      const json = await response.json()
+      expect(response.status).toBe(403)
+      expect(json.success).toBe(false)
+      expect(json.error?.error).toContain('inbjudningskod')
+      const mocks = getMocks()
+      expect(mocks.mockInsert).not.toHaveBeenCalled()
+    })
   })
 
   describe('Success cases', () => {
@@ -77,7 +98,7 @@ describe('POST /api/rsvp', () => {
 
       expect(response.status).toBe(201)
       expect(json.success).toBe(true)
-      expect(json.data.message).toBe('OSA skickad framgångsrikt')
+      expect(json.data.message).toBe('RSVP skickad framgångsrikt')
       expect(mocks.mockFrom).toHaveBeenCalledWith('rsvps')
       expect(mocks.mockInsert).toHaveBeenCalled()
     })
@@ -133,10 +154,12 @@ describe('POST /api/rsvp', () => {
       const nonAttendingData: RSVPFormData = {
         attending: false,
         number_of_attendees: 0,
-        attendees: [],
+        attendees: [
+          { firstname: 'John', lastname: 'Doe', allergies: '', wants_bus: false, song_request: '' },
+        ],
       }
 
-      const mockData = { id: '123', guest_name: 'Ej deltagande', ...nonAttendingData }
+      const mockData = { id: '123', guest_name: 'John Doe', ...nonAttendingData }
       const mockSingle = vi.fn().mockResolvedValue({ data: mockData, error: null })
       
       mocks.mockInsert.mockReturnValue({
@@ -153,7 +176,7 @@ describe('POST /api/rsvp', () => {
       expect(json.success).toBe(true)
       expect(mocks.mockInsert).toHaveBeenCalledWith(
         expect.objectContaining({
-          guest_name: 'Ej deltagande',
+          guest_name: 'John Doe',
           attending: false,
         })
       )

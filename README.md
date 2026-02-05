@@ -95,8 +95,6 @@ wedding2026/
 - **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
 - **[Hooks Documentation](./docs/hooks.md)** - Custom React hooks guide
 - **[Image Patterns](./docs/IMAGE_PATTERNS.md)** - Next.js Image component patterns and best practices
-- **[Refactoring Plan](./REFACTORING_PLAN.md)** - Refactoring tasks and progress
-- **[Refactoring Summary](./REFACTORING_SUMMARY.md)** - Summary of completed refactoring work
 - **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements
 - **[Decoration Guide](./DECORATION_GUIDE.md)** - Decoration system documentation
 - **[Troubleshooting Guide](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
@@ -193,6 +191,8 @@ npx tsc --noEmit     # Check TypeScript types without building
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
+   - `ADMIN_PASSWORD` (för /admin)
+   - `RSVP_INVITE_CODE` (valfritt – om satt måste gäster ange koden för att RSVP:a)
 
 5. **Klicka "Deploy"** - Klart! 🎉
 
@@ -218,6 +218,13 @@ SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key"
 RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 RESEND_FROM_EMAIL="noreply@wedding2026.com"
 RESEND_FROM_NAME="Kristian & Mimmi"
+
+# Admin (optional – protects /admin)
+ADMIN_PASSWORD="your-secure-admin-password"
+
+# RSVP invite code (optional – when set, guests must enter this code to see/submit the RSVP form)
+# Omit to allow anyone to RSVP without a code
+# RSVP_INVITE_CODE="your-invite-code"
 ```
 
 ### Getting Supabase Credentials

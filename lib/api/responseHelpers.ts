@@ -27,25 +27,3 @@ export function errorResponse(
 ): NextResponse {
   return jsonResponse(createErrorResponse(error, details), status)
 }
-
-/**
- * Handle async route handlers with error catching
- */
-export async function handleRoute<T>(
-  handler: () => Promise<T>,
-  errorHandler?: (err: unknown) => NextResponse
-): Promise<NextResponse> {
-  try {
-    const data = await handler()
-    return successResponse(data)
-  } catch (err) {
-    if (errorHandler) {
-      return errorHandler(err)
-    }
-    return errorResponse(
-      'Ett fel uppstod',
-      err instanceof Error ? err.message : 'Okänt fel',
-      500
-    )
-  }
-}

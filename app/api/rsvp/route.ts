@@ -1,14 +1,23 @@
 import { NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rsvpSchema } from '@/lib/validations/rsvp'
+import { buildGuestName } from '@/lib/rsvp'
 import { isAdminAuthenticated } from '@/lib/auth/admin'
+import { isGuestAllowed } from '@/lib/auth/guest'
 import { errorResponse, successResponse } from '@/lib/api/responseHelpers'
 import { handleDatabaseError } from '@/lib/api/errorHandler'
 import { sendRSVPConfirmationEmail } from '@/lib/email/resend'
 import { weddingConfig } from '@/config/wedding'
+import type { RsvpListApiResponse } from '@/types/rsvp'
 
 export async function POST(request: NextRequest) {
   try {
+    // Require guest access (invite code) when RSVP_INVITE_CODE is set
+    const guestAllowed = await isGuestAllowed()
+    if (!guestAllowed) {
+      return errorResponse('Du måste ange inbjudningskoden för att skicka RSVP', undefined, 403)
+    }
+
     // Check Supabase configuration first
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -44,15 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     const rsvpData = validationResult.data
-
-    let guestName: string
-    if (rsvpData.attending && rsvpData.attendees?.length) {
-      guestName = rsvpData.attendees.map((a) => `${a.firstname} ${a.lastname}`).join(', ')
-    } else {
-      const first = rsvpData.attendees?.[0]
-      const name = first ? `${(first.firstname ?? '').trim()} ${(first.lastname ?? '').trim()}`.trim() : ''
-      guestName = name || 'Ej deltagande'
-    }
+    const guestName = buildGuestName(rsvpData)
 
     const { data, error } = await supabaseAdmin
       .from('rsvps')
@@ -170,7 +171,8 @@ export async function GET(_request: NextRequest) {
       )
     }
 
-    return successResponse({ data }, 200)
+    const body: RsvpListApiResponse = { data: data ?? [] }
+    return successResponse(body, 200)
   } catch (error) {
     const unknownErrorResponse = handleDatabaseError(error)
     return errorResponse(

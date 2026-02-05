@@ -37,3 +37,21 @@ export const rsvpSchema = z
 
 export type AttendeeFormData = z.infer<typeof attendeeSchema>
 export type RSVPFormData = z.infer<typeof rsvpSchema>
+
+const defaultAttendee: AttendeeFormData = {
+  firstname: '',
+  lastname: '',
+  allergies: '',
+  wants_bus: false,
+  song_request: '',
+}
+
+/** Single source of default values for the RSVP form. */
+export function getDefaultRsvpFormValues(): RSVPFormData {
+  return {
+    attending: true,
+    email: '',
+    number_of_attendees: 1,
+    attendees: [{ ...defaultAttendee }],
+  }
+}

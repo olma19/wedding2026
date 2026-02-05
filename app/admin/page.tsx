@@ -7,8 +7,10 @@ import AdminHeader from './AdminHeader'
 import AdminStats from './AdminStats'
 import AdminRSVPTable from './AdminRSVPTable'
 import AdminRSVPModal from './AdminRSVPModal'
+import { useColors } from '@/components/ColorSchemeProvider'
 
 export default function AdminPage() {
+  const colors = useColors()
   const {
     isAuthenticated,
     checkingAuth,
@@ -50,7 +52,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white py-8 px-4">
+    <div className={`min-h-screen bg-gradient-to-b ${colors.gradientFrom} to-white py-8 px-4`}>
       <div className="max-w-7xl mx-auto">
         <AdminHeader
           onRefresh={fetchRSVPs}

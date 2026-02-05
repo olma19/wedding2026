@@ -33,7 +33,7 @@ export default function DinnerPartySection() {
             href={dinnerParty.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-block text-sm font-medium underline ${colors.text} ${colors.textHover}`}
+            className={`inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-white shadow-md transition-all ${colors.bgDark} hover:shadow-lg ${colors.bgDarkHover}`}
           >
             Visa på karta
           </a>

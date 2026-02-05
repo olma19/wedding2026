@@ -1,17 +1,15 @@
-import type { RSVP } from '@/types/rsvp'
+/** Re-export admin view models from RSVP domain layer */
+export type { PersonRow, UniqueSong } from '@/lib/rsvp'
 
-/** One row in the admin table (per person or per non-attending RSVP) */
-export interface PersonRow {
-  rsvpId: string | undefined
-  firstName: string
-  lastName: string
-  fullName: string
-  attending: boolean
-  allergies: string
-  wantsBus: boolean
-  songRequest: string
-  createdAt: string | undefined
-}
+/** Stat card filter key; null = no filter */
+export type AdminStatFilter =
+  | 'total'
+  | 'attending'
+  | 'notAttending'
+  | 'totalPeople'
+  | 'busCount'
+  | 'songRequests'
+  | null
 
 export interface AdminStats {
   total: number

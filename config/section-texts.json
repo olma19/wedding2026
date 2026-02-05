@@ -116,6 +116,12 @@
       "success": {
         "message": "Vi har mottagit din RSVP och ser fram emot att fira med dig!"
       }
+    },
+    "inviteGate": {
+      "label": "Inbjudningskod",
+      "placeholder": "Ange koden från inbjudan",
+      "submit": "Fortsätt",
+      "errorWrongCode": "Fel inbjudningskod. Kontrollera koden och försök igen."
     }
   },
   "footer": {

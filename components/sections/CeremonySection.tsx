@@ -32,7 +32,7 @@ export default function CeremonySection() {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 text-center">
+      <div className="flex flex-col justify-center items-center gap-6 text-center">
         <ScrollAnimation delay={0}>
           <div className="transform hover:scale-105 transition-transform duration-300 flex-shrink-0">
             <DetailCard
@@ -81,7 +81,7 @@ export default function CeremonySection() {
                 href={location.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`mt-3 inline-block text-sm font-medium underline ${colors.text} ${colors.textHover}`}
+                className={`mt-3 inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-white shadow-md transition-all ${colors.bgDark} hover:shadow-lg ${colors.bgDarkHover}`}
               >
                 Visa på karta
               </a>
