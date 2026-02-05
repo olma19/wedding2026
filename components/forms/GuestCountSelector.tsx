@@ -30,6 +30,7 @@ export default function GuestCountSelector({
             variant={value === n ? 'primary' : 'secondary'}
             size="sm"
             disabled={disabled}
+            className="min-w-[2.75rem] w-[2.75rem]"
           >
             {n}
           </Button>

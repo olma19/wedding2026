@@ -4,6 +4,7 @@ import { memo, forwardRef, useId } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { classNames } from '@/lib/utils/classNames'
 import { getAriaLabel, getAriaDescribedBy } from '@/lib/utils/accessibility'
+import { useColors } from '../ColorSchemeProvider'
 
 /**
  * Props for FormField component
@@ -44,6 +45,7 @@ const FormField = memo(forwardRef<HTMLInputElement, FormFieldProps>(function For
   id,
   ...inputProps
 }, ref) {
+  const colors = useColors()
   const reactId = useId()
   const inputId = id || fieldId || `field-${reactId.replace(/:/g, '')}`
   const errorId = `${inputId}-error`
@@ -66,8 +68,9 @@ const FormField = memo(forwardRef<HTMLInputElement, FormFieldProps>(function For
         aria-invalid={hasError}
         aria-describedby={getAriaDescribedBy(inputId, hasError)}
         className={classNames(
-          'w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-600 outline-none disabled:bg-gray-100 text-black',
-          hasError ? 'border-red-500' : 'border-gray-400',
+          'w-full px-4 py-2.5 border rounded-lg focus:ring-2 outline-none disabled:bg-gray-100 text-black transition-colors',
+          hasError ? 'border-red-500' : colors.borderLight,
+          !hasError && `${colors.ring} ${colors.focusBorder}`,
           className
         )}
       />

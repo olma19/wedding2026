@@ -244,7 +244,7 @@ export const sectionTexts: SectionTexts = {
         },
       },
       submit: {
-        label: 'Skicka RSVP',
+        label: 'Skicka OSA',
         loading: 'Skickar...',
       },
       success: {

@@ -101,7 +101,7 @@ export default function RSVPSection() {
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value)}
               placeholder={gate.placeholder}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 outline-none transition-colors ${colors.borderLight} ${colors.ring} ${colors.focusBorder}`}
               autoComplete="off"
               disabled={codeLoading}
             />

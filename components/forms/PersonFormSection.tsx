@@ -4,7 +4,6 @@ import { UseFormRegister, FieldErrors } from 'react-hook-form'
 import type { RSVPFormData } from '@/lib/validations/rsvp'
 import FormField from './FormField'
 import FlowerDecoration from '../FlowerDecoration'
-import { useFormGradients } from '@/hooks/useFormGradients'
 import { useColors } from '../ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 import { sectionTexts, formatSectionText } from '@/config/section-texts'
@@ -48,12 +47,11 @@ export default function PersonFormSection({
   wantsBus,
 }: PersonFormSectionProps) {
   const colors = useColors()
-  const gradients = useFormGradients()
   const { rsvp } = weddingConfig
 
   return (
     <div 
-      className={`relative p-6 bg-gradient-to-br ${gradients.inner} rounded-xl border-2 ${colors.borderLight} shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden backdrop-blur-sm`}
+      className={`relative p-6 ${colors.bgLight} rounded-xl border-2 ${colors.borderLight} shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden`}
     >
       {/* Decorative background elements */}
       <div className="absolute top-2 right-2 opacity-10">
@@ -105,13 +103,13 @@ export default function PersonFormSection({
             <input
               type="checkbox"
               {...register(`attendees.${index}.wants_bus`)}
-              className={`w-4 h-4 ${colors.icon} border-gray-400 rounded ${colors.ring} disabled:opacity-50`}
+              className={`w-4 h-4 rounded border-2 ${colors.borderMedium} ${colors.accent} ${colors.ring} disabled:opacity-50`}
               disabled={disabled}
             />
             <span className="ml-2 text-gray-900">{sectionTexts.rsvp.form.person.bus.label}</span>
           </label>
           {wantsBus && rsvp.busInfo && (
-            <div className={`mt-3 ml-6 p-3 ${colors.bgLightHover} rounded-lg border ${colors.borderLight}`}>
+            <div className={`mt-3 w-full p-4 ${colors.bgLightHover} rounded-lg border-2 ${colors.borderMedium}`}>
               <p className="text-gray-700 text-sm leading-relaxed">{rsvp.busInfo}</p>
             </div>
           )}

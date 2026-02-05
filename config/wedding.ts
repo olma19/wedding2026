@@ -56,12 +56,12 @@ const weddingConfigRaw: WeddingConfig = {
 
   goodToKnow: {
     title: 'Bra att veta',
-    dressCode: 'Cocktail – Semi-formal klädsel. Damer: cocktailklänning (knälång eller något längre). Herrar: kostym eller kavaj med byxor.',
-    children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap. Spädbarn är självklart välkomna.',
-    hotels: 'Önskas boende rekommenderar vi Best Western hotell i Vrigstad. Boka genom att ringa till hotellet och uppge "Friskbröllop" för att ta del utav rabatterat pris.',
-    transport: 'För boende på hotellet i Vrigstad finns möjligheten att bli upphämtade utav buss som går till vigseln, från vigseln till Wallsjö Gård och vid 02.00 tillbaka till hotellet. Anmälan till bussen gör ni genom att swisha 150:- per person till 0722132377. Ange BUSS som meddelande. Bocka även i att ni önskar åka buss i OSA.',
-    parking: 'Parkering för bil finns antingen precis i anslutning till logen alternativt Vallsjö gamla kyrka som ligger på gångavstånd. Parkeringen kommer vara skyltad denna dag.',
-    gifts: 'Er närvaro är den största gåvan. Om ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
+    dressCode: 'Cocktail – Semi-formal klädsel.\nDamer: cocktailklänning (knälång eller något längre).\nHerrar: kostym eller kavaj med byxor.',
+    children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap.\nSpädbarn är självklart välkomna.',
+    hotels: 'Önskas boende rekommenderar vi Best Western hotell i Vrigstad.\nBoka genom att ringa till hotellet och uppge "Friskbröllop" för att ta del utav rabatterat pris.',
+    transport: 'För boende på hotellet i Vrigstad finns möjligheten att bli upphämtade utav buss som går till vigseln, från vigseln till Wallsjö Gård och vid 02.00 tillbaka till hotellet.\nAnmälan till bussen gör ni genom att swisha 150:- per person till 0722132377. Ange BUSS som meddelande.\nBocka även i att ni önskar åka buss i OSA.',
+    parking: 'Parkering för bil finns antingen precis i anslutning till logen alternativt Vallsjö gamla kyrka som ligger på gångavstånd.\nParkeringen kommer vara skyltad denna dag.',
+    gifts: 'Er närvaro är den största gåvan.\nOm ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
   },
 
   toastmaster: {
@@ -77,7 +77,7 @@ const weddingConfigRaw: WeddingConfig = {
   rsvp: {
     deadline: 'Senast 16 maj 2026',
     deadlineShort: 'Senast 16/05/2026',
-    busInfo: 'Buss avgår från [plats] kl [tid] och tillbaka efter festen. Anmäl intresse i formuläret nedan.',
+    busInfo: 'Buss från hotellet i Vrigstad till vigseln och Wallsjö Gård, tillbaka 02.00. Swisha 150 kr/person till 0722132377 med meddelande BUSS.',
   },
 
   // Color scheme: Change this to 'pink', 'rose', 'purple', 'blue', 'teal', 'green', 'sage', or 'red' to update the entire site's color theme
