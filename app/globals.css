@@ -85,6 +85,26 @@ body {
   animation: fade-in 0.3s ease-in;
 }
 
+/* Hero background image – Ken Burns zoom */
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.22);
+  }
+}
+
+.animate-hero-zoom {
+  animation: hero-zoom 18s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-zoom {
+    animation: none;
+  }
+}
+
 /* Hero entrance – slide up + fade */
 @keyframes hero-in {
   from {

@@ -12,15 +12,19 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-end justify-center overflow-hidden">
-      {/* Full-bleed background image */}
-      <Image
-        src={weddingConfig.hero?.imageUrl ?? HERO_IMAGE_PLACEHOLDER}
-        alt=""
-        fill
-        className="object-cover"
-        priority
-        sizes="100vw"
-      />
+      {/* Full-bleed background image with slow zoom */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 animate-hero-zoom">
+          <Image
+            src={weddingConfig.hero?.imageUrl ?? HERO_IMAGE_PLACEHOLDER}
+            alt=""
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+        </div>
+      </div>
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-black/40" aria-hidden />
       

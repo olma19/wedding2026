@@ -67,11 +67,11 @@ export default function ToastmasterSection() {
                   <div className="w-10 flex-shrink-0" aria-hidden />
                 </div>
                 {/* Contact info */}
-                <div className={`p-6 flex flex-col justify-center text-center ${iconRight ? 'sm:text-right sm:items-end' : 'sm:text-left sm:items-start'}`}>
+                <div className="p-6 flex flex-col justify-center text-center items-center">
                     <p className="font-semibold text-gray-800 text-lg mb-3">
                       {person.firstName} {person.lastName}
                     </p>
-                    <div className={`text-gray-600 text-sm space-y-2 flex flex-col items-center ${iconRight ? 'sm:items-end' : 'sm:items-start'}`}>
+                    <div className="text-gray-600 text-sm space-y-2 flex flex-col items-center">
                       {person.phone && (
                         <a
                           href={`tel:${person.phone.replace(/\s/g, '')}`}
