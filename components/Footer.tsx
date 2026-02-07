@@ -20,7 +20,19 @@ export default function Footer() {
           {sectionTexts.footer.withLove}
         </p>
         <p className="text-sm text-white/60">
-          {formatSectionText(sectionTexts.footer.copyright, { year: date.year })}
+          © {date.year}{' '}
+          {sectionTexts.footer.brandUrl ? (
+            <a
+              href={sectionTexts.footer.brandUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-white/90 transition-colors"
+            >
+              {sectionTexts.footer.brand ?? 'Olma'}
+            </a>
+          ) : (
+            sectionTexts.footer.brand ?? 'Olma'
+          )}
         </p>
       </div>
     </footer>

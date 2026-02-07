@@ -123,6 +123,10 @@ export interface SectionTexts {
   footer: {
     withLove: string
     copyright: string
+    /** Your brand/creator name (e.g. "Olma") */
+    brand?: string
+    /** Optional URL for the brand link (e.g. portfolio, YouTube) */
+    brandUrl?: string
   }
   success: {
     heading: string
@@ -262,7 +266,9 @@ export const sectionTexts: SectionTexts = {
   },
   footer: {
     withLove: 'Med kärlek och glädje',
-    copyright: '© {year} Bröllop. Alla rättigheter förbehållna.',
+    copyright: '© {year} {brand}',
+    brand: 'Olma',
+    brandUrl: 'https://www.youtube.com/watch?v=VIESlevIbwU',
   },
   ui: {
     contactLink: {
