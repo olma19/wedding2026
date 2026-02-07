@@ -110,6 +110,7 @@ export interface SectionTexts {
       }
       success: {
         message: string
+        emailConfirmation?: string
       }
     }
     inviteGate: {
@@ -248,7 +249,8 @@ export const sectionTexts: SectionTexts = {
         loading: 'Skickar...',
       },
       success: {
-        message: 'Vi har mottagit din RSVP och ser fram emot att fira med dig!',
+        message: 'Vi har mottagit din OSA och ser fram emot att fira med dig!',
+        emailConfirmation: 'Om du angav e-post skickar vi en bekräftelse till din inkorg.',
       },
     },
     inviteGate: {

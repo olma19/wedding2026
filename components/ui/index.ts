@@ -3,6 +3,8 @@
  */
 
 export { default as Button } from './Button'
+export { default as Icon } from './Icon'
+export type { IconName, IconVariant, IconSize, IconProps } from './Icon'
 export { default as Card } from './Card'
 export { default as CardHeader } from './CardHeader'
 export { default as CardContent } from './CardContent'

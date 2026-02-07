@@ -7,9 +7,25 @@ A Next.js wedding landing page with RSVP functionality and food allergy collecti
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript 5+
 - **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (use where possible; see docs/COMPONENT_MIGRATION_PLAN.md)
 - **Database**: Supabase (PostgreSQL)
 - **Backend**: Supabase (Database, Auth, Storage)
 - **Form Handling**: React Hook Form with Zod validation
+
+---
+
+## 🧩 UI Components & shadcn/ui
+
+**Prefer shadcn where possible.** The project uses [shadcn/ui](https://ui.shadcn.com) for accessible, themeable primitives. Use it for new UI (buttons, forms, dialogs, tables, etc.) and when replacing existing custom components.
+
+**Guidelines:**
+- **Add components via CLI:** `npx shadcn@latest add <component>` (e.g. `button`, `input`, `dialog`, `card`, `label`, `radio-group`). Config: `components.json`; output: `components/ui/`; utils: `@/lib/utils` (`cn`).
+- **Keep existing API when wrapping:** When migrating, wrap shadcn primitives so current props and exports stay the same (e.g. our `Button` keeps `variant="primary"`, `isLoading`, `icon`).
+- **Theme alignment:** Use shadcn CSS variables (`--primary`, `--border`, etc.) and/or pass theme classes from `useColors()` when components need wedding color-scheme support.
+- **Do not replace without plan:** Icon (Material Symbols + custom person), FormField (custom wrapper), and app-specific compositions stay until the migration plan explicitly covers them.
+- **Single-file primitive on Windows:** Avoid `button.tsx` and `Button.tsx` in the same directory (path casing issues); inline the shadcn primitive in the wrapper file if needed.
+
+See **docs/COMPONENT_MIGRATION_PLAN.md** for the step-by-step migration and which components are already on shadcn.
 
 ---
 

@@ -15,6 +15,7 @@ A beautiful, informative wedding landing page built with Next.js, featuring RSVP
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript (strict mode enabled)
 - **Styling**: Tailwind CSS
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com) — use shadcn where possible for new and migrated UI (see [Component migration plan](docs/COMPONENT_MIGRATION_PLAN.md))
 - **Form Management**: React Hook Form + Zod
 - **Backend**: Supabase (PostgreSQL database)
 - **Testing**: Vitest + React Testing Library
@@ -93,6 +94,7 @@ wedding2026/
 
 - **[Architecture Overview](./docs/ARCHITECTURE.md)** - Project structure and design decisions
 - **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
+- **[Component migration plan (shadcn)](./docs/COMPONENT_MIGRATION_PLAN.md)** - Use shadcn where possible; migration status and steps
 - **[Hooks Documentation](./docs/hooks.md)** - Custom React hooks guide
 - **[Image Patterns](./docs/IMAGE_PATTERNS.md)** - Next.js Image component patterns and best practices
 - **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements

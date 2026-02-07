@@ -27,7 +27,7 @@ describe('RSVPForm', () => {
     
     expect(screen.getByLabelText(/rsvp formulär/i)).toBeInTheDocument()
     expect(screen.getByText(/antal personer/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /skicka rsvp/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /skicka osa/i })).toBeInTheDocument()
   })
 
   it('should render guest count selector', () => {
@@ -89,7 +89,7 @@ describe('RSVPForm', () => {
   it('should show submit button', () => {
     render(<RSVPForm />)
     
-    const submitButton = screen.getByRole('button', { name: /skicka rsvp/i })
+    const submitButton = screen.getByRole('button', { name: /skicka osa/i })
     expect(submitButton).toBeInTheDocument()
     expect(submitButton).not.toBeDisabled()
   })

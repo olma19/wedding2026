@@ -4,6 +4,7 @@ import { UseFormRegister, FieldErrors } from 'react-hook-form'
 import type { RSVPFormData } from '@/lib/validations/rsvp'
 import FormField from './FormField'
 import FlowerDecoration from '../FlowerDecoration'
+import Icon from '../ui/Icon'
 import { useColors } from '../ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 import { sectionTexts, formatSectionText } from '@/config/section-texts'
@@ -66,7 +67,7 @@ export default function PersonFormSection({
       
       <div className="relative z-10">
         <h3 className={`text-lg font-semibold ${colors.textDark} mb-4 flex items-center gap-2`}>
-          <span className={`text-xl ${colors.icon}`}>👤</span>
+          <Icon name="person" variant="plain" size="md" className={colors.icon} />
           {formatSectionText(sectionTexts.rsvp.form.person.label, { number: String(index + 1) })}
         </h3>
         

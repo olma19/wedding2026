@@ -80,7 +80,7 @@ export async function sendRSVPConfirmationEmail(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP Bekräftelse</title>
+  <title>OSA Bekräftelse</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -90,7 +90,7 @@ export async function sendRSVPConfirmationEmail(
           <!-- Header -->
           <tr>
             <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #a7c4a0 0%, #8fb38a 100%); border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">RSVP Bekräftelse</h1>
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">OSA Bekräftelse</h1>
             </td>
           </tr>
           
@@ -102,11 +102,11 @@ export async function sendRSVPConfirmationEmail(
               </p>
               
               <p style="margin: 0 0 20px; color: #374151; font-size: 16px; line-height: 1.6;">
-                Tack för din RSVP! Vi har mottagit din anmälan och ser fram emot att fira tillsammans med dig.
+                Tack för din OSA! Vi har mottagit din anmälan och ser fram emot att fira tillsammans med dig.
               </p>
               
               <div style="background-color: #f3f4f6; border-radius: 8px; padding: 24px; margin: 24px 0;">
-                <h2 style="margin: 0 0 16px; color: #111827; font-size: 20px; font-weight: 600;">Din RSVP</h2>
+                <h2 style="margin: 0 0 16px; color: #111827; font-size: 20px; font-weight: 600;">Din OSA</h2>
                 <p style="margin: 0 0 12px; color: #374151; font-size: 14px;">
                   <strong>Antal personer:</strong> ${data.numberOfAttendees}
                 </p>
@@ -122,7 +122,7 @@ export async function sendRSVPConfirmationEmail(
               </div>
               
               <p style="margin: 24px 0 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                Om du behöver ändra din RSVP eller har några frågor, kontakta oss gärna.
+                Om du behöver ändra din OSA eller har några frågor, kontakta oss gärna.
               </p>
               
               ${data.websiteUrl ? `
@@ -163,13 +163,13 @@ export async function sendRSVPConfirmationEmail(
     `.trim()
 
     const textContent = `
-RSVP Bekräftelse
+OSA Bekräftelse
 
 Hej ${data.guestName.split(',')[0].trim()}!
 
-Tack för din RSVP! Vi har mottagit din anmälan och ser fram emot att fira tillsammans med dig.
+Tack för din OSA! Vi har mottagit din anmälan och ser fram emot att fira tillsammans med dig.
 
-Din RSVP:
+Din OSA:
 Antal personer: ${data.numberOfAttendees}
 
 Gäster:
@@ -178,7 +178,7 @@ ${attendeeList}
 📅 ${data.weddingDate}
 📍 ${data.weddingLocation}
 
-Om du behöver ändra din RSVP eller har några frågor, kontakta oss gärna.
+Om du behöver ändra din OSA eller har några frågor, kontakta oss gärna.
 
 ${data.websiteUrl ? `För mer information, besök vår bröllopssida:
 ${data.websiteUrl}
@@ -193,7 +193,7 @@ Detta är ett automatiskt meddelande. Svara inte på detta e-post.
     const result = await resend.emails.send({
       from: `${fromName} <${fromEmail}>`,
       to: data.to,
-      subject: `RSVP Bekräftelse - ${data.coupleNames}`,
+      subject: `OSA Bekräftelse - ${data.coupleNames}`,
       html: htmlContent,
       text: textContent,
     })

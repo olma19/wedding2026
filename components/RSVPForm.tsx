@@ -31,7 +31,7 @@ interface RSVPFormProps {
 export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const colors = useColors()
   const gradients = useFormGradients()
-  const { submitRSVP, isSubmitting, submitError, submitSuccess, reset: resetSubmission } = useRSVPSubmission(onSuccess)
+  const { submitRSVP, isSubmitting, submitError, submitSuccess } = useRSVPSubmission(onSuccess)
 
   const {
     register,
@@ -70,7 +70,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const onSubmit = async (data: RSVPFormData) => {
     await submitRSVP(data)
     resetForm()
-    resetSubmission()
+    // Don't call resetSubmission() on success – let the user see SuccessMessage. The hook clears success after 5s.
   }
 
   if (submitSuccess) {

@@ -2,6 +2,8 @@
 
 This document describes the key components in the wedding website project.
 
+**UI components:** Prefer [shadcn/ui](https://ui.shadcn.com) where possible. See [Component migration plan](COMPONENT_MIGRATION_PLAN.md) for status and which primitives we use (e.g. Button is built on shadcn).
+
 ## Section Components
 
 ### SectionWrapper
