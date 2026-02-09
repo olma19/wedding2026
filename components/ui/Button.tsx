@@ -81,6 +81,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   isLoading?: boolean
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
+  asChild?: boolean
 }
 
 export default function Button({
@@ -92,26 +93,38 @@ export default function Button({
   className,
   disabled,
   children,
+  asChild = false,
   ...props
 }: ButtonProps) {
   const colors = useColors()
-  const primaryThemeClasses =
+  const themeClasses =
     variant === 'primary'
       ? `${colors.bgDark} text-white shadow hover:shadow-lg ${colors.bgDarkHover}`
-      : ''
+      : variant === 'secondary'
+        ? `${colors.bgLight} ${colors.text} shadow-sm ${colors.bgLightHover} border ${colors.borderLight}`
+        : variant === 'outline'
+          ? `border-2 ${colors.borderMedium} bg-transparent ${colors.text} shadow-sm ${colors.borderHover} ${colors.bgLightHover}`
+          : ''
 
   return (
     <ShadcnButton
       variant={variantMap[variant]}
       size={sizeMap[size]}
-      className={cn('rounded-lg', primaryThemeClasses, className)}
+      className={cn('rounded-lg', themeClasses, className)}
       disabled={disabled ?? isLoading}
+      asChild={asChild}
       {...props}
     >
-      {isLoading && <LoadingSpinner size="small" />}
-      {!isLoading && icon && iconPosition === 'left' && icon}
-      {children}
-      {!isLoading && icon && iconPosition === 'right' && icon}
+      {asChild ? (
+        children
+      ) : (
+        <>
+          {isLoading && <LoadingSpinner size="small" />}
+          {!isLoading && icon && iconPosition === 'left' && icon}
+          {children}
+          {!isLoading && icon && iconPosition === 'right' && icon}
+        </>
+      )}
     </ShadcnButton>
   )
 }

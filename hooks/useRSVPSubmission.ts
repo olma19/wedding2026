@@ -80,7 +80,6 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
       setSubmitSuccess(true)
       createConfetti()
       onSuccess?.()
-      setTimeout(() => setSubmitSuccess(false), 5000)
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') {
         console.error('[RSVP] Submission error:', err)

@@ -111,6 +111,7 @@ export interface SectionTexts {
       success: {
         message: string
         emailConfirmation?: string
+        okButton?: string
       }
     }
     inviteGate: {
@@ -255,6 +256,7 @@ export const sectionTexts: SectionTexts = {
       success: {
         message: 'Vi har mottagit din OSA och ser fram emot att fira med dig!',
         emailConfirmation: 'Om du angav e-post skickar vi en bekräftelse till din inkorg.',
+        okButton: 'OK',
       },
     },
     inviteGate: {

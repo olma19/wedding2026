@@ -31,7 +31,7 @@ interface RSVPFormProps {
 export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const colors = useColors()
   const gradients = useFormGradients()
-  const { submitRSVP, isSubmitting, submitError, submitSuccess } = useRSVPSubmission(onSuccess)
+  const { submitRSVP, isSubmitting, submitError, submitSuccess, reset: resetSubmission } = useRSVPSubmission(onSuccess)
 
   const {
     register,
@@ -70,14 +70,13 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const onSubmit = async (data: RSVPFormData) => {
     await submitRSVP(data)
     resetForm()
-    // Don't call resetSubmission() on success – let the user see SuccessMessage. The hook clears success after 5s.
   }
 
   if (submitSuccess) {
     return (
       <ErrorBoundary>
         <ScrollAnimation type="scale" delay={0}>
-          <SuccessMessage />
+          <SuccessMessage onDismiss={resetSubmission} />
         </ScrollAnimation>
       </ErrorBoundary>
     )
@@ -154,11 +153,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                       'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
                       field.value
                         ? `${colors.bgDark} text-white border-transparent`
-                        : 'border-gray-200 bg-white'
+                        : `${colors.borderLight} bg-white`
                     )}
                   >
                     <RadioGroupItem value="yes" id="participating-yes" className="sr-only" />
-                    <Label htmlFor="participating-yes" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', field.value ? 'text-white' : 'text-gray-700')}>
+                    <Label htmlFor="participating-yes" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', field.value ? 'text-white' : colors.text)}>
                       {sectionTexts.rsvp.form.participating.yesLabel}
                       <span aria-hidden>👍</span>
                     </Label>
@@ -168,11 +167,11 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                       'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
                       !field.value
                         ? 'bg-red-400 text-white border-transparent'
-                        : 'border-gray-200 bg-white'
+                        : `${colors.borderLight} bg-white`
                     )}
                   >
                     <RadioGroupItem value="no" id="participating-no" className="sr-only" />
-                    <Label htmlFor="participating-no" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', !field.value ? 'text-white' : 'text-gray-700')}>
+                    <Label htmlFor="participating-no" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', !field.value ? 'text-white' : colors.text)}>
                       {sectionTexts.rsvp.form.participating.noLabel}
                       <span aria-hidden>👎</span>
                     </Label>

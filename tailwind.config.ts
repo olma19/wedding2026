@@ -10,7 +10,7 @@ const config: Config = {
   safelist: [
     // Gradient from-* (used dynamically in admin/sections from lib/colors.ts)
     'from-pink-50', 'from-rose-50', 'from-purple-50', 'from-blue-50', 'from-teal-50',
-    'from-green-100', 'from-slate-100', 'from-red-50',
+    'from-green-100', 'from-slate-100', 'from-sage-100', 'from-red-50',
     // Green color scheme classes (salvia green - darker tones)
     'bg-green-50', 'bg-green-100', 'bg-green-200', 'bg-green-400', 'bg-green-500', 'bg-green-600', 'bg-green-700', 'bg-green-800', 'bg-green-900',
     'text-green-500', 'text-green-600', 'text-green-700', 'text-green-800',
@@ -18,13 +18,14 @@ const config: Config = {
     'hover:bg-green-100', 'hover:bg-green-200', 'hover:bg-green-400', 'hover:bg-green-700', 'hover:bg-green-900',
     'hover:text-green-600', 'hover:text-green-800', 'hover:border-green-400', 'hover:border-green-700',
     'focus:ring-green-600', 'focus:ring-green-800', 'focus:border-green-800', 'accent-green-800',
-    // Sage green color scheme classes (muted, grayish-green)
-    'bg-slate-100', 'bg-slate-200', 'bg-emerald-400', 'bg-emerald-500', 'bg-emerald-600', 'bg-emerald-700', 'bg-emerald-800',
-    'text-emerald-400', 'text-emerald-500', 'text-emerald-600', 'text-emerald-700', 'text-emerald-800',
-    'border-slate-200', 'border-emerald-500', 'border-emerald-600', 'border-emerald-700',
-    'hover:bg-slate-200', 'hover:bg-emerald-600', 'hover:bg-emerald-800',
-    'hover:text-emerald-800', 'hover:border-emerald-600',
-    'focus:ring-emerald-700', 'focus:border-emerald-700', 'accent-emerald-700',
+    // Sage color scheme (custom muted gray-green palette)
+    'bg-sage-100', 'bg-sage-200', 'bg-sage-400', 'bg-sage-500', 'bg-sage-600', 'bg-sage-700', 'bg-sage-800',
+    'text-sage-400', 'text-sage-500', 'text-sage-600', 'text-sage-700', 'text-sage-800',
+    'border-sage-200', 'border-sage-500', 'border-sage-600', 'border-sage-700',
+    'hover:bg-sage-200', 'hover:bg-sage-600', 'hover:bg-sage-800',
+    'hover:text-sage-800', 'hover:border-sage-600',
+    'focus:ring-sage-700', 'focus:border-sage-700', 'accent-sage-700',
+    'fill-sage-400', 'fill-sage-600',
     // Pink color scheme classes (for fallback)
     'bg-pink-50', 'bg-pink-100', 'bg-pink-300', 'bg-pink-400', 'bg-pink-500', 'bg-pink-600', 'bg-pink-700',
     'text-pink-300', 'text-pink-400', 'text-pink-500', 'text-pink-600',
@@ -56,6 +57,19 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			// Muted gray-green sage palette (dusty, not vivid)
+  			sage: {
+  				'50': '#f4f5f1',
+  				'100': '#e8ebe3',
+  				'200': '#d4d9c9',
+  				'300': '#b5bd9f',
+  				'400': '#96a07a',
+  				'500': '#7a855e',
+  				'600': '#606b48',
+  				'700': '#4d553a',
+  				'800': '#404631',
+  				'900': '#373c2b',
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

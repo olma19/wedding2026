@@ -2,9 +2,14 @@
 
 import { sectionTexts } from '@/config/section-texts'
 import { useColors } from '@/components/ColorSchemeProvider'
+import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
-export default function SuccessMessage() {
+interface SuccessMessageProps {
+  onDismiss?: () => void
+}
+
+export default function SuccessMessage({ onDismiss }: SuccessMessageProps) {
   const colors = useColors()
   const successTexts = sectionTexts.rsvp.form.success
 
@@ -32,6 +37,13 @@ export default function SuccessMessage() {
       <p className="text-gray-600">{successTexts.message}</p>
       {successTexts.emailConfirmation && (
         <p className="mt-3 text-sm text-gray-500">{successTexts.emailConfirmation}</p>
+      )}
+      {onDismiss && (
+        <div className="mt-6">
+          <Button type="button" onClick={onDismiss}>
+            {sectionTexts.rsvp.form.success.okButton ?? 'OK'}
+          </Button>
+        </div>
       )}
     </div>
   )

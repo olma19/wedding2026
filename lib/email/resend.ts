@@ -58,6 +58,20 @@ export async function sendRSVPConfirmationEmail(
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@wedding2026.com'
     const fromName = process.env.RESEND_FROM_NAME || 'Kristian & Mimmi'
 
+    // Resend test mode (onboarding@resend.dev) only allows sending to the account owner.
+    // If RESEND_ALLOWED_RECIPIENT is set, only send to that address; otherwise skip and return success.
+    const isTestFrom = fromEmail === 'onboarding@resend.dev'
+    const allowedRecipient = process.env.RESEND_ALLOWED_RECIPIENT?.trim().toLowerCase()
+    if (isTestFrom && allowedRecipient) {
+      const toNormalized = data.to.trim().toLowerCase()
+      if (toNormalized !== allowedRecipient) {
+        console.log(
+          `[Resend] Skipping confirmation email to ${data.to} (test mode: only ${allowedRecipient} can receive). RSVP was saved.`
+        )
+        return { success: true }
+      }
+    }
+
     const attendeeList = data.attendees
       .map((attendee, index) => {
         const parts = [`${index + 1}. ${attendee.firstname} ${attendee.lastname}`]

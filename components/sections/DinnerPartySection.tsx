@@ -3,6 +3,7 @@
 import SectionWrapper from './SectionWrapper'
 import DetailCard from '../DetailCard'
 import Icon from '../ui/Icon'
+import Button from '../ui/Button'
 import ScrollAnimation from '../ScrollAnimation'
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from '../ColorSchemeProvider'
@@ -45,14 +46,15 @@ export default function DinnerPartySection() {
                 mainText={dinnerParty.address ?? ''}
               />
               {dinnerParty.mapUrl && (
-                <a
-                  href={dinnerParty.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`mt-3 inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-white shadow-md transition-all ${colors.bgDark} hover:shadow-lg ${colors.bgDarkHover}`}
-                >
-                  Visa på karta
-                </a>
+                <Button asChild className="mt-3">
+                  <a
+                    href={dinnerParty.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visa på karta
+                  </a>
+                </Button>
               )}
             </div>
           </ScrollAnimation>
