@@ -1,7 +1,7 @@
 'use client'
 
 import { HTMLAttributes } from 'react'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -78,7 +78,7 @@ export default function Skeleton({
     none: '',
   }
 
-  const baseClasses = classNames(
+  const baseClasses = cn(
     'bg-gray-200 dark:bg-gray-700',
     'opacity-100', // Ensure visibility
     variantClasses[variant],
@@ -94,7 +94,7 @@ export default function Skeleton({
         {Array.from({ length: lines }).map((_, index) => (
           <div
             key={index}
-            className={classNames(
+            className={cn(
               baseClasses,
               index === lines - 1 && 'w-3/4' // Last line is shorter
             )}

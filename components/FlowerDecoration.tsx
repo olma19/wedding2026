@@ -6,7 +6,7 @@ import { weddingConfig } from '@/config/wedding'
 import LeafDecoration from './LeafDecoration'
 import { getVariedLeafDecoration } from '@/lib/decorations/variations'
 import { useDecorationSeed } from '@/hooks/useDecorationCounter'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 /**
  * Props for FlowerDecoration component
@@ -83,8 +83,8 @@ const FlowerDecoration = memo(function FlowerDecoration({
   // Simple leaf variant (when explicitly passed as variant="leaf")
   if (variant === 'leaf') {
     return (
-      <div className={classNames(sizeClasses[size], className)}>
-        <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-60', colors.leaf)}>
+      <div className={cn(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={cn('w-full h-full opacity-60', colors.leaf)}>
           <path
             d="M50 20 Q30 40 35 60 Q40 80 50 85 Q60 80 65 60 Q70 40 50 20"
             fill="currentColor"
@@ -104,8 +104,8 @@ const FlowerDecoration = memo(function FlowerDecoration({
 
   if (decorationType === 'branch') {
     return (
-      <div className={classNames(sizeClasses[size], className)}>
-        <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-50', colors.branch)}>
+      <div className={cn(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={cn('w-full h-full opacity-50', colors.branch)}>
           <path
             d="M20 50 Q40 30 60 50 Q80 70 90 60"
             stroke="currentColor"
@@ -123,8 +123,8 @@ const FlowerDecoration = memo(function FlowerDecoration({
 
   // Default: flower - use color scheme colors
   return (
-    <div className={classNames(sizeClasses[size], className)}>
-      <svg viewBox="0 0 100 100" className={classNames('w-full h-full opacity-70', colors.flowerOuter)}>
+    <div className={cn(sizeClasses[size], className)}>
+      <svg viewBox="0 0 100 100" className={cn('w-full h-full opacity-70', colors.flowerOuter)}>
         {/* Outer petals */}
         <ellipse cx="50" cy="25" rx="10" ry="15" fill="currentColor" />
         <ellipse cx="75" cy="50" rx="15" ry="10" fill="currentColor" />
@@ -136,7 +136,7 @@ const FlowerDecoration = memo(function FlowerDecoration({
         <ellipse cx="50" cy="70" rx="8" ry="12" className={colors.flowerInner} />
         <ellipse cx="30" cy="50" rx="12" ry="8" className={colors.flowerInner} />
         {/* Center */}
-        <circle cx="50" cy="50" r="8" className={classNames('opacity-90', colors.flowerCenter)} />
+        <circle cx="50" cy="50" r="8" className={cn('opacity-90', colors.flowerCenter)} />
         <circle cx="50" cy="50" r="4" className={colors.flowerCenter} />
       </svg>
     </div>

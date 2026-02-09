@@ -2,7 +2,7 @@
 
 import { weddingConfig } from '@/config/wedding'
 import { useColors } from './ColorSchemeProvider'
-import { sectionTexts, formatSectionText } from '@/config/section-texts'
+import { sectionTexts } from '@/config/section-texts'
 
 export default function Footer() {
   const { couple, date } = weddingConfig

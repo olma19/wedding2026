@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 import { useColors } from './ColorSchemeProvider'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 interface LeafDecorationProps {
   className?: string
@@ -35,8 +35,8 @@ const LeafDecoration = memo(function LeafDecoration({
   // Single leaf - improved natural shape with detail
   if (variant === 'single') {
     return (
-      <div className={classNames(sizeClasses[size], className)}>
-        <svg viewBox="0 0 100 100" className={classNames('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
+      <div className={cn(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={cn('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
           <defs>
             <linearGradient id="leafGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />
@@ -82,8 +82,8 @@ const LeafDecoration = memo(function LeafDecoration({
   // Pair of leaves - two leaves at different angles (V shape)
   if (variant === 'pair') {
     return (
-      <div className={classNames(sizeClasses[size], className)}>
-        <svg viewBox="0 0 100 100" className={classNames('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
+      <div className={cn(sizeClasses[size], className)}>
+        <svg viewBox="0 0 100 100" className={cn('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
           <defs>
             <linearGradient id="leafGradientPair" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />
@@ -165,8 +165,8 @@ const LeafDecoration = memo(function LeafDecoration({
 
   // Default: Single leaf
   return (
-    <div className={classNames(sizeClasses[size], className)}>
-      <svg viewBox="0 0 100 100" className={classNames('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
+    <div className={cn(sizeClasses[size], className)}>
+      <svg viewBox="0 0 100 100" className={cn('w-full h-full', colors.leaf)} style={{ opacity: 0.75 }}>
         <defs>
           <linearGradient id="leafGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />

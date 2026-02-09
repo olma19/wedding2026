@@ -51,18 +51,19 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
     setSubmitError(null)
     
     const payload = { ...data }
-    
-    console.log('Submitting RSVP payload:', payload)
-    
+    const isDev = process.env.NODE_ENV === 'development'
+
     try {
       const response = await fetch('/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
-      
-      console.log('Response status:', response.status, response.statusText)
-      
+
+      if (isDev) {
+        console.log('[RSVP] Response status:', response.status, response.statusText)
+      }
+
       if (!response.ok) {
         let result
         try {
@@ -70,18 +71,20 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
         } catch {
           result = { error: 'Okänt fel', details: `HTTP ${response.status}: ${response.statusText}` }
         }
-        console.error('API error response:', result)
+        if (isDev) console.error('[RSVP] API error response:', result)
         throw new Error(result.details || result.error || 'Kunde inte skicka RSVP')
       }
-      
+
       const result = await response.json()
-      console.log('Success response:', result)
+      if (isDev) console.log('[RSVP] Success response:', result)
       setSubmitSuccess(true)
       createConfetti()
       onSuccess?.()
       setTimeout(() => setSubmitSuccess(false), 5000)
     } catch (err: unknown) {
-      console.error('RSVP submission error:', err)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[RSVP] Submission error:', err)
+      }
       const errorMessage = err instanceof Error ? err.message : 'Ett fel uppstod. Försök igen.'
       setSubmitError(errorMessage)
     } finally {

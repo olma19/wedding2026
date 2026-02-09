@@ -51,6 +51,15 @@
 - Kasta fel om environment variables saknas i produktion
 - Använd `process.env.NODE_ENV` för att skilja dev/prod
 
+### 4b. Guest / Admin secrets (RSVP_ACCESS_SECRET, ADMIN_PASSWORD)
+
+**Problem:**
+- `lib/auth/guest.ts` signerar gäst-cookies med en hemlighet. Om ingen hemlighet är satt används fallback: `RSVP_ACCESS_SECRET || ADMIN_PASSWORD || 'rsvp-guest-secret'`. I produktion ska en stark, unik hemlighet alltid sättas.
+
+**Lösning:**
+- **Produktion:** Sätt `RSVP_ACCESS_SECRET` (och/eller `ADMIN_PASSWORD`) till starka, unika värden. Använd aldrig fallback-hemligheten i prod.
+- Överväg att i produktion logga en varning eller kasta fel om dessa env-variabler saknas (så att deploy inte “lurar” sig med default).
+
 ### 5. Input Validation - Saknar Maxlängder
 
 **Problem:**
@@ -82,6 +91,7 @@
 ### 9. Error Messages
 - Vissa felmeddelanden kan exponera för mycket information
 - Överväg att dölja tekniska detaljer i produktion
+- `lib/api/errorHandler.ts`: `handleDatabaseError` och `handleUnknownError` skickar `err.message` till klienten; i produktion bör endast generiska meddelanden returneras
 
 ---
 

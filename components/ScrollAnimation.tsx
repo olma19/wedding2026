@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, ReactNode, useMemo } from 'react'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 import {
   type AnimationType,
   DEFAULT_ANIMATION_CONFIG,
@@ -154,7 +154,7 @@ export default function ScrollAnimation({
   return (
     <div
       ref={ref}
-      className={classNames(
+      className={cn(
         animationClasses,
         className
       )}

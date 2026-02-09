@@ -12,7 +12,7 @@ export function useAdminRSVPs() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [checkingAuth, setCheckingAuth] = useState(true)
-  const [sortBy, setSortBy] = useState<'name' | null>(null)
+  const [sortBy, setSortBy] = useState<'name' | 'date' | null>(null)
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [statCardFilter, setStatCardFilter] = useState<keyof AdminStats | null>(null)
   const [selectedRSVP, setSelectedRSVP] = useState<RSVP | null>(null)
@@ -75,7 +75,11 @@ export function useAdminRSVPs() {
         fetchRSVPs()
       } else {
         const result = await response.json()
-        setError(result.error || 'Fel lösenord')
+        const message =
+          typeof result.error === 'string'
+            ? result.error
+            : result.error?.error ?? 'Fel lösenord'
+        setError(message)
       }
     } catch {
       setError('Ett fel uppstod. Försök igen.')
@@ -102,6 +106,15 @@ export function useAdminRSVPs() {
     }
   }
 
+  const handleSortByDate = () => {
+    if (sortBy === 'date') {
+      setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortBy('date')
+      setSortDirection('desc')
+    }
+  }
+
   const personRows = useMemo(() => rsvpsToPersonRows(rsvps), [rsvps])
 
   const filteredPersonRows = useMemo(() => {
@@ -124,13 +137,22 @@ export function useAdminRSVPs() {
   }, [personRows, statCardFilter])
 
   const sortedPersonRows = useMemo(() => {
-    if (sortBy !== 'name') return [...filteredPersonRows]
-    const name = (p: PersonRow) => `${p.firstName} ${p.lastName}`.toLowerCase().trim()
-    return [...filteredPersonRows].sort((a, b) =>
-      sortDirection === 'asc'
-        ? name(a).localeCompare(name(b), 'sv')
-        : name(b).localeCompare(name(a), 'sv')
-    )
+    const rows = [...filteredPersonRows]
+    if (sortBy === 'name') {
+      const name = (p: PersonRow) => `${p.firstName} ${p.lastName}`.toLowerCase().trim()
+      return rows.sort((a, b) =>
+        sortDirection === 'asc'
+          ? name(a).localeCompare(name(b), 'sv')
+          : name(b).localeCompare(name(a), 'sv')
+      )
+    }
+    if (sortBy === 'date') {
+      const date = (p: PersonRow) => (p.createdAt ? new Date(p.createdAt).getTime() : 0)
+      return rows.sort((a, b) =>
+        sortDirection === 'asc' ? date(a) - date(b) : date(b) - date(a)
+      )
+    }
+    return rows
   }, [filteredPersonRows, sortBy, sortDirection])
 
   const handleStatCardClick = (key: keyof AdminStats) => {
@@ -178,5 +200,6 @@ export function useAdminRSVPs() {
     handleLogin,
     handleLogout,
     handleSortByName,
+    handleSortByDate,
   }
 }

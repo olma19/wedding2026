@@ -1,12 +1,12 @@
 'use client'
 
 import { useAdminRSVPs } from './useAdminRSVPs'
-import AdminLoginForm from './AdminLoginForm'
-import AdminCheckingAuth from './AdminCheckingAuth'
-import AdminHeader from './AdminHeader'
-import AdminStats from './AdminStats'
-import AdminRSVPTable from './AdminRSVPTable'
-import AdminRSVPModal from './AdminRSVPModal'
+import AdminLoginForm from './components/AdminLoginForm'
+import AdminCheckingAuth from './components/AdminCheckingAuth'
+import AdminHeader from './components/AdminHeader'
+import AdminStats from './components/AdminStats'
+import AdminRSVPTable from './components/AdminRSVPTable'
+import AdminRSVPModal from './components/AdminRSVPModal'
 import { useColors } from '@/components/ColorSchemeProvider'
 
 export default function AdminPage() {
@@ -33,6 +33,7 @@ export default function AdminPage() {
     handleLogin,
     handleLogout,
     handleSortByName,
+    handleSortByDate,
   } = useAdminRSVPs()
 
   if (checkingAuth) {
@@ -52,7 +53,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b ${colors.gradientFrom} to-white py-8 px-4`}>
+    <div className={`min-h-screen bg-gradient-to-b ${colors.gradientFrom} to-white py-8 px-4`} data-testid="admin-dashboard">
       <div className="max-w-7xl mx-auto">
         <AdminHeader
           onRefresh={fetchRSVPs}
@@ -82,6 +83,7 @@ export default function AdminPage() {
           sortBy={sortBy}
           sortDirection={sortDirection}
           onSortByName={handleSortByName}
+          onSortByDate={handleSortByDate}
           onSelectRSVP={setSelectedRSVP}
           loading={loading}
         />

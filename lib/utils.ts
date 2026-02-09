@@ -1,6 +1,2 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+/** Single source for className merge (clsx + tailwind-merge). Used by shadcn and app. */
+export { cn } from './utils/classNames'

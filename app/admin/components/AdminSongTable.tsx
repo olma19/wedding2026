@@ -1,7 +1,7 @@
 'use client'
 
-import type { UniqueSong } from './types'
-import { parseSongDisplay } from './lib/songUtils'
+import type { UniqueSong } from '../types'
+import { parseSongDisplay } from '../lib/songUtils'
 import { useColors } from '@/components/ColorSchemeProvider'
 
 interface AdminSongTableProps {

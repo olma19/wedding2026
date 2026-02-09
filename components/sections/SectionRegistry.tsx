@@ -15,8 +15,8 @@ const GoodToKnowSection = lazy(() => import('./GoodToKnowSection'))
 const ToastmasterSection = lazy(() => import('./ToastmasterSection'))
 const RSVPSection = lazy(() => import('./RSVPSection'))
 
-// Component mapping
-const componentMap: Record<string, ComponentType<any>> = {
+/** Section components receive no props; they read from config/context. */
+const componentMap: Record<string, ComponentType<object>> = {
   'countdown': CountdownSection,
   'story': StorySection,
   'ceremony': CeremonySection,

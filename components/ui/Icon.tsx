@@ -1,7 +1,7 @@
 'use client'
 
 import { useColors } from '../ColorSchemeProvider'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 /**
  * Material Symbol names (snake_case).
@@ -86,18 +86,18 @@ export default function Icon({
 
   const symbol = useNeutralPerson ? (
     <span
-      className={classNames('inline-flex shrink-0 items-center justify-center', variant === 'plain' && className)}
+      className={cn('inline-flex shrink-0 items-center justify-center', variant === 'plain' && className)}
       aria-hidden={decorative}
       {...(decorative ? {} : { role: 'img', 'aria-label': 'person' })}
     >
       <PersonNeutralIcon
         size={size}
-        className={classNames(variant === 'plain' && colors.icon)}
+        className={cn(variant === 'plain' && colors.icon)}
       />
     </span>
   ) : (
     <span
-      className={classNames(
+      className={cn(
         'material-symbols-outlined select-none',
         sizeClasses[size],
         variant === 'plain' && className,
@@ -122,7 +122,7 @@ export default function Icon({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         'rounded-full flex items-center justify-center shrink-0',
         circleSizeClasses[size],
         circleClass,
@@ -136,7 +136,7 @@ export default function Icon({
         <PersonNeutralIcon size={size} className={iconColorClass} />
       ) : (
         <span
-          className={classNames('material-symbols-outlined select-none', sizeClasses[size], iconColorClass)}
+          className={cn('material-symbols-outlined select-none', sizeClasses[size], iconColorClass)}
           aria-hidden
         >
           {name}

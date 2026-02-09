@@ -24,7 +24,7 @@ export default function AdminLoginForm({
         <h1 className={`text-3xl font-serif font-bold mb-6 text-center ${colors.textDark}`}>
           Admin Login
         </h1>
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form data-testid="admin-login-form" onSubmit={onSubmit} className="space-y-4">
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
               Lösenord

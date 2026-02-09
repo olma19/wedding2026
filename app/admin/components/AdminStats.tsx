@@ -1,6 +1,6 @@
 'use client'
 
-import type { AdminStats as AdminStatsType } from './types'
+import type { AdminStats as AdminStatsType } from '../types'
 
 interface AdminStatsProps {
   stats: AdminStatsType

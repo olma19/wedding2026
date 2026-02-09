@@ -3,7 +3,7 @@
 import FlowerDecoration from './FlowerDecoration'
 import { useColors } from './ColorSchemeProvider'
 import { useMemo } from 'react'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 interface SectionTitleProps {
   title: string
@@ -30,7 +30,7 @@ export default function SectionTitle({
   }, [title])
   
   const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements
-  const headingClasses = classNames(
+  const headingClasses = cn(
     'font-serif font-bold text-gray-800',
     level === 1 && 'text-4xl md:text-5xl',
     level === 2 && 'text-3xl md:text-4xl',
@@ -65,7 +65,7 @@ export default function SectionTitle({
       </div>
       {showDivider && (
         <div 
-          className={classNames('h-1 w-24 mx-auto mb-8', colors.bgMedium)}
+          className={cn('h-1 w-24 mx-auto mb-8', colors.bgMedium)}
           aria-hidden="true"
         />
       )}

@@ -15,7 +15,7 @@ import FormField from './forms/FormField'
 import Button from '@/components/ui/Button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 import ErrorBoundary from './ErrorBoundary'
 import ScrollAnimation from './ScrollAnimation'
 import { sectionTexts } from '@/config/section-texts'
@@ -101,13 +101,14 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={classNames(
+        className={cn(
           'relative max-w-2xl mx-auto bg-gradient-to-br rounded-lg shadow-xl p-8 border-2 overflow-hidden backdrop-blur-sm',
           gradients.outer,
           colors.borderLight
         )}
         noValidate
         aria-label={sectionTexts.rsvp.form.ariaLabel}
+        data-testid="rsvp-form"
       >
         {/* Decorative background elements */}
         <div className="absolute top-4 right-4 opacity-10">
@@ -149,7 +150,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                   disabled={isSubmitting}
                 >
                   <div
-                    className={classNames(
+                    className={cn(
                       'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
                       field.value
                         ? `${colors.bgDark} text-white border-transparent`
@@ -157,13 +158,13 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                     )}
                   >
                     <RadioGroupItem value="yes" id="participating-yes" className="sr-only" />
-                    <Label htmlFor="participating-yes" className={classNames('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', field.value ? 'text-white' : 'text-gray-700')}>
+                    <Label htmlFor="participating-yes" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', field.value ? 'text-white' : 'text-gray-700')}>
                       {sectionTexts.rsvp.form.participating.yesLabel}
                       <span aria-hidden>👍</span>
                     </Label>
                   </div>
                   <div
-                    className={classNames(
+                    className={cn(
                       'flex items-center justify-center rounded-lg border-2 px-4 py-3 transition-colors',
                       !field.value
                         ? 'bg-red-400 text-white border-transparent'
@@ -171,7 +172,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                     )}
                   >
                     <RadioGroupItem value="no" id="participating-no" className="sr-only" />
-                    <Label htmlFor="participating-no" className={classNames('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', !field.value ? 'text-white' : 'text-gray-700')}>
+                    <Label htmlFor="participating-no" className={cn('cursor-pointer font-medium flex-1 text-center inline-flex items-center justify-center gap-2', !field.value ? 'text-white' : 'text-gray-700')}>
                       {sectionTexts.rsvp.form.participating.noLabel}
                       <span aria-hidden>👎</span>
                     </Label>

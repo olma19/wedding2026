@@ -92,12 +92,16 @@ wedding2026/
 
 ## Documentation
 
-- **[Architecture Overview](./docs/ARCHITECTURE.md)** - Project structure and design decisions
-- **[Component Documentation](./docs/COMPONENTS.md)** - Detailed component API documentation
-- **[Component migration plan (shadcn)](./docs/COMPONENT_MIGRATION_PLAN.md)** - Use shadcn where possible; migration status and steps
-- **[Hooks Documentation](./docs/hooks.md)** - Custom React hooks guide
-- **[Image Patterns](./docs/IMAGE_PATTERNS.md)** - Next.js Image component patterns and best practices
-- **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** - Future enhancements
+- **[CODEBASE](./docs/CODEBASE.md)** – Where to start: architecture, testing, security, “where to change”
+- **[ARCHITECTURE](./docs/ARCHITECTURE.md)** – Project structure, data flows, design decisions
+- **[TESTING](./docs/TESTING.md)** – Unit (Vitest) and E2E (Playwright) – how to run, what’s covered
+- **[CI/CD](./docs/CI_CD.md)** – GitHub Actions and Vercel – run tests before deploy
+- **[SECURITY_CHECKLIST](./SECURITY_CHECKLIST.md)** – Pre-deploy security (admin, env, rate limiting)
+- **[Component migration (shadcn)](./docs/COMPONENT_MIGRATION_PLAN.md)** – Use shadcn where possible
+- **[COMPONENTS](./docs/COMPONENTS.md)** – Component API
+- **[Hooks](./docs/hooks.md)** – Custom hooks
+- **[Deployment](./DEPLOYMENT.md)** / **[Quick deploy](./QUICK_DEPLOY.md)** – Deploy to Vercel etc.
+- **[Improvements & Features](./IMPROVEMENTS_AND_FEATURES.md)** – Future enhancements
 - **[Decoration Guide](./DECORATION_GUIDE.md)** - Decoration system documentation
 - **[Troubleshooting Guide](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
@@ -105,7 +109,7 @@ wedding2026/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- **Node.js 20** (see `.nvmrc`; `nvm use` if you use nvm)
 - npm, yarn, or pnpm
 - A Supabase account (free tier works)
 
@@ -164,11 +168,15 @@ npm run format       # Format code with Prettier
 npm run format:check # Check formatting without modifying files
 
 # Testing
-npm run test         # Run tests in watch mode
-npm run test:run     # Run tests once
-npm run test:ui      # Run tests with UI
-npm run test:coverage # Run tests with coverage report
+npm run test          # Unit tests (watch)
+npm run test:run      # Unit tests (single run)
+npm run test:ui       # Unit tests (Vitest UI)
+npm run test:coverage # Unit test coverage
+npm run test:e2e      # E2E tests (Playwright)
+npm run test:e2e:ui   # E2E tests (Playwright UI)
 ```
+
+See **[docs/TESTING.md](docs/TESTING.md)** for the full testing guide (unit + E2E, what’s covered, how to add tests). E2E quick ref: [e2e/README.md](e2e/README.md).
 
 ### Type Checking
 
@@ -198,7 +206,7 @@ npx tsc --noEmit     # Check TypeScript types without building
 
 5. **Klicka "Deploy"** - Klart! 🎉
 
-Se [`QUICK_DEPLOY.md`](./QUICK_DEPLOY.md) för detaljerade instruktioner eller [`DEPLOYMENT.md`](./DEPLOYMENT.md) för fullständig guide.
+Se [QUICK_DEPLOY.md](./QUICK_DEPLOY.md) för detaljerade instruktioner eller [DEPLOYMENT.md](./DEPLOYMENT.md) för fullständig guide. För CI/CD (GitHub Actions + Vercel, köra tester innan deploy): [docs/CI_CD.md](docs/CI_CD.md).
 
 ### Andra Hosting-alternativ
 - **Netlify**: Bra alternativ, se DEPLOYMENT.md

@@ -301,3 +301,25 @@ export function formatSectionText(text: string, replacements: Record<string, str
 export function getSectionText(sectionId: keyof SectionTexts): SectionTexts[keyof SectionTexts] {
   return sectionTexts[sectionId]
 }
+
+/** Section IDs that have a title in sectionTexts (single source for section titles) */
+const SECTION_IDS_WITH_TITLE = [
+  'countdown',
+  'story',
+  'ceremony',
+  'dinner-party',
+  'good-to-know',
+  'toastmaster',
+  'rsvp',
+] as const
+
+/**
+ * Get the display title for a section by id. Use this instead of duplicating titles in sections.ts.
+ */
+export function getSectionTitle(sectionId: string): string {
+  if (SECTION_IDS_WITH_TITLE.includes(sectionId as (typeof SECTION_IDS_WITH_TITLE)[number])) {
+    const section = sectionTexts[sectionId as (typeof SECTION_IDS_WITH_TITLE)[number]]
+    return section && 'title' in section ? (section as { title: string }).title : sectionId
+  }
+  return sectionId
+}

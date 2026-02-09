@@ -1,7 +1,7 @@
 'use client'
 
 import type { RSVP } from '@/types/rsvp'
-import type { PersonRow } from './types'
+import type { PersonRow } from '../types'
 import { useColors } from '@/components/ColorSchemeProvider'
 
 interface AdminPersonTableProps {
@@ -9,9 +9,10 @@ interface AdminPersonTableProps {
   personRowsLength: number
   isFiltered: boolean
   rsvps: RSVP[]
-  sortBy: 'name' | null
+  sortBy: 'name' | 'date' | null
   sortDirection: 'asc' | 'desc'
   onSortByName: () => void
+  onSortByDate: () => void
   onSelectRSVP: (rsvp: RSVP) => void
 }
 
@@ -34,6 +35,7 @@ export default function AdminPersonTable({
   sortBy,
   sortDirection,
   onSortByName,
+  onSortByDate,
   onSelectRSVP,
 }: AdminPersonTableProps) {
   const colors = useColors()
@@ -54,18 +56,28 @@ export default function AdminPersonTable({
     <div className="bg-white rounded-lg shadow overflow-hidden">
       {/* Mobile: card list */}
       <div className="md:hidden divide-y divide-gray-200">
-        <button
-          type="button"
-          onClick={onSortByName}
-          className={`w-full px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLight} ${colors.bgLightHover} border-b border-gray-200 flex items-center gap-2`}
-        >
-          Sortera på namn
-          {sortBy === 'name' && (
-            <span className={colors.text}>
-              {sortDirection === 'asc' ? '↑' : '↓'}
-            </span>
-          )}
-        </button>
+        <div className={`flex border-b border-gray-200 ${colors.bgLight}`}>
+          <button
+            type="button"
+            onClick={onSortByName}
+            className={`flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLightHover} flex items-center gap-2`}
+          >
+            Namn
+            {sortBy === 'name' && (
+              <span className={colors.text}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={onSortByDate}
+            className={`flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLightHover} flex items-center gap-2`}
+          >
+            Datum
+            {sortBy === 'date' && (
+              <span className={colors.text}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+            )}
+          </button>
+        </div>
         {sortedPersonRows.map((person, index) => {
           const rsvp = rsvps.find((r) => r.id === person.rsvpId)
           return (
@@ -148,8 +160,18 @@ export default function AdminPersonTable({
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                 Låt
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                Datum
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer select-none hover:opacity-80 transition-opacity"
+                onClick={onSortByDate}
+              >
+                <div className="flex items-center gap-2">
+                  Datum
+                  {sortBy === 'date' && (
+                    <span className={colors.text}>
+                      {sortDirection === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </div>
               </th>
             </tr>
           </thead>

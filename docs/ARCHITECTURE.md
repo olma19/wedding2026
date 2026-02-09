@@ -7,22 +7,29 @@ This document describes the architecture and structure of the wedding website pr
 ```
 wedding2026/
 ├── app/                    # Next.js App Router
-│   ├── api/               # API routes
+│   ├── admin/             # Admin UI (RSVP list, stats, modal) – client-only, auth-protected
+│   │   ├── components/   # Admin React components (AdminHeader, AdminRSVPTable, etc.)
+│   │   ├── lib/           # Admin-only helpers (e.g. songUtils)
+│   │   ├── page.tsx       # Admin page
+│   │   ├── types.ts       # Admin view-model types
+│   │   └── useAdminRSVPs.ts
+│   ├── api/               # API routes (RSVP, admin login, access gate)
 │   ├── decorations/       # Decoration showcase page
 │   └── page.tsx           # Main landing page
 ├── components/            # React components
 │   ├── forms/            # Form components
-│   ├── sections/         # Section components
-│   └── ...               # Other components
-├── config/               # Configuration files
-├── hooks/                # Custom React hooks
-├── lib/                  # Library utilities
-│   ├── api/              # API utilities
-│   ├── colors/           # Color scheme utilities
-│   ├── decorations/      # Decoration utilities
-│   └── utils/            # General utilities
-├── types/                # TypeScript type definitions
-└── public/              # Static assets
+│   ├── sections/         # Section components (lazy-loaded via SectionRegistry)
+│   ├── ui/                # UI primitives (shadcn-based: Button, Card, Label, etc.)
+│   └── ...                # Shared (Footer, ColorSchemeProvider, etc.)
+├── config/                # Configuration files
+├── hooks/                 # Custom React hooks
+├── lib/                   # Library utilities
+│   ├── api/               # API utilities
+│   ├── colors/            # Color scheme utilities
+│   ├── utils/             # classNames/cn (single source), accessibility
+│   └── utils.ts           # cn re-export (used by shadcn components)
+├── types/                 # TypeScript type definitions
+└── public/                # Static assets
 ```
 
 ## Key Architectural Patterns
@@ -50,6 +57,11 @@ wedding2026/
 - Comprehensive TypeScript types in `types/` directory
 - Type-safe API responses
 - Strongly typed form data
+
+### 5. UI components (shadcn)
+
+- **Prefer shadcn where possible**: Button, Card, Label, RadioGroup use shadcn primitives; theme via `useColors()` and CSS variables. See `docs/COMPONENT_MIGRATION_PLAN.md` for migration status.
+- **Single className helper**: Use `cn` from `@/lib/utils` (clsx + tailwind-merge) for all class composition.
 
 ## Component Hierarchy
 
@@ -85,7 +97,7 @@ Page (app/page.tsx)
 ### Config flow
 1. **Wedding data**: `config/wedding.ts` is validated at load by `lib/config/validate.ts` (required keys).
 2. **Section texts**: `config/section-texts.ts` provides all copy; components import `sectionTexts`.
-3. **Sections**: `config/sections.ts` defines enabled sections and order; `SectionRegistry` renders them. **Contract:** section `id` in `sections.ts` must match the key used in `sectionTexts` (e.g. `ceremony`, `dinner-party`, `good-to-know`, `rsvp`).
+3. **Sections**: `config/sections.ts` defines enabled sections and order; `SectionRegistry` renders them. Section **titles** come from `section-texts` only (use `getSectionTitle(sectionId)`); do not duplicate titles in `sections.ts`. Section `id` must match the key in `sectionTexts`.
 4. **Color scheme**: `ColorSchemeProvider` + `useColors()`; wedding config sets `colorScheme`.
 
 ### Other flows
@@ -114,7 +126,7 @@ Page (app/page.tsx)
 
 ## Current Architecture Status
 
-**Last Updated:** February 2, 2026
+**Last Updated:** February 2026
 
 ### Completed Refactoring
 
@@ -154,14 +166,14 @@ Page (app/page.tsx)
 | Add an RSVP field | `types/rsvp.ts`, `lib/validations/rsvp.ts`, `app/api/rsvp/route.ts`, `lib/rsvp/mapRsvpToAdmin.ts` (and optionally `lib/rsvp/guestName.ts`), `components/RSVPForm.tsx`, admin table columns if shown |
 | RSVP form default values | `lib/validations/rsvp.ts` → `getDefaultRsvpFormValues()` |
 | RSVP invite code (gate on/off, copy) | Env: `RSVP_INVITE_CODE` (set = gate on, unset = anyone can RSVP). Copy: `config/section-texts.ts` → `rsvp.inviteGate`. Logic: `lib/auth/guest.ts`, `app/api/rsvp/access/route.ts`, `components/sections/RSVPSection.tsx` |
-| Admin person/song table columns | `app/admin/AdminPersonTable.tsx`, `app/admin/AdminSongTable.tsx`; types in `app/admin/types.ts` and `lib/rsvp/mapRsvpToAdmin.ts` |
+| Admin person/song table columns | `app/admin/components/AdminPersonTable.tsx`, `AdminSongTable.tsx`; types in `app/admin/types.ts` and `lib/rsvp/mapRsvpToAdmin.ts` |
 | API response shape (GET RSVPs) | `types/rsvp.ts` → `RsvpListApiResponse`, `app/api/rsvp/route.ts`, `lib/rsvp/parseRsvpListResponse.ts` |
 
 ## Key files by feature
 
 - **RSVP domain**: `types/rsvp.ts`, `lib/validations/rsvp.ts`, `lib/rsvp/` (guestName, mapRsvpToAdmin, parseRsvpListResponse)
 - **RSVP invite gate**: `lib/auth/guest.ts`, `app/api/rsvp/access/route.ts`, `components/sections/RSVPSection.tsx` (gate UI); env `RSVP_INVITE_CODE` optional
-- **Admin**: `app/admin/useAdminRSVPs.ts`, `app/admin/types.ts`, `app/admin/AdminRSVPTable.tsx`, `AdminPersonTable.tsx`, `AdminSongTable.tsx`, `app/admin/lib/songUtils.ts`; auth: `lib/auth/admin.ts`, `app/api/admin/login/route.ts`
+- **Admin**: `app/admin/useAdminRSVPs.ts`, `app/admin/types.ts`, `app/admin/components/` (AdminRSVPTable, AdminPersonTable, AdminSongTable, etc.), `app/admin/lib/songUtils.ts`; auth: `lib/auth/admin.ts`, `app/api/admin/login/route.ts`
 - **Sections**: `config/sections.ts`, `components/sections/SectionRegistry.tsx`, section components in `components/sections/`
 - **Content**: `config/wedding.ts`, `config/section-texts.ts`, `lib/config/validate.ts`
 

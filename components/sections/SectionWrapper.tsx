@@ -6,7 +6,7 @@ import FlowerDecoration from '../FlowerDecoration'
 import SectionTitle from '../SectionTitle'
 import ScrollAnimation from '../ScrollAnimation'
 import type { SectionWrapperProps } from '@/types/sections'
-import { classNames } from '@/lib/utils/classNames'
+import { cn } from '@/lib/utils'
 
 export default function SectionWrapper({
   children,
@@ -48,7 +48,7 @@ export default function SectionWrapper({
   return (
     <section 
       id={id}
-      className={classNames(
+      className={cn(
         'relative py-20 px-4 overflow-hidden',
         backgroundClass,
         scrollMargin && 'scroll-mt-20',
@@ -80,7 +80,7 @@ export default function SectionWrapper({
         return (
           <div
             key={`decoration-${index}`}
-            className={classNames(
+            className={cn(
               'absolute transform',
               positionClasses[decoration.position],
               rotation
@@ -97,7 +97,7 @@ export default function SectionWrapper({
         )
       })}
 
-      <div className={classNames('container mx-auto max-w-4xl relative z-10', containerClassName)}>
+      <div className={cn('container mx-auto max-w-4xl relative z-10', containerClassName)}>
         {title && (
           <ScrollAnimation type="slide-up" delay={0} className="mb-10 md:mb-12">
             <SectionTitle title={title} flowerVariant={titleVariant} />

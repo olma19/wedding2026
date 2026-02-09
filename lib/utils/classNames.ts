@@ -1,12 +1,13 @@
-/**
- * Utility function to conditionally join class names
- * Similar to clsx but lightweight and built-in
- */
-export function classNames(...classes: (string | undefined | null | false)[]): string {
-  return classes.filter(Boolean).join(' ')
-}
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 /**
- * Alias for classNames (shorter name)
+ * Merge class names with Tailwind-aware override (same as shadcn cn).
+ * Use this or cn for all className composition.
  */
-export const cn = classNames
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+/** @deprecated Prefer cn from '@/lib/utils' for new code. Kept for backward compatibility. */
+export const classNames = cn

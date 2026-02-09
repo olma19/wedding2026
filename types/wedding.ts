@@ -87,8 +87,8 @@ export interface Toastmaster {
   }>
 }
 
-/** RSVP: deadline and bus info shown when guest selects bus transport */
-export interface RSVP {
+/** RSVP form config: deadline and bus info (not the API/DB RSVP model – see types/rsvp.ts) */
+export interface RsvpConfig {
   deadline: string
   deadlineShort?: string
   /** Shown when guest selects "transport with bus" = yes */
@@ -110,7 +110,7 @@ export interface WeddingConfig {
   /** Toastmaster / Toast madame with images and speech note */
   toastmaster: Toastmaster
   /** RSVP form: deadline and bus info */
-  rsvp: RSVP
+  rsvp: RsvpConfig
   /** Color scheme: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red' */
   colorScheme?: 'pink' | 'rose' | 'purple' | 'blue' | 'teal' | 'green' | 'sage' | 'red'
   /** Decoration type: 'flower' | 'leaf' - controls which decorations are used throughout the site */

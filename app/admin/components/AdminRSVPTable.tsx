@@ -1,7 +1,7 @@
 'use client'
 
 import type { RSVP } from '@/types/rsvp'
-import type { PersonRow, UniqueSong, AdminStatFilter } from './types'
+import type { PersonRow, UniqueSong, AdminStatFilter } from '../types'
 import AdminPersonTable from './AdminPersonTable'
 import AdminSongTable from './AdminSongTable'
 
@@ -12,9 +12,10 @@ interface AdminRSVPTableProps {
   statCardFilter?: AdminStatFilter
   uniqueSongs?: UniqueSong[]
   rsvps: RSVP[]
-  sortBy: 'name' | null
+  sortBy: 'name' | 'date' | null
   sortDirection: 'asc' | 'desc'
   onSortByName: () => void
+  onSortByDate: () => void
   onSelectRSVP: (rsvp: RSVP) => void
   loading: boolean
 }
@@ -29,6 +30,7 @@ export default function AdminRSVPTable({
   sortBy,
   sortDirection,
   onSortByName,
+  onSortByDate,
   onSelectRSVP,
   loading,
 }: AdminRSVPTableProps) {
@@ -54,6 +56,7 @@ export default function AdminRSVPTable({
       sortBy={sortBy}
       sortDirection={sortDirection}
       onSortByName={onSortByName}
+      onSortByDate={onSortByDate}
       onSelectRSVP={onSelectRSVP}
     />
   )
