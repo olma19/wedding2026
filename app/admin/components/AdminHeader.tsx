@@ -1,7 +1,8 @@
 'use client'
 
-import { weddingConfig } from '@/config/wedding'
 import { useColors } from '@/components/ColorSchemeProvider'
+import { weddingConfig } from '@/config/wedding'
+import { cn } from '@/lib/utils/classNames'
 
 interface AdminHeaderProps {
   onRefresh: () => void
@@ -12,10 +13,10 @@ interface AdminHeaderProps {
 export default function AdminHeader({ onRefresh, onLogout, loading }: AdminHeaderProps) {
   const colors = useColors()
   return (
-    <header className={`mb-8 rounded-xl shadow-sm border px-6 py-5 ${colors.bgLight} ${colors.borderLight}`}>
+    <header className={cn('mb-8 rounded-xl shadow-sm border px-6 py-5', colors.bgLight, colors.borderLight)}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={`text-2xl sm:text-3xl font-semibold tracking-tight ${colors.textDark}`}>
+          <h1 className={cn('text-2xl sm:text-3xl font-semibold tracking-tight', colors.textDark)}>
             {weddingConfig.couple.name1} & {weddingConfig.couple.name2}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -28,7 +29,7 @@ export default function AdminHeader({ onRefresh, onLogout, loading }: AdminHeade
             disabled={loading}
             title="Uppdatera"
             aria-label="Uppdatera RSVP-lista"
-            className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${colors.borderMedium} ${colors.text} bg-white hover:bg-gray-50 ${colors.borderHover}`}
+            className={cn('inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white hover:bg-gray-50', colors.borderMedium, colors.text, colors.borderHover)}
           >
             {loading ? (
               <svg className="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24" aria-hidden>
@@ -46,7 +47,7 @@ export default function AdminHeader({ onRefresh, onLogout, loading }: AdminHeade
             onClick={onLogout}
             title="Logga ut"
             aria-label="Logga ut"
-            className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg border transition-colors ${colors.bgDark} ${colors.bgDarkHover} border-transparent`}
+            className={cn('inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg border border-transparent transition-colors', colors.bgDark, colors.bgDarkHover)}
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

@@ -140,7 +140,13 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
                   onValueChange={(v) => {
                     const isYes = v === 'yes'
                     field.onChange(isYes)
-                    if (!isYes) {
+                    if (isYes) {
+                      // When switching back to yes, ensure a valid count is selected (was 0 when "no")
+                      const current = number_of_attendees
+                      if (current < 1 || current > 6) {
+                        updateAttendeesCount(1)
+                      }
+                    } else {
                       setValue('number_of_attendees', 0)
                       replace([{ firstname: '', lastname: '', allergies: '', wants_bus: false, song_request: '' }])
                     }

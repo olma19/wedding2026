@@ -1,8 +1,10 @@
 'use client'
 
-import type { RSVP } from '@/types/rsvp'
-import type { PersonRow } from '../types'
 import { useColors } from '@/components/ColorSchemeProvider'
+import { cn } from '@/lib/utils/classNames'
+import type { RSVP } from '@/types/rsvp'
+
+import type { PersonRow } from '../types'
 
 interface AdminPersonTableProps {
   sortedPersonRows: PersonRow[]
@@ -56,11 +58,11 @@ export default function AdminPersonTable({
     <div className="bg-white rounded-lg shadow overflow-hidden">
       {/* Mobile: card list */}
       <div className="md:hidden divide-y divide-gray-200">
-        <div className={`flex border-b border-gray-200 ${colors.bgLight}`}>
+        <div className={cn('flex border-b border-gray-200', colors.bgLight)}>
           <button
             type="button"
             onClick={onSortByName}
-            className={`flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLightHover} flex items-center gap-2`}
+            className={cn('flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center gap-2', colors.bgLightHover)}
           >
             Namn
             {sortBy === 'name' && (
@@ -70,7 +72,7 @@ export default function AdminPersonTable({
           <button
             type="button"
             onClick={onSortByDate}
-            className={`flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${colors.bgLightHover} flex items-center gap-2`}
+            className={cn('flex-1 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center gap-2', colors.bgLightHover)}
           >
             Datum
             {sortBy === 'date' && (
@@ -85,7 +87,7 @@ export default function AdminPersonTable({
               key={`${person.rsvpId}-${index}`}
               type="button"
               onClick={() => rsvp && onSelectRSVP(rsvp)}
-              className={`w-full text-left px-4 py-4 transition-colors ${colors.bgLightHover} active:opacity-90`}
+              className={cn('w-full text-left px-4 py-4 transition-colors active:opacity-90', colors.bgLightHover)}
             >
               <div className="font-medium text-gray-900">
                 {person.fullName || '–'}
@@ -181,7 +183,7 @@ export default function AdminPersonTable({
               return (
                 <tr
                   key={`${person.rsvpId}-${index}`}
-                  className={`transition-colors cursor-pointer ${colors.bgLightHover}`}
+                  className={cn('transition-colors cursor-pointer', colors.bgLightHover)}
                   onClick={() => rsvp && onSelectRSVP(rsvp)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

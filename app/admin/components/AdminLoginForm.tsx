@@ -1,6 +1,7 @@
 'use client'
 
 import { useColors } from '@/components/ColorSchemeProvider'
+import { cn } from '@/lib/utils/classNames'
 
 interface AdminLoginFormProps {
   password: string
@@ -19,9 +20,9 @@ export default function AdminLoginForm({
 }: AdminLoginFormProps) {
   const colors = useColors()
   return (
-    <div className={`min-h-screen bg-gradient-to-b ${colors.gradientFrom} to-white flex items-center justify-center px-4`}>
+    <div className={cn('min-h-screen bg-gradient-to-b to-white flex items-center justify-center px-4', colors.gradientFrom)}>
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className={`text-3xl font-serif font-bold mb-6 text-center ${colors.textDark}`}>
+        <h1 className={cn('text-3xl font-serif font-bold mb-6 text-center', colors.textDark)}>
           Admin Login
         </h1>
         <form data-testid="admin-login-form" onSubmit={onSubmit} className="space-y-4">
@@ -34,7 +35,7 @@ export default function AdminLoginForm({
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg outline-none transition placeholder:text-gray-400 hover:border-gray-500 focus:ring-2 focus:ring-offset-0 ${colors.ring}`}
+              className={cn('w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-400 rounded-lg outline-none transition placeholder:text-gray-400 hover:border-gray-500 focus:ring-2 focus:ring-offset-0', colors.ring)}
               placeholder="Ange lösenord"
               autoFocus
               disabled={loading}
@@ -48,7 +49,7 @@ export default function AdminLoginForm({
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 px-4 text-white rounded-lg focus:ring-2 focus:ring-offset-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed ${colors.bgDark} ${colors.bgDarkHover} ${colors.ring}`}
+            className={cn('w-full py-2 px-4 text-white rounded-lg focus:ring-2 focus:ring-offset-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed', colors.bgDark, colors.bgDarkHover, colors.ring)}
           >
             {loading ? 'Loggar in...' : 'Logga in'}
           </button>
