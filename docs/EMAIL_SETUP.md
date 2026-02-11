@@ -33,13 +33,44 @@ The wedding website sends automatic confirmation emails to guests when they subm
 
 ### 3. Verify Domain (Production)
 
-For production use, you need to verify your domain:
+For production use, you need to verify your domain in Resend and add DNS records where your domain is hosted (e.g. Namecheap).
 
-1. Go to **Domains** in Resend dashboard
+#### In Resend (get the records)
+
+1. Go to **Domains** in the [Resend dashboard](https://resend.com/domains)
 2. Click **Add Domain**
 3. Enter your domain (e.g., `wedding2026.com`)
-4. Add the DNS records provided by Resend to your domain's DNS settings
-5. Wait for verification (usually takes a few minutes)
+4. Resend will show you DNS records to add: usually **SPF** (TXT) and **DKIM** (TXT or CNAME). Copy or keep this page open.
+
+#### In Namecheap (add the records)
+
+1. Log in at [Namecheap](https://www.namecheap.com) → **Domain List** → click **Manage** next to your domain (e.g. `wedding2026.com`).
+2. Open **Advanced DNS** (or **DNS** / **Manage** depending on the layout).
+3. Add each record Resend gave you:
+
+   **SPF (TXT):**
+   - Click **Add New Record**.
+   - Type: **TXT Record**.
+   - Host: `@` (or leave blank if Namecheap uses blank for root).
+   - Value: paste the SPF value from Resend (e.g. `v=spf1 include:amazonses.com ~all` or what Resend shows).
+   - TTL: **Automatic** or **300**.
+   - Save.
+
+   **DKIM (TXT or CNAME):**
+   - Resend shows one or more DKIM records (often a name like `resend._domainkey` and a long value).
+   - For each DKIM record:
+     - **Add New Record**.
+     - Type: **TXT Record** (or **CNAME** if Resend says CNAME).
+     - Host: the subdomain part only (e.g. `resend._domainkey`). Namecheap may add your domain automatically.
+     - Value: the value Resend gives (for CNAME, the target host they provide).
+     - TTL: **Automatic** or **300**.
+     - Save.
+
+4. Wait 5–30 minutes (sometimes up to 48 hours). In Resend, click **Verify** (or refresh domain status) until it shows as verified.
+
+**Namecheap tips:**
+- If you already have an SPF record for `@`, Resend may ask you to add an `include:` to that record instead of a second SPF. Edit the existing TXT and add their `include:...` then save.
+- For Host, some panels use `@` for the root domain; for subdomains use only the subdomain part (e.g. `resend._domainkey`).
 
 **Note:** For development/testing, you can use `onboarding@resend.dev` without domain verification.
 

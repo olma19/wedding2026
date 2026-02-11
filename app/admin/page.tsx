@@ -32,6 +32,7 @@ export default function AdminPage() {
     fetchRSVPs,
     handleLogin,
     handleLogout,
+    handleDeleteRSVP,
     handleSortByName,
     handleSortByDate,
   } = useAdminRSVPs()
@@ -92,6 +93,7 @@ export default function AdminPage() {
           <AdminRSVPModal
             rsvp={selectedRSVP}
             onClose={() => setSelectedRSVP(null)}
+            onDelete={handleDeleteRSVP}
           />
         )}
       </div>

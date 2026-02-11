@@ -67,8 +67,23 @@ export function formatContentWithNewlines(
   return result
 }
 
-/** Line-prefix emojis for dress code: cocktail, lady, gentleman */
-export const DRESS_CODE_LINE_EMOJIS = ['🍸 ', '👗 ', '👔 ']
+/**
+ * Parses dress code string into name + ladies/gentlemen content.
+ * Expected format: "Name.\nDamer: ...\nHerrar: ..."
+ */
+export function parseDressCode(content: string): {
+  name: string
+  ladies: string
+  gentlemen: string
+} {
+  const lines = content.split('\n').map((l) => l.trim()).filter(Boolean)
+  const name = (lines[0] ?? '').replace(/\.$/, '').trim()
+  const ladiesLine = lines.find((l) => l.startsWith('Damer:')) ?? ''
+  const gentlemenLine = lines.find((l) => l.startsWith('Herrar:')) ?? ''
+  const ladies = ladiesLine.replace(/^Damer:\s*/, '').trim()
+  const gentlemen = gentlemenLine.replace(/^Herrar:\s*/, '').trim()
+  return { name, ladies, gentlemen }
+}
 
 export type GoodToKnowItemKey =
   | 'dressCode'

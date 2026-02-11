@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import type { RSVP } from '@/types/rsvp'
 import { useColors } from '@/components/ColorSchemeProvider'
 import { cn } from '@/lib/utils'
@@ -7,6 +8,7 @@ import { cn } from '@/lib/utils'
 interface AdminRSVPModalProps {
   rsvp: RSVP
   onClose: () => void
+  onDelete?: (id: string) => Promise<boolean>
 }
 
 interface Attendee {
@@ -17,9 +19,26 @@ interface Attendee {
   song_request?: string
 }
 
-export default function AdminRSVPModal({ rsvp, onClose }: AdminRSVPModalProps) {
+export default function AdminRSVPModal({ rsvp, onClose, onDelete }: AdminRSVPModalProps) {
   const colors = useColors()
+  const [deleting, setDeleting] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const attendees = (rsvp.attendees ?? []) as Attendee[]
+
+  const handleRemoveClick = async () => {
+    if (!rsvp.id || !onDelete) return
+    if (!showConfirm) {
+      setShowConfirm(true)
+      return
+    }
+    setDeleting(true)
+    const success = await onDelete(rsvp.id)
+    setDeleting(false)
+    if (success) {
+      setShowConfirm(false)
+      onClose()
+    }
+  }
 
   return (
     <div
@@ -101,6 +120,52 @@ export default function AdminRSVPModal({ rsvp, onClose }: AdminRSVPModalProps) {
                   : '-'}
               </p>
             </div>
+
+            {onDelete && rsvp.id && (
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                {!showConfirm ? (
+                  <button
+                    type="button"
+                    onClick={handleRemoveClick}
+                    className={cn(
+                      'px-4 py-2 text-sm font-medium rounded-lg border-2 transition-colors',
+                      'border-red-200 text-red-700 hover:bg-red-50',
+                      colors.borderHover
+                    )}
+                  >
+                    Ta bort RSVP
+                  </button>
+                ) : (
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-600">
+                      Är du säker? Detta tar bort RSVP:en permanent.
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={handleRemoveClick}
+                        disabled={deleting}
+                        className="px-4 py-2 text-sm font-medium rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                      >
+                        {deleting ? 'Tar bort...' : 'Ja, ta bort'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirm(false)}
+                        disabled={deleting}
+                        className={cn(
+                          'px-4 py-2 text-sm font-medium rounded-lg border-2',
+                          colors.borderLight,
+                          colors.bgLightHover
+                        )}
+                      >
+                        Avbryt
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

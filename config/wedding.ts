@@ -42,7 +42,7 @@ const weddingConfigRaw: WeddingConfig = {
 
   dressCode: {
     title: 'Klädkod',
-    description: 'Cocktail',
+    description: 'Kavaj',
   },
 
   dinnerParty: {
@@ -56,12 +56,12 @@ const weddingConfigRaw: WeddingConfig = {
 
   goodToKnow: {
     title: 'Bra att veta',
-    dressCode: 'Cocktail – Semi-formal klädsel.\nDamer: cocktailklänning (knälång eller något längre).\nHerrar: kostym eller kavaj med byxor.',
-    children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap.\nSpädbarn är självklart välkomna.',
+    dressCode: 'Kavaj.\nDamer: Knälång eller längre klänning, kjol eller byxdress.\nHerrar: kostym eller kavaj med byxor.',
+    children: 'Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap på middagen och festen. Spädbarn är självklart välkomna.\n Barn är välkomna på vigseln.',
     hotels: 'Önskas boende rekommenderar vi Best Western hotell i Vrigstad.\nBoka genom att ringa till hotellet och uppge "Friskbröllop" för att ta del utav rabatterat pris.',
     transport: 'För boende på hotellet i Vrigstad finns möjligheten att bli upphämtade utav buss som går till vigseln, från vigseln till Wallsjö Gård och vid 02.00 tillbaka till hotellet.\nAnmälan till bussen gör ni genom att swisha 150:- per person till 0722132377. Ange BUSS som meddelande.\nBocka även i att ni önskar åka buss i OSA.',
     parking: 'Parkering för bil finns antingen precis i anslutning till logen alternativt Vallsjö gamla kyrka som ligger på gångavstånd.\nParkeringen kommer vara skyltad denna dag.',
-    gifts: 'Er närvaro är den största gåvan.\nOm ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa.',
+    gifts: 'Er närvaro är den största gåvan.\nOm ni ändå vill ge något, välkomnar vi bidrag till vår bröllopsresa. Isåfall med swish till Marie 0708493810.',
   },
 
   toastmaster: {
@@ -75,8 +75,8 @@ const weddingConfigRaw: WeddingConfig = {
   },
 
   rsvp: {
-    deadline: 'Senast 16 maj 2026',
-    deadlineShort: 'Senast 16/05/2026',
+    deadline: 'Senast 31 mars 2026',
+    deadlineShort: 'Senast 31/03/2026',
     busInfo: 'Buss från hotellet i Vrigstad till vigseln och Wallsjö Gård, tillbaka 02.00. Swisha 150 kr/person till 0722132377 med meddelande BUSS.',
   },
 

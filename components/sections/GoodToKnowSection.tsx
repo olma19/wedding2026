@@ -11,12 +11,14 @@ import {
   formatContentWithNewlines,
   getHighlightsForKey,
   highlightPhrases,
-  DRESS_CODE_LINE_EMOJIS,
+  parseDressCode,
   type GoodToKnowItemKey,
 } from '@/lib/formatGoodToKnow'
+import { getColorClasses } from '@/lib/colors'
 
 export default function GoodToKnowSection() {
-  const { goodToKnow } = weddingConfig
+  const { goodToKnow, colorScheme } = weddingConfig
+  const colors = getColorClasses(colorScheme ?? 'sage')
 
   const hotelsContent = goodToKnow.hotelDiscountCode
     ? `${goodToKnow.hotels} Rabattkod: ${goodToKnow.hotelDiscountCode}`
@@ -90,7 +92,9 @@ export default function GoodToKnowSection() {
             hotelDiscountCode: goodToKnow.hotelDiscountCode,
           })
           const isDressCode = item.key === 'dressCode'
-          const dressCodeLines = isDressCode ? item.content.split('\n') : []
+          const dressCodeParsed = isDressCode
+            ? parseDressCode(item.content)
+            : null
           const formatted = isDressCode
             ? null
             : formatContentWithNewlines(item.content, highlights)
@@ -101,28 +105,49 @@ export default function GoodToKnowSection() {
                 <CardHeader>
                   <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
                     <span>{item.icon}</span>
-                    {item.title}
+                    {isDressCode && dressCodeParsed ? (
+                      <>
+                        {sectionTexts['good-to-know'].items.dressCode.title}:{' '}
+                        <span
+                          className={`inline-block rounded-md px-2 py-0.5 font-semibold ${colors.bgLight} ${colors.textDark}`}
+                        >
+                          {dressCodeParsed.name}
+                        </span>
+                      </>
+                    ) : (
+                      item.title
+                    )}
                   </h3>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  {isDressCode ? (
-                    <div className="space-y-4">
-                      {dressCodeLines.map((line, lineIndex) => (
-                        <div
-                          key={lineIndex}
-                          className="flex gap-3 items-start"
-                        >
-                          <span
-                            className="text-xl shrink-0 w-8 text-center leading-relaxed"
-                            aria-hidden
-                          >
-                            {DRESS_CODE_LINE_EMOJIS[lineIndex]?.trim() ?? ''}
-                          </span>
-                          <span className="text-gray-600 leading-relaxed pt-0.5">
-                            {highlightPhrases(line, highlights, String(lineIndex))}
-                          </span>
+                  {isDressCode && dressCodeParsed ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex gap-3 items-start p-3 rounded-lg bg-gray-50/80">
+                        <span className="text-xl shrink-0" aria-hidden>
+                          👗
+                        </span>
+                        <div>
+                          <p className="font-medium text-gray-800 text-sm">
+                            Damer
+                          </p>
+                          <p className="text-gray-600 leading-relaxed text-sm">
+                            {dressCodeParsed.ladies}
+                          </p>
                         </div>
-                      ))}
+                      </div>
+                      <div className="flex gap-3 items-start p-3 rounded-lg bg-gray-50/80">
+                        <span className="text-xl shrink-0" aria-hidden>
+                          👔
+                        </span>
+                        <div>
+                          <p className="font-medium text-gray-800 text-sm">
+                            Herrar
+                          </p>
+                          <p className="text-gray-600 leading-relaxed text-sm">
+                            {dressCodeParsed.gentlemen}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <p className="text-gray-600 leading-relaxed">{formatted}</p>

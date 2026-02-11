@@ -194,7 +194,7 @@ export const sectionTexts: SectionTexts = {
   'good-to-know': {
     title: 'Bra att veta',
     items: {
-      dressCode: { title: 'Klädkod', icon: '👔' },
+      dressCode: { title: 'Klädkod', icon: '🧥' },
       children: { title: 'Barn', icon: '👶' },
       hotels: { title: 'Hotell', icon: '🏨' },
       transport: { title: 'Transport / buss', icon: '🚌' },

@@ -97,6 +97,30 @@ export function useAdminRSVPs() {
     }
   }
 
+  const handleDeleteRSVP = async (rsvpId: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/admin/rsvp/${encodeURIComponent(rsvpId)}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}))
+        const message =
+          typeof result?.error === 'string'
+            ? result.error
+            : result?.error?.error ?? 'Kunde inte ta bort RSVP'
+        setError(message)
+        return false
+      }
+      setRsvps((prev) => prev.filter((r) => r.id !== rsvpId))
+      setSelectedRSVP(null)
+      setError(null)
+      return true
+    } catch {
+      setError('Ett fel uppstod. Försök igen.')
+      return false
+    }
+  }
+
   const handleSortByName = () => {
     if (sortBy === 'name') {
       setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))
@@ -199,6 +223,7 @@ export function useAdminRSVPs() {
     fetchRSVPs,
     handleLogin,
     handleLogout,
+    handleDeleteRSVP,
     handleSortByName,
     handleSortByDate,
   }
