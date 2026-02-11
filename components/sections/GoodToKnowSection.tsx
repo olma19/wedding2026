@@ -10,7 +10,6 @@ import { sectionTexts } from '@/config/section-texts'
 import {
   formatContentWithNewlines,
   getHighlightsForKey,
-  highlightPhrases,
   parseDressCode,
   type GoodToKnowItemKey,
 } from '@/lib/formatGoodToKnow'
