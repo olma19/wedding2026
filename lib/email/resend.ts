@@ -42,6 +42,16 @@ export interface RSVPConfirmationEmailData {
   websiteUrl?: string
 }
 
+/** Escape for safe use in HTML content (reduces spam risk from raw user input). */
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export async function sendRSVPConfirmationEmail(
   data: RSVPConfirmationEmailData
 ): Promise<{ success: boolean; error?: string }> {
@@ -88,6 +98,10 @@ export async function sendRSVPConfirmationEmail(
       })
       .join('\n\n')
 
+    const guestFirstName = data.guestName.split(',')[0].trim()
+    const attendeeListEscaped = escapeHtml(attendeeList)
+    const guestFirstNameEscaped = escapeHtml(guestFirstName)
+
     const htmlContent = `
 <!DOCTYPE html>
 <html lang="sv">
@@ -112,7 +126,7 @@ export async function sendRSVPConfirmationEmail(
           <tr>
             <td style="padding: 40px;">
               <p style="margin: 0 0 20px; color: #374151; font-size: 16px; line-height: 1.6;">
-                Hej ${data.guestName.split(',')[0].trim()}!
+                Hej ${guestFirstNameEscaped}!
               </p>
               
               <p style="margin: 0 0 20px; color: #374151; font-size: 16px; line-height: 1.6;">
@@ -126,7 +140,7 @@ export async function sendRSVPConfirmationEmail(
                 </p>
                 <div style="margin-top: 16px;">
                   <p style="margin: 0 0 8px; color: #374151; font-size: 14px; font-weight: 600;">Gäster:</p>
-                  <pre style="margin: 0; color: #374151; font-size: 14px; font-family: inherit; white-space: pre-wrap;">${attendeeList}</pre>
+                  <pre style="margin: 0; color: #374151; font-size: 14px; font-family: inherit; white-space: pre-wrap;">${attendeeListEscaped}</pre>
                 </div>
               </div>
               
@@ -145,10 +159,10 @@ export async function sendRSVPConfirmationEmail(
                   För mer information, besök vår bröllopssida:
                 </p>
                 <a 
-                  href="${data.websiteUrl}" 
+                  href="${escapeHtml(data.websiteUrl)}" 
                   style="color: #8fb38a; text-decoration: none; font-weight: 600; font-size: 14px;"
                 >
-                  ${data.websiteUrl}
+                  ${escapeHtml(data.websiteUrl)}
                 </a>
               </div>
               ` : ''}
@@ -210,6 +224,7 @@ Detta är ett automatiskt meddelande. Svara inte på detta e-post.
       subject: `OSA Bekräftelse - ${data.coupleNames}`,
       html: htmlContent,
       text: textContent,
+      headers: { Precedence: 'auto' },
     })
 
     if (result.error) {

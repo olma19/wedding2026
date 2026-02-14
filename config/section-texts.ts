@@ -110,6 +110,8 @@ export interface SectionTexts {
       }
       success: {
         message: string
+        /** Shown when guest answered "no" (not attending) */
+        messageNotAttending: string
         emailConfirmation?: string
         okButton?: string
       }
@@ -255,7 +257,10 @@ export const sectionTexts: SectionTexts = {
       },
       success: {
         message: 'Vi har mottagit din OSA och ser fram emot att fira med dig!',
-        emailConfirmation: 'Om du angav e-post skickar vi en bekräftelse till din inkorg.',
+        messageNotAttending:
+          'Tack för att du skickade in din OSA. Vi kommer att sakna dig den här gången – hoppas vi får fira något annat tillsammans snart!',
+        emailConfirmation:
+          'Om du angav e-post skickar vi en bekräftelse till din inkorg. Kolla gärna skräppost om mailet inte dyker upp.',
         okButton: 'OK',
       },
     },

@@ -7,6 +7,8 @@ interface UseRSVPSubmissionReturn {
   isSubmitting: boolean
   submitError: string | null
   submitSuccess: boolean
+  /** Whether the last successful submission was "attending". null until first success. */
+  lastSubmittedAttending: boolean | null
   submitRSVP: (data: RSVPFormData) => Promise<void>
   reset: () => void
 }
@@ -19,6 +21,7 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [lastSubmittedAttending, setLastSubmittedAttending] = useState<boolean | null>(null)
 
   const createConfetti = () => {
     // Skip confetti creation if document is not available (e.g., in tests or SSR)
@@ -77,8 +80,9 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
 
       const result = await response.json()
       if (isDev) console.log('[RSVP] Success response:', result)
+      setLastSubmittedAttending(payload.attending)
       setSubmitSuccess(true)
-      createConfetti()
+      if (payload.attending) createConfetti()
       onSuccess?.()
     } catch (err: unknown) {
       if (process.env.NODE_ENV === 'development') {
@@ -94,12 +98,14 @@ export function useRSVPSubmission(onSuccess?: () => void): UseRSVPSubmissionRetu
   const reset = () => {
     setSubmitError(null)
     setSubmitSuccess(false)
+    setLastSubmittedAttending(null)
   }
 
   return {
     isSubmitting,
     submitError,
     submitSuccess,
+    lastSubmittedAttending,
     submitRSVP,
     reset,
   }

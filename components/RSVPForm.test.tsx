@@ -9,6 +9,7 @@ vi.mock('@/hooks/useRSVPSubmission', () => ({
     isSubmitting: false,
     submitError: null,
     submitSuccess: false,
+    lastSubmittedAttending: null,
     submitRSVP: vi.fn(),
     reset: vi.fn(),
   })),

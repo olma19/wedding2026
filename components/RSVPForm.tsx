@@ -31,7 +31,8 @@ interface RSVPFormProps {
 export default function RSVPForm({ onSuccess }: RSVPFormProps) {
   const colors = useColors()
   const gradients = useFormGradients()
-  const { submitRSVP, isSubmitting, submitError, submitSuccess, reset: resetSubmission } = useRSVPSubmission(onSuccess)
+  const { submitRSVP, isSubmitting, submitError, submitSuccess, lastSubmittedAttending, reset: resetSubmission } =
+    useRSVPSubmission(onSuccess)
 
   const {
     register,
@@ -76,7 +77,7 @@ export default function RSVPForm({ onSuccess }: RSVPFormProps) {
     return (
       <ErrorBoundary>
         <ScrollAnimation type="scale" delay={0}>
-          <SuccessMessage onDismiss={resetSubmission} />
+          <SuccessMessage attending={lastSubmittedAttending ?? true} onDismiss={resetSubmission} />
         </ScrollAnimation>
       </ErrorBoundary>
     )

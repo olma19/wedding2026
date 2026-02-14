@@ -136,9 +136,10 @@ To customize the email template:
 - The API key is incorrect or has been revoked
 - Generate a new API key in Resend dashboard
 
-**Emails Going to Spam**
-- Add SPF and DKIM records (provided by Resend) to your domain DNS
-- Use a verified domain instead of `onboarding@resend.dev`
+**Emails Going to Spam / Junk**
+- Add SPF, DKIM, and DMARC records (from Resend) to your domain DNS and ensure the domain is verified
+- Use Resend’s **Deliverability Insights** on a sent email for tailored fixes
+- See **[Email deliverability guide](EMAIL_DELIVERABILITY.md)** for a full checklist
 
 ## Email Service Behavior
 
@@ -169,3 +170,4 @@ To customize the email template:
 - [Resend Documentation](https://resend.com/docs)
 - [Resend API Reference](https://resend.com/docs/api-reference)
 - [Email Best Practices](https://resend.com/docs/send-with-best-practices)
+- [Email deliverability (avoid junk/spam)](EMAIL_DELIVERABILITY.md) – checklist and production tips

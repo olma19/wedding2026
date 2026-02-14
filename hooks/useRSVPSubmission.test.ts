@@ -61,6 +61,7 @@ describe('useRSVPSubmission', () => {
     expect(result.current.isSubmitting).toBe(false)
     expect(result.current.submitError).toBe(null)
     expect(result.current.submitSuccess).toBe(false)
+    expect(result.current.lastSubmittedAttending).toBe(null)
     expect(typeof result.current.submitRSVP).toBe('function')
     expect(typeof result.current.reset).toBe('function')
   })
@@ -114,6 +115,7 @@ describe('useRSVPSubmission', () => {
     
     await waitFor(() => {
       expect(result.current.submitSuccess).toBe(true)
+      expect(result.current.lastSubmittedAttending).toBe(true)
       expect(result.current.submitError).toBe(null)
       expect(result.current.isSubmitting).toBe(false)
     })
@@ -227,6 +229,7 @@ describe('useRSVPSubmission', () => {
     await waitFor(() => {
       expect(result.current.submitError).toBe(null)
       expect(result.current.submitSuccess).toBe(false)
+      expect(result.current.lastSubmittedAttending).toBe(null)
     })
   })
 
@@ -248,11 +251,13 @@ describe('useRSVPSubmission', () => {
     })
     
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataWithAttendingFalse),
-      })
+      expect(result.current.submitSuccess).toBe(true)
+      expect(result.current.lastSubmittedAttending).toBe(false)
+    })
+    expect(fetch).toHaveBeenCalledWith('/api/rsvp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataWithAttendingFalse),
     })
   })
 })
