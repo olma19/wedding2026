@@ -17,6 +17,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
       // Background colors
       bgLight: 'bg-pink-50',
       gradientFrom: 'from-pink-50',
+      gradientTo: 'to-pink-50',
       bgLightHover: 'hover:bg-pink-100',
       bgMedium: 'bg-pink-400',
       bgDark: 'bg-pink-600',
@@ -51,6 +52,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     rose: {
       bgLight: 'bg-rose-50',
       gradientFrom: 'from-rose-50',
+      gradientTo: 'to-rose-50',
       bgLightHover: 'hover:bg-rose-100',
       bgMedium: 'bg-rose-400',
       bgDark: 'bg-rose-600',
@@ -76,6 +78,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     purple: {
       bgLight: 'bg-purple-50',
       gradientFrom: 'from-purple-50',
+      gradientTo: 'to-purple-50',
       bgLightHover: 'hover:bg-purple-100',
       bgMedium: 'bg-purple-400',
       bgDark: 'bg-purple-600',
@@ -101,6 +104,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     blue: {
       bgLight: 'bg-blue-50',
       gradientFrom: 'from-blue-50',
+      gradientTo: 'to-blue-50',
       bgLightHover: 'hover:bg-blue-100',
       bgMedium: 'bg-blue-400',
       bgDark: 'bg-blue-600',
@@ -126,6 +130,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     teal: {
       bgLight: 'bg-teal-50',
       gradientFrom: 'from-teal-50',
+      gradientTo: 'to-teal-50',
       bgLightHover: 'hover:bg-teal-100',
       bgMedium: 'bg-teal-400',
       bgDark: 'bg-teal-600',
@@ -151,6 +156,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     green: {
       bgLight: 'bg-green-100',
       gradientFrom: 'from-green-100',
+      gradientTo: 'to-green-100',
       bgLightHover: 'hover:bg-green-200',
       bgMedium: 'bg-green-700',
       bgDark: 'bg-green-800',
@@ -177,6 +183,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
       // Sage - muted, dusty gray-green (custom palette)
       bgLight: 'bg-sage-100',
       gradientFrom: 'from-sage-100',
+      gradientTo: 'to-sage-100',
       bgLightHover: 'hover:bg-sage-200',
       bgMedium: 'bg-sage-600',
       bgDark: 'bg-sage-700',
@@ -202,6 +209,7 @@ export function getColorClasses(scheme: ColorSchemeName = 'pink') {
     red: {
       bgLight: 'bg-red-50',
       gradientFrom: 'from-red-50',
+      gradientTo: 'to-red-50',
       bgLightHover: 'hover:bg-red-100',
       bgMedium: 'bg-red-500',
       bgDark: 'bg-red-600',

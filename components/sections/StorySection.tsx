@@ -3,17 +3,19 @@
 import SectionWrapper from './SectionWrapper'
 import FlowerDecoration from '../FlowerDecoration'
 import ScrollAnimation from '../ScrollAnimation'
+import { useColors } from '../ColorSchemeProvider'
 import { weddingConfig } from '@/config/wedding'
 import { sectionTexts } from '@/config/section-texts'
 
 export default function StorySection() {
   const { couple, story } = weddingConfig
+  const colors = useColors()
 
   return (
     <SectionWrapper
       title={sectionTexts.story.title}
       titleVariant="leaf"
-      customBackground="bg-gradient-to-b from-white to-pink-50"
+      customBackground={`bg-gradient-to-b from-white ${colors.bgLight}`}
       decorations={[]}
       showScrollAnimation={false}
       className="relative"

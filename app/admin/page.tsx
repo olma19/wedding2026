@@ -7,6 +7,7 @@ import AdminHeader from './components/AdminHeader'
 import AdminStats from './components/AdminStats'
 import AdminRSVPTable from './components/AdminRSVPTable'
 import AdminRSVPModal from './components/AdminRSVPModal'
+import AdminDeleteAllModal from './components/AdminDeleteAllModal'
 import { useColors } from '@/components/ColorSchemeProvider'
 
 export default function AdminPage() {
@@ -33,8 +34,14 @@ export default function AdminPage() {
     handleLogin,
     handleLogout,
     handleDeleteRSVP,
+    handleDeleteAllRSVPs,
     handleSortByName,
     handleSortByDate,
+    showDeleteAllModal,
+    setShowDeleteAllModal,
+    deleteAllConfirmText,
+    setDeleteAllConfirmText,
+    deleteAllLoading,
   } = useAdminRSVPs()
 
   if (checkingAuth) {
@@ -59,6 +66,7 @@ export default function AdminPage() {
         <AdminHeader
           onRefresh={fetchRSVPs}
           onLogout={handleLogout}
+          onDeleteAll={() => setShowDeleteAllModal(true)}
           loading={loading}
         />
 
@@ -94,6 +102,20 @@ export default function AdminPage() {
             rsvp={selectedRSVP}
             onClose={() => setSelectedRSVP(null)}
             onDelete={handleDeleteRSVP}
+          />
+        )}
+
+        {showDeleteAllModal && (
+          <AdminDeleteAllModal
+            confirmText={deleteAllConfirmText}
+            onConfirmTextChange={setDeleteAllConfirmText}
+            onConfirm={handleDeleteAllRSVPs}
+            onClose={() => {
+              setShowDeleteAllModal(false)
+              setDeleteAllConfirmText('')
+            }}
+            loading={deleteAllLoading}
+            rsvpCount={rsvps.length}
           />
         )}
       </div>

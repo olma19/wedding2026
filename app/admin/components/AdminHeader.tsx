@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils/classNames'
 interface AdminHeaderProps {
   onRefresh: () => void
   onLogout: () => void
+  onDeleteAll?: () => void
   loading: boolean
 }
 
-export default function AdminHeader({ onRefresh, onLogout, loading }: AdminHeaderProps) {
+export default function AdminHeader({ onRefresh, onLogout, onDeleteAll, loading }: AdminHeaderProps) {
   const colors = useColors()
   return (
     <header className={cn('mb-8 rounded-xl shadow-sm border px-6 py-5', colors.bgLight, colors.borderLight)}>
@@ -23,7 +24,21 @@ export default function AdminHeader({ onRefresh, onLogout, loading }: AdminHeade
             RSVP-lista · {weddingConfig.date.fullDate}
           </p>
         </div>
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap">
+          {onDeleteAll && (
+            <button
+              type="button"
+              onClick={onDeleteAll}
+              title="Ta bort alla RSVPs"
+              aria-label="Ta bort alla RSVPs"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-red-300 text-red-700 bg-white hover:bg-red-50 transition-colors"
+            >
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              <span>Ta bort alla</span>
+            </button>
+          )}
           <button
             onClick={onRefresh}
             disabled={loading}

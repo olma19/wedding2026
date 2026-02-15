@@ -16,6 +16,9 @@ export function useAdminRSVPs() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [statCardFilter, setStatCardFilter] = useState<keyof AdminStats | null>(null)
   const [selectedRSVP, setSelectedRSVP] = useState<RSVP | null>(null)
+  const [showDeleteAllModal, setShowDeleteAllModal] = useState(false)
+  const [deleteAllConfirmText, setDeleteAllConfirmText] = useState('')
+  const [deleteAllLoading, setDeleteAllLoading] = useState(false)
 
   const fetchRSVPs = async () => {
     setLoading(true)
@@ -94,6 +97,34 @@ export function useAdminRSVPs() {
     } finally {
       setIsAuthenticated(false)
       setRsvps([])
+    }
+  }
+
+  const handleDeleteAllRSVPs = async (): Promise<boolean> => {
+    setDeleteAllLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/admin/rsvp', { method: 'DELETE' })
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}))
+        const message =
+          typeof result?.error === 'string'
+            ? result.error
+            : result?.error?.error ?? 'Kunde inte ta bort alla RSVPs'
+        setError(message)
+        return false
+      }
+      setRsvps([])
+      setShowDeleteAllModal(false)
+      setDeleteAllConfirmText('')
+      setSelectedRSVP(null)
+      setError(null)
+      return true
+    } catch {
+      setError('Ett fel uppstod. Försök igen.')
+      return false
+    } finally {
+      setDeleteAllLoading(false)
     }
   }
 
@@ -224,7 +255,13 @@ export function useAdminRSVPs() {
     handleLogin,
     handleLogout,
     handleDeleteRSVP,
+    handleDeleteAllRSVPs,
     handleSortByName,
     handleSortByDate,
+    showDeleteAllModal,
+    setShowDeleteAllModal,
+    deleteAllConfirmText,
+    setDeleteAllConfirmText,
+    deleteAllLoading,
   }
 }
