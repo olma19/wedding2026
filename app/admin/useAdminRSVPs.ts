@@ -100,7 +100,7 @@ export function useAdminRSVPs() {
     }
   }
 
-  const handleDeleteAllRSVPs = async (): Promise<boolean> => {
+  const handleDeleteAllRSVPs = async (): Promise<void> => {
     setDeleteAllLoading(true)
     setError(null)
     try {
@@ -112,17 +112,15 @@ export function useAdminRSVPs() {
             ? result.error
             : result?.error?.error ?? 'Kunde inte ta bort alla RSVPs'
         setError(message)
-        return false
+        return
       }
       setRsvps([])
       setShowDeleteAllModal(false)
       setDeleteAllConfirmText('')
       setSelectedRSVP(null)
       setError(null)
-      return true
     } catch {
       setError('Ett fel uppstod. Försök igen.')
-      return false
     } finally {
       setDeleteAllLoading(false)
     }
