@@ -47,7 +47,17 @@ export default function SuccessMessage({ attending = true, onDismiss }: SuccessM
         {isAttending ? successTexts.message : successTexts.messageNotAttending}
       </p>
       {isAttending && successTexts.emailConfirmation && (
-        <p className="mt-3 text-sm text-gray-500">{successTexts.emailConfirmation}</p>
+        <>
+          <p className="mt-3 text-sm text-gray-500">{successTexts.emailConfirmation}</p>
+          {successTexts.emailTroubleNote && (
+            <div
+              className="mt-3 rounded-lg border-l-4 border-amber-500 bg-amber-50 px-4 py-3 text-left text-sm text-amber-900"
+              role="status"
+            >
+              {successTexts.emailTroubleNote}
+            </div>
+          )}
+        </>
       )}
       {onDismiss && (
         <div className="mt-6">

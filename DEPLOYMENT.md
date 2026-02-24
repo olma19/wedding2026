@@ -138,6 +138,18 @@ I Vercel Dashboard → Settings → Environment Variables:
 2. Lägg till din domän (t.ex. `bröllop.se`)
 3. Följ instruktionerna för DNS-konfiguration
 
+## Prevent Supabase Pausing (Free Tier)
+
+Supabase pauses free tier projects after **7 days of inactivity**. To keep your project active at no cost:
+
+1. **Add `KEEP_ALIVE_SECRET`** to your hosting env vars (Vercel, etc.). Generate with: `openssl rand -hex 32`
+2. **Add GitHub Secrets** (repo → Settings → Secrets and variables → Actions):
+   - `KEEP_ALIVE_SECRET` – same value as above
+   - `SITE_URL` – your production URL (e.g. `https://wedding-2026.vercel.app`)
+3. **Push the code** – the workflow in `.github/workflows/keep-alive.yml` runs every Sunday and Wednesday, pinging `/api/keep-alive` to keep Supabase active.
+
+Uses ~2 min/month of GitHub Actions (free tier has 2000 min for private repos).
+
 ## Post-Deployment
 
 ### 1. Testa Allt
