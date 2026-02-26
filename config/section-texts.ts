@@ -263,8 +263,6 @@ export const sectionTexts: SectionTexts = {
           'Tack för att du skickade in din OSA. Vi kommer att sakna dig den här gången – hoppas vi får fira något annat tillsammans snart!',
         emailConfirmation:
           'Om du angav e-post skickar vi en bekräftelse till din inkorg. Kolla gärna skräppost om mailet inte dyker upp.',
-        emailTroubleNote:
-          'Vi har för tillfället problem med e-post. Om du inte får något mail, oroa dig inte – om du ser detta har du svarat.',
         okButton: 'OK',
       },
     },
