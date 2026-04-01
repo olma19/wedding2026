@@ -75,8 +75,8 @@ const weddingConfigRaw: WeddingConfig = {
   },
 
   rsvp: {
-    deadline: 'Senast 31 mars 2026',
-    deadlineShort: 'Senast 31/03/2026',
+    deadline: 'Senast 14 april 2026',
+    deadlineShort: 'Senast 14/04/2026',
     busInfo: 'Buss från hotellet i Vrigstad till vigseln och Wallsjö Gård, tillbaka 02.00. Swisha 150 kr/person till 0722132377 med meddelande BUSS.',
   },
 
